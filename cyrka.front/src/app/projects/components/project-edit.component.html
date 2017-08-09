@@ -1,0 +1,34 @@
+<form class="form" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+	<section class="form-block">
+		<label>{{projectId ? 'edit' : 'add new'}} project</label>
+		<div class="form-group">
+			<label for="name" class="required">Name</label>
+			<label for="name" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm"
+			 [class.invalid]="projectForm.get('name').invalid && (projectForm.get('name').dirty || projectForm.get('name').touched)">
+				<input id="name" formControlName="name" type="text" placeholder="Type project name"/>
+				<span class="tooltip-content">Name of project is required</span>
+			</label>
+		</div>
+		<div class="form-group">
+			<label for="type" class="required">Type</label>
+			<label for="type" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm"
+			 [class.invalid]="projectForm.get('type').invalid && (projectForm.get('type').dirty || projectForm.get('type').touched)">
+				<div class="select">
+					<select id="type" formControlName="type">
+						<option *ngFor="let item of projectTypes" [value]="item">{{item}}</option>
+					</select>
+				</div>
+				<span class="tooltip-content">Type of project is required</span>
+			</label>
+		</div>
+		<div class="form-group">
+			<label for="plannedFinish">Planned finish</label>
+			<input id="plannedFinish" formControlName="plannedFinish" type="date" />
+		</div>
+		<div class="form-group">
+			<label for="estimatedFinish">Estimated finish</label>
+			<input id="estimatedFinish" formControlName="estimatedFinish" type="date" />
+		</div>
+		<button class="btn btn-primary" type="submit" [disabled]="projectForm.pristine || projectForm.invalid">{{projectId ? 'Update' : 'Add'}}</button>
+	</section>
+</form>
