@@ -58,11 +58,17 @@ export class ProjectEditComponent implements OnInit {
 			});
 	}
 
-	onSubmit() {
+	onSubmit(): void {
 		this._http.post(
 			'http://localhost:5000/v1/projects',
 			this.projectForm.value
 		).subscribe(() => this._location.back());
+	}
+	onCancel(): void {
+		this._location.back();
+	}
+	onDelete(): void {
+
 	}
 
 	private generateId(): string {
