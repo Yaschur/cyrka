@@ -31,6 +31,16 @@
 		</div>
 		<button class="btn btn-primary" type="submit" (click)="onSubmit()" [disabled]="projectForm.pristine || projectForm.invalid">{{projectId ? 'Update' : 'Add'}}</button>
 		<button class="btn btn-outline" type="button" (click)="onCancel()">Cancel</button>
-		<button *ngIf="projectId" type="button" class="btn btn-link btn-sm" (click)="onDelete()">Delete</button>
+		<button *ngIf="projectId" type="button" class="btn btn-link btn-sm" (click)="confirmDeleting = true">Delete</button>
 	</section>
 </form>
+<clr-modal [(clrModalOpen)]="confirmDeleting" [clrModalSize]="'sm'" [clrModalClosable]="false">
+	<h3 class="modal-title">Delete project</h3>
+	<div class="modal-body">
+		<p>Do you really want to delete this project?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline" (click)="confirmDeleting = false">No</button>
+		<button type="button" class="btn btn-primary" (click)="onDelete()">Yes, delete</button>
+	</div>
+</clr-modal>

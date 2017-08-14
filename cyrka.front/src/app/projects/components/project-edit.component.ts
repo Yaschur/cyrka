@@ -68,7 +68,9 @@ export class ProjectEditComponent implements OnInit {
 		this._location.back();
 	}
 	onDelete(): void {
-
+		this._http.delete(
+			'http://localhost:5000/v1/projects/' + this.projectId
+		).subscribe(() => this._location.back());
 	}
 
 	private generateId(): string {
