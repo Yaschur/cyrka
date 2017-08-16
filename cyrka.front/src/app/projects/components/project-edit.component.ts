@@ -16,6 +16,7 @@ export class ProjectEditComponent implements OnInit {
 	projectForm: FormGroup;
 	projectTypes: string[] = [];
 	projectId: string;
+	confirmDeleting = false;
 
 	constructor(
 		private _fb: FormBuilder,
