@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { ProjectType } from '../models/ProjectType';
 import { Project } from '../models/Project';
+import { environment } from '../../../environments/environment';
 
 @Component({
 	selector: 'app-project-edit',
@@ -42,7 +43,7 @@ export class ProjectEditComponent implements OnInit {
 		this._route.params
 			.switchMap(params => {
 				const id = params['id'];
-				return id == null ? null : this._http.get<Project>('http://localhost:5000/v1/projects/' + id);
+				return id == null ? null : this._http.get<Project>(environment.cyrkaApiBase + '/v1/projects/' + id);
 			})
 			.subscribe(project => {
 				this.projectId = project ? project.id : null;
@@ -61,7 +62,7 @@ export class ProjectEditComponent implements OnInit {
 
 	onSubmit(): void {
 		this._http.post(
-			'http://localhost:5000/v1/projects',
+			environment.cyrkaApiBase + '/v1/projects',
 			this.projectForm.value
 		).subscribe(() => this._location.back());
 	}
@@ -70,7 +71,7 @@ export class ProjectEditComponent implements OnInit {
 	}
 	onDelete(): void {
 		this._http.delete(
-			'http://localhost:5000/v1/projects/' + this.projectId
+			environment.cyrkaApiBase + '/v1/projects/' + this.projectId
 		).subscribe(() => this._location.back());
 	}
 
