@@ -7,5 +7,3 @@ docker build -t cyrka.nginx ./cyrka.nginx
 docker run -d --name cyrka-api --network cyrka-network cyrka.api
 docker run -d --name cyrka-front --network cyrka-network cyrka.front
 docker run -d --name cyrka-nginx --network cyrka-network -p 80:80 cyrka.nginx
-
-api is listening localhost not *:port

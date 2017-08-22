@@ -1,0 +1,18 @@
+version: "3"
+services:
+  cyrka-api:
+    build: ./cyrka.api
+    networks:
+      - cyrka-net
+  cyrka-front:
+    build: ./cyrka.front
+    networks: 
+      - cyrka-net
+  cyrka-nginx:
+    build: ./cyrka.nginx
+    ports: 
+     - "80:80"
+    networks: 
+      - cyrka-net
+networks: 
+  cyrka-net:
