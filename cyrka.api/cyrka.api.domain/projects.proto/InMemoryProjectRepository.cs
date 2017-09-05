@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cyrka.api.domain.projects
+namespace cyrka.api.domain.projects.proto
 {
 	public class InMemoryProjectRepository : IProjectRepository
 	{

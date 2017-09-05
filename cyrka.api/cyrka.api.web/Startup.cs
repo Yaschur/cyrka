@@ -1,4 +1,4 @@
-using cyrka.api.domain.projects;
+using cyrka.api.domain.projects.proto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

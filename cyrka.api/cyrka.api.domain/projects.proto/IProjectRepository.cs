@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace cyrka.api.domain.projects
+namespace cyrka.api.domain.projects.proto
 {
 	public interface IProjectRepository
 	{
