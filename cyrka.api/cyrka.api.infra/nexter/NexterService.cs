@@ -4,7 +4,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace cyrka.api.infra.nexter
 {
-	class NexterService
+	public class NexterService
 	{
 		public NexterService()
 		{
