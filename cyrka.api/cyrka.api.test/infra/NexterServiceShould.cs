@@ -19,18 +19,20 @@ namespace cyrka.api.test.infra
 		[Test]
 		public async Task GenerateNextSequenceNumber()
 		{
-			var res = await srvUnderTest.GetNextInt(10);
+			var res = await srvUnderTest.GetNextInt("test", 10);
 
 			Assert.AreEqual(11, res);
 		}
 
 		[Test]
-		public async Task GenerateNextSequenceNumberInParallel()
+		public async Task GenerateNextSequenceNumbersInParallel()
 		{
+			var key = "test";
+
 			var res = await Task.WhenAll(
-				srvUnderTest.GetNextInt(10),
-				srvUnderTest.GetNextInt(10),
-				srvUnderTest.GetNextInt(10)
+				srvUnderTest.GetNextInt(key, 10),
+				srvUnderTest.GetNextInt(key, 10),
+				srvUnderTest.GetNextInt(key, 10)
 			);
 
 			Assert.AreNotEqual(10, res[0]);
@@ -41,18 +43,39 @@ namespace cyrka.api.test.infra
 		}
 
 		[Test]
-		public async Task GenerateNextSequenceNumberInParallelWithSeedDifferent()
+		public async Task GenerateNextSequenceNumbersInParallelWithSeedDifferent()
 		{
+			var key = "test";
+
 			var res = await Task.WhenAll(
-				srvUnderTest.GetNextInt(13),
-				srvUnderTest.GetNextInt(10),
-				srvUnderTest.GetNextInt(14),
-				srvUnderTest.GetNextInt(14)
+				srvUnderTest.GetNextInt(key, 13),
+				srvUnderTest.GetNextInt(key, 10),
+				srvUnderTest.GetNextInt(key, 14),
+				srvUnderTest.GetNextInt(key, 14)
 			);
 
 			Assert.AreNotEqual(res[0], res[1]);
 			Assert.AreNotEqual(res[2], res[1]);
 			Assert.AreNotEqual(res[3], res[1]);
+		}
+
+		[Test]
+		public async Task GenerateNextSequenceNumbersInParallelWithKeysDifferent()
+		{
+			var key1 = "test";
+			var key2 = "probe";
+
+			var t1 = srvUnderTest.GetNextInt(key1, 10);
+			var t2 = srvUnderTest.GetNextInt(key1, 10);
+			var t3 = srvUnderTest.GetNextInt(key2, 10);
+			var t4 = srvUnderTest.GetNextInt(key1, 10);
+			var t5 = srvUnderTest.GetNextInt(key2, 10);
+			await Task.WhenAll(t1, t2, t3, t4, t5);
+
+			Assert.AreNotEqual(t1.Result, t2.Result);
+			Assert.AreNotEqual(t1.Result, t4.Result);
+			Assert.AreNotEqual(t3.Result, t5.Result);
+			Assert.AreEqual(t1.Result, t3.Result);
 		}
 	}
 }
