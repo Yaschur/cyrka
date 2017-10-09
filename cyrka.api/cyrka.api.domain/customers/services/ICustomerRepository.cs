@@ -6,6 +6,6 @@ namespace cyrka.api.domain.customers.services
 	{
 		Task Save(Customer customer);
 
-		Customer GetById(string customerId);
+		Task<Customer> GetById(string customerId);
 	}
 }
