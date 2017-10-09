@@ -9,19 +9,19 @@ namespace cyrka.api.infra.nexter
 	{
 		public NexterService()
 		{
-			_current = new Dictionary<string, int>();
-			_block = new TransformBlock<(string, int), int>((Func<(string, int), int>)Next);
+			_current = new Dictionary<string, long>();
+			_block = new TransformBlock<(string, long), long>((Func<(string, long), long>)Next);
 		}
 
-		public Task<int> GetNextInt(string key, int input)
+		public Task<long> GetNextInt(string key, long input)
 		{
 			_block.Post((key, input));
 			return _block.ReceiveAsync();
 		}
 
-		private Dictionary<string, int> _current;
-		private TransformBlock<(string, int), int> _block;
-		private int Next((string, int)inp)
+		private Dictionary<string, long> _current;
+		private TransformBlock<(string, long), long> _block;
+		private long Next((string, long) inp)
 		{
 			(var key, var input) = inp;
 			if (!_current.ContainsKey(key) || _current[key] < input)
