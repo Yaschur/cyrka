@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
+using cyrka.api.domain.customers;
 
-namespace cyrka.api.domain.customers.services
+namespace cyrka.api.domain
 {
 	public interface ICustomerRepository
 	{
