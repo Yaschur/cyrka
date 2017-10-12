@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using cyrka.api.infra.nexter;
 using NUnit.Framework;
@@ -64,18 +65,23 @@ namespace cyrka.api.test.infra
 		{
 			var key1 = "test";
 			var key2 = "probe";
+			var ts1 = Enumerable
+				.Range(0, TestContext.CurrentContext.Random.Next(1000))
+				.Select(i => srvUnderTest.GetNextInt(key1, 10))
+				.ToList();
+			var ts2 = Enumerable
+				.Range(0, TestContext.CurrentContext.Random.Next(1000))
+				.Select(i => srvUnderTest.GetNextInt(key2, 10))
+				.ToList();
 
-			var t1 = srvUnderTest.GetNextInt(key1, 10);
-			var t2 = srvUnderTest.GetNextInt(key1, 10);
-			var t3 = srvUnderTest.GetNextInt(key2, 10);
-			var t4 = srvUnderTest.GetNextInt(key1, 10);
-			var t5 = srvUnderTest.GetNextInt(key2, 10);
-			await Task.WhenAll(t1, t2, t3, t4, t5);
+			await Task.WhenAll(ts1.Union(ts2));
+			var res1 = ts1.Select(t => t.Result).ToList();
+			var res2 = ts2.Select(t => t.Result).ToList();
 
-			Assert.AreNotEqual(t1.Result, t2.Result);
-			Assert.AreNotEqual(t1.Result, t4.Result);
-			Assert.AreNotEqual(t3.Result, t5.Result);
-			Assert.AreEqual(t1.Result, t3.Result);
+			TestContext.WriteLine($"total res1: {res1.Count}");
+			TestContext.WriteLine($"total res2: {res2.Count}");
+			Assert.AreEqual(res1.Count, res1.Distinct().Count());
+			Assert.AreEqual(res2.Count, res2.Distinct().Count());
 		}
 	}
 }

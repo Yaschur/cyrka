@@ -4,6 +4,6 @@ namespace cyrka.api.domain.events
 	{
 		string AggregateType { get; }
 
-		Event Create(EventDto eventDto);
+		Event Create(EventDto eventDto, IEventDataSerializer dataSerializer);
 	}
 }
