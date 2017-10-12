@@ -11,24 +11,22 @@ namespace cyrka.api.test.domain
 	{
 		EventFactory sut;
 
-		string[] eventTypes;
+		string[] aggregateTypes;
 		IAggregateEventFactory[] aggEventFactories;
 
 		[SetUp]
 		public void Setup()
 		{
-			eventTypes = Enumerable
+			aggregateTypes = Enumerable
 				.Range(0, TestContext.CurrentContext.Random.Next(20))
 				.Select(i => TestContext.CurrentContext.Random.GetString())
 				.ToArray();
-			aggEventFactories = eventTypes
+			aggEventFactories = aggregateTypes
 				.Select(s =>
 				{
 					var factory = A.Fake<IAggregateEventFactory>();
 					A.CallTo(() => factory.AggregateType)
 						.Returns(s);
-					A.CallTo(() => factory.Create(A<EventDto>.Ignored, A<IEventDataSerializer>.Ignored))
-						.Returns(A.Fake<Event>());
 					return factory;
 				})
 				.ToArray();
@@ -36,20 +34,46 @@ namespace cyrka.api.test.domain
 		}
 
 		[Test]
-		public void CreateEvent()
+		public void CreateEventFromDtoByAggregateEventFactory()
 		{
+			var ind = TestContext.CurrentContext.Random.Next(aggregateTypes.Length);
+			var aggType = aggregateTypes[ind];
 			var dto = new EventDto(
 				1,
 				DateTime.UtcNow,
 				"someEvent",
-				eventTypes[TestContext.CurrentContext.Random.Next(eventTypes.Length)],
+				aggType,
 				"someId",
 				"data"
 			);
 
-			var result = sut.Create(dto);
 
-			Assert.NotNull(result);
+			sut.Create(dto);
+
+			A.CallTo(() => aggEventFactories[ind].Create(dto, A<IEventDataSerializer>.Ignored))
+				.MustHaveHappened();
+		}
+
+		[Test]
+		public void NotCreateEventFromDtoIfAggregateTypeIsUnknown()
+		{
+			var aggType = TestContext.CurrentContext.Random.GetString();
+			var dto = new EventDto(
+				1,
+				DateTime.UtcNow,
+				"someEvent",
+				aggType,
+				"someId",
+				"data"
+			);
+
+			sut.Create(dto);
+
+			foreach (var aggFactory in aggEventFactories)
+			{
+				A.CallTo(() => aggFactory.Create(dto, A<IEventDataSerializer>.Ignored))
+					.MustNotHaveHappened();
+			}
 		}
 	}
 }

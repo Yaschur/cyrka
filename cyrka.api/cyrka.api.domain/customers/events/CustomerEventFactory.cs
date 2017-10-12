@@ -3,7 +3,7 @@ using System;
 
 namespace cyrka.api.domain.customers.events
 {
-	public class CustomerAggregateEventFactory : IAggregateEventFactory
+	public class CustomerEventFactory : IAggregateEventFactory
 	{
 		public string AggregateType => nameof(Customer);
 
