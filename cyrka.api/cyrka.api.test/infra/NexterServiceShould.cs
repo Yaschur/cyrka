@@ -20,7 +20,7 @@ namespace cyrka.api.test.infra
 		[Test]
 		public async Task GenerateNextSequenceNumber()
 		{
-			var res = await srvUnderTest.GetNextInt("test", 10);
+			var res = await srvUnderTest.GetNextNumber("test", 10);
 
 			Assert.AreEqual(11, res);
 		}
@@ -31,9 +31,9 @@ namespace cyrka.api.test.infra
 			var key = "test";
 
 			var res = await Task.WhenAll(
-				srvUnderTest.GetNextInt(key, 10),
-				srvUnderTest.GetNextInt(key, 10),
-				srvUnderTest.GetNextInt(key, 10)
+				srvUnderTest.GetNextNumber(key, 10),
+				srvUnderTest.GetNextNumber(key, 10),
+				srvUnderTest.GetNextNumber(key, 10)
 			);
 
 			Assert.AreNotEqual(10, res[0]);
@@ -49,10 +49,10 @@ namespace cyrka.api.test.infra
 			var key = "test";
 
 			var res = await Task.WhenAll(
-				srvUnderTest.GetNextInt(key, 13),
-				srvUnderTest.GetNextInt(key, 10),
-				srvUnderTest.GetNextInt(key, 14),
-				srvUnderTest.GetNextInt(key, 14)
+				srvUnderTest.GetNextNumber(key, 13),
+				srvUnderTest.GetNextNumber(key, 10),
+				srvUnderTest.GetNextNumber(key, 14),
+				srvUnderTest.GetNextNumber(key, 14)
 			);
 
 			Assert.AreNotEqual(res[0], res[1]);
@@ -67,11 +67,11 @@ namespace cyrka.api.test.infra
 			var key2 = "probe";
 			var ts1 = Enumerable
 				.Range(0, TestContext.CurrentContext.Random.Next(1000))
-				.Select(i => srvUnderTest.GetNextInt(key1, 10))
+				.Select(i => srvUnderTest.GetNextNumber(key1, 10))
 				.ToList();
 			var ts2 = Enumerable
 				.Range(0, TestContext.CurrentContext.Random.Next(1000))
-				.Select(i => srvUnderTest.GetNextInt(key2, 10))
+				.Select(i => srvUnderTest.GetNextNumber(key2, 10))
 				.ToList();
 
 			await Task.WhenAll(ts1.Union(ts2));

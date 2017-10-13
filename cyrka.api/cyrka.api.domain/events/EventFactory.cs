@@ -9,16 +9,17 @@ namespace cyrka.api.domain.events
 		{
 			_aggregateEventFactories = (aggregateEventFactories ?? Enumerable.Empty<IAggregateEventFactory>())
 				.ToDictionary(f => f.AggregateType);
-			_eventDataSerializer = eventDataSerializer;
+			EventDataSerializer = eventDataSerializer;
 		}
+
+		public IEventDataSerializer EventDataSerializer { get; }
 
 		public Event Create(EventDto eventDto)
 		{
 			return _aggregateEventFactories.ContainsKey(eventDto.AggregateType) ?
-				_aggregateEventFactories[eventDto.AggregateType].Create(eventDto, _eventDataSerializer) : null;
+				_aggregateEventFactories[eventDto.AggregateType].Create(eventDto, EventDataSerializer) : null;
 		}
 
 		private readonly IDictionary<string, IAggregateEventFactory> _aggregateEventFactories;
-		private readonly IEventDataSerializer _eventDataSerializer;
 	}
 }

@@ -10,11 +10,11 @@ namespace cyrka.api.infra.nexter
 	{
 		public NexterService()
 		{
-			_current = new Dictionary<string, long>();
+			_current = new Dictionary<string, ulong>();
 			_block = new TransformBlock<NexterItem, NexterItem>((Func<NexterItem, NexterItem>)Next);
 		}
 
-		public async Task<long> GetNextInt(string key, long input)
+		public async Task<ulong> GetNextNumber(string key, ulong input)
 		{
 			var inItem = new NexterItem(key, input);
 			_block.Post(inItem);
@@ -23,7 +23,7 @@ namespace cyrka.api.infra.nexter
 			return outItem.Value;
 		}
 
-		private Dictionary<string, long> _current;
+		private Dictionary<string, ulong> _current;
 		private TransformBlock<NexterItem, NexterItem> _block;
 		private NexterItem Next(NexterItem inp)
 		{
@@ -34,13 +34,13 @@ namespace cyrka.api.infra.nexter
 
 		class NexterItem
 		{
-			public NexterItem(string key, long value)
+			public NexterItem(string key, ulong value)
 			{
 				Key = key;
 				Value = value;
 				InstanceKey = Guid.NewGuid().ToString();
 			}
-			public NexterItem(NexterItem input, long value)
+			public NexterItem(NexterItem input, ulong value)
 			{
 				Key = input.Key;
 				Value = value;
@@ -48,7 +48,7 @@ namespace cyrka.api.infra.nexter
 			}
 			public string Key { get; }
 			public string InstanceKey { get; }
-			public long Value { get; }
+			public ulong Value { get; }
 		}
 	}
 }

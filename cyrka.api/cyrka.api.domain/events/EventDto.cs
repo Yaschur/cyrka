@@ -25,5 +25,10 @@ namespace cyrka.api.domain.events
 		public string AggregateId { get; }
 
 		public string Data { get; }
+
+		public EventDto ProvideId(ulong id)
+		{
+			return new EventDto(id, CreatedAt, EventType, AggregateType, AggregateId, Data);
+		}
 	}
 }

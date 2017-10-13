@@ -3,6 +3,10 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.4.4" />
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../cyrka.api.domain/cyrka.api.domain.csproj" />
   </ItemGroup>
 </Project>
