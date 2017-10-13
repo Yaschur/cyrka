@@ -78,8 +78,6 @@ namespace cyrka.api.test.infra
 			var res1 = ts1.Select(t => t.Result).ToList();
 			var res2 = ts2.Select(t => t.Result).ToList();
 
-			TestContext.WriteLine($"total res1: {res1.Count}");
-			TestContext.WriteLine($"total res2: {res2.Count}");
 			Assert.AreEqual(res1.Count, res1.Distinct().Count());
 			Assert.AreEqual(res2.Count, res2.Distinct().Count());
 		}

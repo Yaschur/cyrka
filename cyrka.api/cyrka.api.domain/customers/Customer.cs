@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using cyrka.api.domain.customers.events;
 using cyrka.api.domain.events;
 
@@ -7,11 +8,9 @@ namespace cyrka.api.domain.customers
 {
 	public class Customer
 	{
-		public Customer()
-		{
-			_unpublishedEvents = new List<Event>();
-		}
+		public Customer() => _unpublishedEvents = new List<Event>();
 
+		public Customer(Event[] customerEvents) : this() => Replay(customerEvents);
 		public void Register(string id, string name, string description)
 		{
 			if (_customerDto != null)
@@ -27,12 +26,27 @@ namespace cyrka.api.domain.customers
 			_unpublishedEvents.Add(new CustomerRegistered(_customerDto));
 		}
 
-		public Event[] FindAllUnpublishedEvents()
+		public Event[] ExtractUnpublishedEvents()
 		{
-			return _unpublishedEvents.ToArray();
+			var result = _unpublishedEvents.ToArray();
+			return result;
+		}
+
+		public void ResetUnpublishedEvents()
+		{
+			_unpublishedEvents.Clear();
 		}
 
 		private readonly List<Event> _unpublishedEvents;
+
 		private CustomerDto _customerDto { get; set; }
+
+		private void Replay(Event[] customerEvents)
+		{
+			var cEvents = customerEvents ?? new Event[0];
+			_customerDto = ((CustomerRegistered)cEvents
+				.FirstOrDefault(ce => ce is CustomerRegistered))?
+				.Data;
+		}
 	}
 }

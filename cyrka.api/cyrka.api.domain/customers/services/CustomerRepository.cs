@@ -4,14 +4,26 @@ namespace cyrka.api.domain.customers.services
 {
 	public class CustomerRepository : ICustomerRepository
 	{
-		public Task<Customer> GetById(string customerId)
+		public CustomerRepository(IEventStore eventStore)
 		{
-			throw new System.NotImplementedException();
+			_eventStore = eventStore;
 		}
 
-		public Task Save(Customer customer)
+		public async Task<Customer> GetById(string customerId)
 		{
-			throw new System.NotImplementedException();
+			var customerEvents = await _eventStore.FindAllByAggregateIdOf(nameof(Customer), customerId);
+			var customer = new Customer(customerEvents);
+
+			return customer;
 		}
+
+		public async Task Save(Customer customer)
+		{
+			var unpublishedEvents = customer.ExtractUnpublishedEvents();
+			foreach (var unEvent in unpublishedEvents) await _eventStore.Store(unEvent);
+			customer.ResetUnpublishedEvents();
+		}
+
+		private readonly IEventStore _eventStore;
 	}
 }

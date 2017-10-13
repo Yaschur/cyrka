@@ -7,6 +7,6 @@ namespace cyrka.api.domain
 	{
 		Task Store(Event @event);
 
-		Task<TAggregate[]> FindAllByAggregateIdOf<TAggregate>(string aggregateId);
+		Task<Event[]> FindAllByAggregateIdOf(string aggregateType, string aggregateId);
 	}
 }
