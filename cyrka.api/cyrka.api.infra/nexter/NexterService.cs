@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace cyrka.api.infra.nexter
 {
@@ -17,10 +18,17 @@ namespace cyrka.api.infra.nexter
 		public async Task<ulong> GetNextNumber(string key, ulong input)
 		{
 			var inItem = new NexterItem(key, input);
-			_block.Post(inItem);
-			var outItem = await _block.AsObservable()
-				.FirstAsync(ni => inItem.InstanceKey == ni.InstanceKey && inItem.Key == ni.Key);
-			return outItem.Value;
+			var holder = new AsyncSubject<NexterItem>();
+			using (
+				_block.AsObservable()
+					.FirstAsync(ni => inItem.InstanceKey == ni.InstanceKey && inItem.Key == ni.Key)
+					.Subscribe(ni => { holder.OnNext(ni); holder.OnCompleted(); })
+			)
+			{
+				_block.Post(inItem);
+				var outItem = await holder.FirstAsync();
+				return outItem.Value;
+			}
 		}
 
 		private Dictionary<string, ulong> _current;
