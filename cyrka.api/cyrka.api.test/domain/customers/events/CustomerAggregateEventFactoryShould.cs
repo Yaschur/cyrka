@@ -26,7 +26,7 @@ namespace cyrka.api.test.domain.customers.events
 				1,
 				DateTime.UtcNow,
 				eventType,
-				nameof(Customer),
+				nameof(CustomerAggregate),
 				"someId",
 				"someData"
 			);
@@ -42,7 +42,7 @@ namespace cyrka.api.test.domain.customers.events
 				1,
 				DateTime.UtcNow,
 				eventType,
-				nameof(Customer),
+				nameof(CustomerAggregate),
 				"someId",
 				"someData"
 			);

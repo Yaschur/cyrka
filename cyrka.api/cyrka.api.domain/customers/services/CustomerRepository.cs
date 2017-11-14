@@ -9,15 +9,15 @@ namespace cyrka.api.domain.customers.services
 			_eventStore = eventStore;
 		}
 
-		public async Task<Customer> GetById(string customerId)
+		public async Task<CustomerAggregate> GetById(string customerId)
 		{
-			var customerEvents = await _eventStore.FindAllByAggregateIdOf(nameof(Customer), customerId);
-			var customer = new Customer(customerEvents);
+			var customerEvents = await _eventStore.FindAllByAggregateIdOf(nameof(CustomerAggregate), customerId);
+			var customer = new CustomerAggregate(customerEvents);
 
 			return customer;
 		}
 
-		public async Task Save(Customer customer)
+		public async Task Save(CustomerAggregate customer)
 		{
 			var unpublishedEvents = customer.ExtractUnpublishedEvents();
 			foreach (var unEvent in unpublishedEvents) await _eventStore.Store(unEvent);

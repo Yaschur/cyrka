@@ -5,7 +5,7 @@ namespace cyrka.api.domain.customers.events
 {
 	public class CustomerEventFactory : IAggregateEventFactory
 	{
-		public string AggregateType => nameof(Customer);
+		public string AggregateType => nameof(CustomerAggregate);
 
 		public Event Create(EventDto eventDto, IEventDataSerializer dataSerializer)
 		{

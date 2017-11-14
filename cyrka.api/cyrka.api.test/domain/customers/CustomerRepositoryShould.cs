@@ -28,14 +28,14 @@ namespace cyrka.api.test.domain.customers
 		{
 			await sut.GetById("abc");
 
-			A.CallTo(() => eventStore.FindAllByAggregateIdOf(nameof(Customer), "abc"))
+			A.CallTo(() => eventStore.FindAllByAggregateIdOf(nameof(CustomerAggregate), "abc"))
 				.MustHaveHappened();
 		}
 
 		[Test]
 		public async Task TryStoreUnpublishedEventsToEventStore()
 		{
-			var customer = new Customer();
+			var customer = new CustomerAggregate();
 			customer.Register("abc", "abc", "");
 
 			await sut.Save(customer);

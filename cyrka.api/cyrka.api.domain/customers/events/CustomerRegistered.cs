@@ -26,7 +26,7 @@ namespace cyrka.api.domain.customers.events
 
 		public override EventDto GetEventDto(IEventDataSerializer serializer)
 		{
-			return new EventDto(EventId, _createdAt, EventTypeName, nameof(Customer), Data.Id, serializer.Serialize(Data));
+			return new EventDto(EventId, _createdAt, EventTypeName, nameof(CustomerAggregate), Data.Id, serializer.Serialize(Data));
 		}
 
 		private DateTime _createdAt;

@@ -5,8 +5,8 @@ namespace cyrka.api.domain
 {
 	public interface ICustomerRepository
 	{
-		Task Save(Customer customer);
+		Task Save(CustomerAggregate customer);
 
-		Task<Customer> GetById(string customerId);
+		Task<CustomerAggregate> GetById(string customerId);
 	}
 }

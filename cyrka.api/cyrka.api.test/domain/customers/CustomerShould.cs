@@ -11,7 +11,7 @@ namespace cyrka.api.test.domain.customers
 		[Test]
 		public void HaveNoUnpublishedEventsIfNew()
 		{
-			var sut = new Customer();
+			var sut = new CustomerAggregate();
 
 			Assert.AreEqual(0, sut.ExtractUnpublishedEvents().Length);
 		}
@@ -21,7 +21,7 @@ namespace cyrka.api.test.domain.customers
 		{
 			var dto = new CustomerDto { Id = "abc", Description = "", Name = "abc" };
 			var events = new[] { new CustomerRegistered(1, dto) };
-			var sut = new Customer(events);
+			var sut = new CustomerAggregate(events);
 
 			Assert.Throws<InvalidOperationException>(() => sut.Register("yxz", "yxz", ""));
 		}
@@ -29,7 +29,7 @@ namespace cyrka.api.test.domain.customers
 		[Test]
 		public void ExtractUnpublishedEvents()
 		{
-			var sut = new Customer();
+			var sut = new CustomerAggregate();
 			sut.Register("abc", "abd", "");
 
 			var uevents = sut.ExtractUnpublishedEvents();
@@ -40,7 +40,7 @@ namespace cyrka.api.test.domain.customers
 		[Test]
 		public void ClearUnpublishedEvents()
 		{
-			var sut = new Customer();
+			var sut = new CustomerAggregate();
 			sut.Register("abc", "abd", "");
 
 			sut.ResetUnpublishedEvents();

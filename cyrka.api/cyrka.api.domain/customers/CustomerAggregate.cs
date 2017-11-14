@@ -6,11 +6,11 @@ using cyrka.api.domain.events;
 
 namespace cyrka.api.domain.customers
 {
-	public class Customer
+	public class CustomerAggregate
 	{
-		public Customer() => _unpublishedEvents = new List<Event>();
+		public CustomerAggregate() => _unpublishedEvents = new List<Event>();
 
-		public Customer(Event[] customerEvents) : this() => Replay(customerEvents);
+		public CustomerAggregate(Event[] customerEvents) : this() => Replay(customerEvents);
 		public void Register(string id, string name, string description)
 		{
 			if (_customerDto != null)
