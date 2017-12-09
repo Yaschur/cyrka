@@ -9,12 +9,12 @@ namespace cyrka.api.test.infra
 	[TestFixture]
 	class NexterServiceShould
 	{
-		NexterService srvUnderTest;
+		NexterGenerator srvUnderTest;
 
 		[SetUp]
 		public void Setup()
 		{
-			srvUnderTest = new NexterService();
+			srvUnderTest = new NexterGenerator();
 		}
 
 		[Test]

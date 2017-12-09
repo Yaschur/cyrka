@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using cyrka.api.domain;
 
 namespace cyrka.api.infra.nexter
 {
-	public class NexterService
+	public class NexterGenerator
 	{
-		public NexterService()
+		public NexterGenerator()
 		{
 			_current = new Dictionary<string, ulong>();
 			_block = new TransformBlock<NexterItem, NexterItem>((Func<NexterItem, NexterItem>)Next);

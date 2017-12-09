@@ -16,7 +16,7 @@ namespace cyrka.api.infra.stores
 		public MongoEventStore(
 			IMongoDatabase mongoDatabase,
 			EventFactory eventFactory,
-			NexterService nexterService
+			NexterGenerator nexterService
 		)
 		{
 			_nexterService = nexterService;
@@ -49,7 +49,7 @@ namespace cyrka.api.infra.stores
 			await _eventCollection.InsertOneAsync(eventDto);
 		}
 
-		private readonly NexterService _nexterService;
+		private readonly NexterGenerator _nexterService;
 		private readonly IMongoDatabase _mDb;
 		private readonly IMongoCollection<EventDto> _eventCollection;
 		private readonly EventFactory _eventFactory;

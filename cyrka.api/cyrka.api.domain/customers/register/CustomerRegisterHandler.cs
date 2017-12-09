@@ -4,10 +4,10 @@ namespace cyrka.api.domain.customers.register
 {
 	public class CustomerRegisterHandler
 	{
-		public CustomerRegistered Handle(CustomerRegister command)
+		public Object[] Handle(CustomerRegister command)
 		{
-			var customerRegistered = new CustomerRegistered(Guid.NewGuid().ToString(), command.Name, command.Description);
-			return customerRegistered;
+			var customerRegistered = new CustomerRegistered(command.Name, command.Description);
+			return new[] { customerRegistered };
 		}
 	}
 }
