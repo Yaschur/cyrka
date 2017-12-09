@@ -5,8 +5,10 @@ namespace cyrka.api.domain
 {
 	public interface IEventStore
 	{
+		Task<ulong> GetLastStoredId();
+
 		Task Store(Event @event);
 
-		Task<Event[]> FindAllByAggregateIdOf(string aggregateType, string aggregateId);
+		Task<Event[]> FindAllAfterId(ulong Id);
 	}
 }

@@ -13,54 +13,39 @@ namespace cyrka.api.infra.stores
 	{
 		const string CollectionKeyName = "events";
 
-		public MongoEventStore(
-			IMongoDatabase mongoDatabase,
-			EventFactory eventFactory,
-			NexterGenerator nexterService
-		)
+		public MongoEventStore(IMongoDatabase mongoDatabase)
 		{
-			_nexterService = nexterService;
-			_eventFactory = eventFactory;
 			_mDb = mongoDatabase;
-			_eventCollection = _mDb.GetCollection<EventDto>(CollectionKeyName);
+			_eventCollection = _mDb.GetCollection<Event>(CollectionKeyName);
 		}
 
-		public async Task<Event[]> FindAllByAggregateIdOf(string aggregateType, string aggregateId)
+		public async Task<ulong> GetLastStoredId()
 		{
 			return (
 				await _eventCollection.AsQueryable()
-					.Where(e => e.AggregateType == aggregateType && e.AggregateId == aggregateId)
+					.OrderByDescending(e => e.Id)
+					.FirstOrDefaultAsync()
+				)?
+				.Id ?? 0;
+		}
+
+		public async Task<Event[]> FindAllAfterId(ulong id)
+		{
+			return (
+				await _eventCollection.AsQueryable()
+					.Where(e => e.Id > id)
 					.OrderByDescending(e => e.Id)
 					.ToListAsync()
 				)
-				.Select(_eventFactory.Create)
 				.ToArray();
 		}
 
 		public async Task Store(Event @event)
 		{
-			var lastId = await ExtractLastStoredId();
-			var nextId = await _nexterService.GetNextNumber(CollectionKeyName, lastId);
-
-			var eventDto = @event
-				.GetEventDto(_eventFactory.EventDataSerializer)
-				.ProvideId(nextId);
-
-			await _eventCollection.InsertOneAsync(eventDto);
+			await _eventCollection.InsertOneAsync(@event);
 		}
 
-		private readonly NexterGenerator _nexterService;
 		private readonly IMongoDatabase _mDb;
-		private readonly IMongoCollection<EventDto> _eventCollection;
-		private readonly EventFactory _eventFactory;
-
-		private async Task<ulong> ExtractLastStoredId()
-		{
-			return (
-				await _eventCollection.AsQueryable()
-					.OrderByDescending(e => e.Id)
-					.FirstOrDefaultAsync())?
-				.Id ?? 0;
-		}
+		private readonly IMongoCollection<Event> _eventCollection;
 	}
 }
