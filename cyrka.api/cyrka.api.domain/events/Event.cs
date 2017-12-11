@@ -6,9 +6,9 @@ namespace cyrka.api.domain.events
 	{
 		public readonly ulong Id;
 		public readonly DateTime CreatedAt;
-		public readonly Object EventData;
+		public readonly EventData EventData;
 
-		public Event(ulong id, DateTime createdAt, Object eventData)
+		public Event(ulong id, DateTime createdAt, EventData eventData)
 		{
 			Id = id;
 			CreatedAt = createdAt;

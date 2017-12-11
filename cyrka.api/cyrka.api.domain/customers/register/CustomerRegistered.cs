@@ -3,7 +3,7 @@ using cyrka.api.domain.events;
 
 namespace cyrka.api.domain.customers.register
 {
-	public class CustomerRegistered
+	public class CustomerRegistered : EventData
 	{
 		public readonly string Name;
 		public readonly string Description;
