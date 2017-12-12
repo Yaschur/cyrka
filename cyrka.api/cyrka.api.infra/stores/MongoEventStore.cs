@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using cyrka.api.domain;
@@ -15,22 +16,12 @@ namespace cyrka.api.infra.stores
 	{
 		const string CollectionKeyName = "events";
 
-		public MongoEventStore(IMongoDatabase mongoDatabase)
+		public MongoEventStore(IMongoDatabase mongoDatabase, IEnumerable<IDbMapping> maps)
 		{
-			BsonClassMap.RegisterClassMap<Event>(cm =>
+			foreach (var map in maps)
 			{
-				cm.MapIdField(e => e.Id);
-				cm.MapField(e => e.CreatedAt);
-				cm.MapField(e => e.EventData);
-				cm.MapCreator(e => new Event(e.Id, e.CreatedAt, e.EventData));
-			});
-			BsonClassMap.RegisterClassMap<EventData>();
-			BsonClassMap.RegisterClassMap<CustomerRegistered>(cm =>
-			{
-				cm.MapField(cr => cr.Name);
-				cm.MapField(cr => cr.Description);
-				cm.MapCreator(cr => new CustomerRegistered(cr.Name, cr.Description));
-			});
+				map.DefineMaps();
+			}
 
 			_mDb = mongoDatabase;
 			try

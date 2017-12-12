@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using cyrka.api.domain.customers.register;
 using cyrka.api.domain.events;
@@ -19,7 +20,10 @@ namespace cyrka.api.test._resanddev
 			var client = new MongoClient();
 			var mongoDb = client.GetDatabase("test");
 			var nexterGenerator = new NexterGenerator();
-			var eventsStore = new MongoEventStore(mongoDb);
+			var eventsStore = new MongoEventStore(
+				mongoDb,
+				new IDbMapping[] { new CoreEventsMapping(), new CustomerEventsMapping() }
+			);
 			var commandHandler = new CustomerRegisterHandler();
 			var eventDatas = commandHandler.Handle(new CustomerRegister("HBO", "Very very important customer. Use with care!"));
 			var id = await nexterGenerator.GetNextNumber("events", await eventsStore.GetLastStoredId());
