@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using cyrka.api.domain;
 using cyrka.api.domain.customers.register;
@@ -12,7 +14,7 @@ using MongoDB.Driver.Linq;
 
 namespace cyrka.api.infra.stores
 {
-	public class MongoEventStore : IEventStore
+	public class MongoEventStore : IEventStore, IDisposable
 	{
 		const string CollectionKeyName = "events";
 
@@ -23,10 +25,11 @@ namespace cyrka.api.infra.stores
 				map.DefineMaps();
 			}
 
+			_eventsChannel = new Subject<Event>();
 			_mDb = mongoDatabase;
 			try
 			{
-				_eventCollection = _mDb.GetCollection<Event>(CollectionKeyName);
+				_eventsCollection = _mDb.GetCollection<Event>(CollectionKeyName);
 			}
 			catch (System.Exception e)
 			{
@@ -37,7 +40,7 @@ namespace cyrka.api.infra.stores
 		public async Task<ulong> GetLastStoredId()
 		{
 			return (
-				await _eventCollection.AsQueryable()
+				await _eventsCollection.AsQueryable()
 					.OrderByDescending(e => e.Id)
 					.FirstOrDefaultAsync()
 				)?
@@ -47,7 +50,7 @@ namespace cyrka.api.infra.stores
 		public async Task<Event[]> FindAllAfterId(ulong id)
 		{
 			return (
-				await _eventCollection.AsQueryable()
+				await _eventsCollection.AsQueryable()
 					.Where(e => e.Id > id)
 					.OrderByDescending(e => e.Id)
 					.ToListAsync()
@@ -59,7 +62,8 @@ namespace cyrka.api.infra.stores
 		{
 			try
 			{
-				await _eventCollection.InsertOneAsync(@event);
+				await _eventsCollection.InsertOneAsync(@event);
+				_eventsChannel.OnNext(@event);
 			}
 			catch (Exception e)
 			{
@@ -67,7 +71,22 @@ namespace cyrka.api.infra.stores
 			}
 		}
 
+		public IObservable<Event> AsObservable()
+		{
+			return _eventsChannel.AsObservable();
+		}
+
+		public void Dispose()
+		{
+			if (_eventsChannel != null && !_eventsChannel.IsDisposed)
+			{
+				_eventsChannel.OnCompleted();
+				_eventsChannel.Dispose();
+			}
+		}
+
 		private readonly IMongoDatabase _mDb;
-		private readonly IMongoCollection<Event> _eventCollection;
+		private readonly IMongoCollection<Event> _eventsCollection;
+		private readonly Subject<Event> _eventsChannel;
 	}
 }
