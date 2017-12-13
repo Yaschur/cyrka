@@ -1,4 +1,4 @@
-namespace cyrka.api.domain.customers.register
+namespace cyrka.api.domain.customers.commands.register
 {
 	public class CustomerRegister
 	{

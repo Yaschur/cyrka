@@ -1,8 +1,8 @@
-using cyrka.api.domain.customers.register;
+using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.events;
 using MongoDB.Bson.Serialization;
 
-namespace cyrka.api.infra.stores
+namespace cyrka.api.infra.stores.events
 {
 	public class CustomerEventsMapping : IDbMapping
 	{
@@ -10,9 +10,10 @@ namespace cyrka.api.infra.stores
 		{
 			BsonClassMap.RegisterClassMap<CustomerRegistered>(cm =>
 			{
+				cm.MapField(cr => cr.Id);
 				cm.MapField(cr => cr.Name);
 				cm.MapField(cr => cr.Description);
-				cm.MapCreator(cr => new CustomerRegistered(cr.Name, cr.Description));
+				cm.MapCreator(cr => new CustomerRegistered(cr.Id, cr.Name, cr.Description));
 			});
 		}
 	}

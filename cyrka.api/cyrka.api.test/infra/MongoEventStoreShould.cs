@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using cyrka.api.domain.events;
 using cyrka.api.infra.stores;
+using cyrka.api.infra.stores.events;
 using FakeItEasy;
 using MongoDB.Driver;
 using NUnit.Framework;

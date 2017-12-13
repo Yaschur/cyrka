@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using cyrka.api.domain.events;
 
-namespace cyrka.api.domain
+namespace cyrka.api.domain.events
 {
 	public interface IEventStore
 	{

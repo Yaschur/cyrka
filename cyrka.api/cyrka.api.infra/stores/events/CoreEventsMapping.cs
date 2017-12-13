@@ -1,7 +1,7 @@
 using cyrka.api.domain.events;
 using MongoDB.Bson.Serialization;
 
-namespace cyrka.api.infra.stores
+namespace cyrka.api.infra.stores.events
 {
 	public class CoreEventsMapping : IDbMapping
 	{

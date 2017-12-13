@@ -4,15 +4,11 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using cyrka.api.domain;
-using cyrka.api.domain.customers.register;
 using cyrka.api.domain.events;
-using cyrka.api.infra.nexter;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace cyrka.api.infra.stores
+namespace cyrka.api.infra.stores.events
 {
 	public class MongoEventStore : IEventStore, IDisposable
 	{
@@ -39,12 +35,19 @@ namespace cyrka.api.infra.stores
 
 		public async Task<ulong> GetLastStoredId()
 		{
-			return (
-				await _eventsCollection.AsQueryable()
-					.OrderByDescending(e => e.Id)
-					.FirstOrDefaultAsync()
-				)?
-				.Id ?? 0;
+			try
+			{
+				return (
+					await _eventsCollection.AsQueryable()
+						.OrderByDescending(e => e.Id)
+						.FirstOrDefaultAsync()
+					)?
+					.Id ?? 0;
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
 		}
 
 		public async Task<Event[]> FindAllAfterId(ulong id)
