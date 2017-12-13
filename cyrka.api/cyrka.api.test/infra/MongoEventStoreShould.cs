@@ -31,6 +31,7 @@ namespace cyrka.api.test.infra
 
 			events.ForEach(async e => await storeUnderTest.Store(e));
 
+			// TODO: this may fail if Store will send Event to remote Queue (latency)
 			Assert.AreEqual(3, eventsCollector.Count);
 			Assert.IsTrue(events.Any(e => e.Id == 2));
 			Assert.IsFalse(events.Any(e => e.Id == 5));
