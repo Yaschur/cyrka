@@ -9,5 +9,6 @@ namespace cyrka.api.domain
 	{
 		IQueryable<TProjection> AsQueryable<TProjection>();
 		Task Upsert<TProjection>(TProjection projectionValue, Expression<Func<TProjection, bool>> filter);
+		Task Delete<TProjection>(Expression<Func<TProjection, bool>> filter);
 	}
 }

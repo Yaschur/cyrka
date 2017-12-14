@@ -31,9 +31,23 @@ namespace cyrka.api.infra.stores.queries
 		{
 			try
 			{
-				var collectionName = nameof(TProjection);
+				var collectionName = typeof(TProjection).Name;
 				var collection = _mDb.GetCollection<TProjection>(collectionName);
 				await collection.ReplaceOneAsync(filter, projectionValue, new UpdateOptions { IsUpsert = true });
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
+
+		public async Task Delete<TProjection>(Expression<Func<TProjection, bool>> filter)
+		{
+			try
+			{
+				var collectionName = typeof(TProjection).Name;
+				var collection = _mDb.GetCollection<TProjection>(collectionName);
+				await collection.DeleteManyAsync(filter);
 			}
 			catch (Exception e)
 			{
