@@ -1,6 +1,6 @@
 using System;
 
-namespace cyrka.api.domain.events
+namespace cyrka.api.common.events
 {
 	public class Event
 	{

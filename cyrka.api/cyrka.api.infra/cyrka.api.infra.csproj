@@ -9,5 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../cyrka.api.domain/cyrka.api.domain.csproj" />
+    <ProjectReference Include="../cyrka.api.common/cyrka.api.common.csproj" />
   </ItemGroup>
 </Project>

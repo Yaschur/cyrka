@@ -1,4 +1,4 @@
-using cyrka.api.domain.events;
+using cyrka.api.common.events;
 using MongoDB.Bson.Serialization;
 
 namespace cyrka.api.infra.stores.events

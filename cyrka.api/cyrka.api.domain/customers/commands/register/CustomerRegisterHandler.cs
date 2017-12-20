@@ -1,5 +1,5 @@
 using System;
-using cyrka.api.domain.events;
+using cyrka.api.common.events;
 
 namespace cyrka.api.domain.customers.commands.register
 {

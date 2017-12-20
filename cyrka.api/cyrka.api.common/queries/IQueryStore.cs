@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace cyrka.api.domain
+namespace cyrka.api.common.queries
 {
 	public interface IQueryStore
 	{

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using cyrka.api.domain.events;
+using cyrka.api.common.events;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
