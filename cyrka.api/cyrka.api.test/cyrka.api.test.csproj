@@ -8,9 +8,9 @@
     <PackageReference Include="NUnit" Version="3.9.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Compile Remove="./_resanddev/CreateAndGetEvents.cs" />
-  </ItemGroup>
+  </ItemGroup> -->
   <ItemGroup>
     <ProjectReference Include="../cyrka.api.infra/cyrka.api.infra.csproj" />
     <ProjectReference Include="../cyrka.api.domain/cyrka.api.domain.csproj" />

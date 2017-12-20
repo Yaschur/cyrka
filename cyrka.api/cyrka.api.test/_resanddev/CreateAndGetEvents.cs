@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using cyrka.api.common.events;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.queries;
-using cyrka.api.domain.events;
 using cyrka.api.infra.nexter;
 using cyrka.api.infra.stores;
 using cyrka.api.infra.stores.events;
@@ -16,7 +16,6 @@ namespace cyrka.api.test._resanddev
 	[TestFixture, Explicit]
 	public class CreateAndGetWithMongo
 	{
-
 		[Test]
 		public async Task DoCommand()
 		{
@@ -52,10 +51,16 @@ namespace cyrka.api.test._resanddev
 
 			var restored1 = queriesStore.AsQueryable<CustomerPlain>().ToList();
 
-			var plainCustomer2 = new CustomerPlain { Id = "abc", Name = "xyz", Description="abc xyz" };
+			var plainCustomer2 = new CustomerPlain { Id = "abc", Name = "xyz", Description = "abc xyz" };
 			await queriesStore.Upsert(plainCustomer2, pc => pc.Id == plainCustomer2.Id);
-			
+
 			var restored2 = queriesStore.AsQueryable<CustomerPlain>().ToList();
+		}
+
+		[Test]
+		public async Task DoSubscription()
+		{
+
 		}
 	}
 }
