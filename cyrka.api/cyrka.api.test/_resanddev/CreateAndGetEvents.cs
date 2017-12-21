@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using cyrka.api.common.events;
+using cyrka.api.common.queries;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.queries;
 using cyrka.api.infra.nexter;
@@ -60,7 +61,29 @@ namespace cyrka.api.test._resanddev
 		[Test]
 		public async Task DoSubscription()
 		{
+			var client = new MongoClient();
+			var mongoDbCommand = client.GetDatabase("test-command");
+			var nexterGenerator = new NexterGenerator();
+			var eventsStore = new MongoEventStore(
+				mongoDbCommand,
+				new IDbMapping[] { new CoreEventsMapping(), new CustomerEventsMapping() }
+			);
 
+			var mongoDbQuery = client.GetDatabase("test-query");
+			var queriesStore = new MongoQueryStore(mongoDbQuery);
+
+			var queryEventProcessor = new QueryEventProcessor(eventsStore, queriesStore);
+			queryEventProcessor.RegisterEventProcessing<CustomerRegistered, CustomerPlain>(
+				(ed, c) => new CustomerPlain { Id = ed.Id, Name = ed.Name, Description = ed.Description },
+				ed => c => c.Id == ed.Id
+			);
+
+			var commandHandler = new CustomerRegisterHandler();
+			var eventDatas = commandHandler.Handle(new CustomerRegister("HBO", "Very very important customer. Use with care!"));
+			var id = await nexterGenerator.GetNextNumber("events", await eventsStore.GetLastStoredId());
+			var created = DateTime.UtcNow;
+
+			await eventsStore.Store(new Event(id, created, eventDatas[0]));
 		}
 	}
 }

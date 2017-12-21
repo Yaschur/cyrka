@@ -7,3 +7,7 @@ docker build -t cyrka.nginx ./cyrka.nginx
 docker run -d --name cyrka-api --network cyrka-network cyrka.api
 docker run -d --name cyrka-front --network cyrka-network cyrka.front
 docker run -d --name cyrka-nginx --network cyrka-network -p 80:80 cyrka.nginx
+
+### to start mongo container for debug and tests:
+mkdir -p ~/mongo/data/cyrka
+docker run --name test-mongo -v ~/mongo/data/cyrka:/data/db -p 27017:27017 -d mongo

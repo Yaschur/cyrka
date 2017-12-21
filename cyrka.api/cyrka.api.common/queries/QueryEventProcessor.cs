@@ -16,20 +16,22 @@ namespace cyrka.api.common.queries
 			_subscriptions = new List<IDisposable>();
 		}
 
-		public void RegisterEventProcessing<TEvent, TQueryModel>(
-			Func<TEvent, TQueryModel, TQueryModel> procFunc,
-			Expression<Func<TQueryModel, bool>> idPredicate
+		public void RegisterEventProcessing<TEventData, TQueryModel>(
+			Func<TEventData, TQueryModel, TQueryModel> procFunc,
+			Func<TEventData, Expression<Func<TQueryModel, bool>>> idPredicateFunc
 		)
-			where TEvent : class
+			where TEventData : EventData
 			where TQueryModel : class
 		{
 			var newSubs = _eventStore.AsObservable()
-				.Where(e => e is TEvent)
+				.Where(e => e.EventData is TEventData)
 				.Subscribe(e =>
 				{
+					var eData = e.EventData as TEventData;
+					var idPredicate = idPredicateFunc(eData);
 					var queryObject = _queryStore.AsQueryable<TQueryModel>()
 						.FirstOrDefault(idPredicate);
-					var resultObject = procFunc(e as TEvent, queryObject);
+					var resultObject = procFunc(eData, queryObject);
 					if (resultObject != default(TQueryModel))
 						_queryStore.Upsert(resultObject, idPredicate);
 				});
