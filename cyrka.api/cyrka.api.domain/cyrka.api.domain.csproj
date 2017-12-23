@@ -6,4 +6,7 @@
   <ItemGroup>
     <ProjectReference Include="../cyrka.api.common/cyrka.api.common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="autofac" Version="4.6.2" />
+  </ItemGroup>
 </Project>
