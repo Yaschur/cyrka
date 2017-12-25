@@ -26,7 +26,7 @@ namespace cyrka.api.infra._modules
 					return new MongoQueryStore(db);
 				})
 				.As<IQueryStore>()
-				.InstancePerRequest();
+				.SingleInstance();
 
 			// db mappers
 			builder

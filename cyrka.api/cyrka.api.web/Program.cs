@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Autofac.Extensions.DependencyInjection;
 
 namespace cyrka.api.web
 {
@@ -18,9 +12,9 @@ namespace cyrka.api.web
 		}
 
 		public static IWebHost BuildWebHost(string[] args) =>
-				WebHost.CreateDefaultBuilder(args)
-					.UseKestrel(options => options.Listen(IPAddress.Any, 5000))
-					.UseStartup<Startup>()
-					.Build();
+			WebHost.CreateDefaultBuilder(args)
+				.ConfigureServices(services => services.AddAutofac())
+				.UseStartup<Startup>()
+				.Build();
 	}
 }
