@@ -18,7 +18,7 @@ namespace cyrka.api.infra.stores.queries
 		{
 			try
 			{
-				var collectionName = nameof(TProjection);
+				var collectionName = typeof(TProjection).Name;
 				var collection = _mDb.GetCollection<TProjection>(collectionName);
 				return collection.AsQueryable();
 			}
