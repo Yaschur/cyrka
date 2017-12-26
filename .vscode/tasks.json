@@ -1,15 +1,15 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "buildWeb",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/cyrka.api/cyrka.api.web/cyrka.api.web.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        }
-    ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "buildWeb",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"build",
+				"${workspaceFolder}/cyrka.api/cyrka.api.web/cyrka.api.web.csproj"
+			],
+			"problemMatcher": "$msCompile"
+		}
+	]
 }
