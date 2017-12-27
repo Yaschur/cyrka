@@ -1,6 +1,6 @@
 ### Build stage
 FROM microsoft/dotnet as build
-
+ENV ASPNETCORE_ENVIRONMENT=Production
 WORKDIR /cyrkaapi
 COPY . .
 RUN dotnet publish ./cyrka.api.web/cyrka.api.web.csproj -c Release -o out
