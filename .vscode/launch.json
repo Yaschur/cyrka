@@ -11,7 +11,7 @@
 			"preLaunchTask": "buildWeb",
 			"program": "${workspaceRoot}/cyrka.api/cyrka.api.web/bin/Debug/netcoreapp2.0/cyrka.api.web.dll",
 			"args": [],
-			"cwd": "${workspaceRoot}",
+			"cwd": "${workspaceRoot}/cyrka.api/cyrka.api.web",
 			"stopAtEntry": false,
 			"console": "internalConsole"
 		}

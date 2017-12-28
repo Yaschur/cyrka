@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Autofac;
 using cyrka.api.common.events;
@@ -12,19 +13,55 @@ namespace cyrka.api.infra._modules
 {
 	public class InfraModule : Module
 	{
+		const string WriteMongoDbKey = "write";
+		const string ReadMongoDbKey = "read";
+
+		public InfraModule(MongoDbConfiguration writeConfig, MongoDbConfiguration readConfig)
+		{
+			_readDbConfig = readConfig;
+			_writeDbConfig = writeConfig;
+		}
+
 		protected override void Load(ContainerBuilder builder)
 		{
 			builder
 				.RegisterType<NexterGenerator>()
 				.SingleInstance();
 
+			// Configure MongoDb clients
 			builder
-				.Register<MongoQueryStore>(cc =>
-				{
-					var client = new MongoClient();
-					var db = client.GetDatabase("cyrka_read");
-					return new MongoQueryStore(db);
-				})
+				.Register<IMongoClient>(cc => new MongoClient(_writeDbConfig.ConnectionString))
+				.Named<IMongoClient>(WriteMongoDbKey)
+				.SingleInstance();
+			builder
+				.Register<IMongoClient>(cc =>
+					_writeDbConfig.ConnectionString.Equals(_readDbConfig.ConnectionString, StringComparison.OrdinalIgnoreCase) ?
+						cc.ResolveNamed<IMongoClient>(WriteMongoDbKey)
+						: new MongoClient(_readDbConfig.ConnectionString)
+				)
+				.Named<IMongoClient>(ReadMongoDbKey)
+				.SingleInstance();
+
+			// Configure MongoDb databases
+			builder
+				.Register<IMongoDatabase>(cc =>
+					cc.ResolveNamed<IMongoClient>(WriteMongoDbKey)
+						.GetDatabase(_writeDbConfig.DatabaseName)
+				)
+				.Named<IMongoDatabase>(WriteMongoDbKey)
+				.SingleInstance();
+			builder
+				.Register<IMongoDatabase>(cc =>
+					cc.ResolveNamed<IMongoClient>(ReadMongoDbKey)
+						.GetDatabase(_readDbConfig.DatabaseName)
+				)
+				.Named<IMongoDatabase>(ReadMongoDbKey)
+				.SingleInstance();
+
+			// Configure cyrkas' services
+
+			builder
+				.Register<MongoQueryStore>(cc => new MongoQueryStore(cc.ResolveNamed<IMongoDatabase>(ReadMongoDbKey)))
 				.As<IQueryStore>()
 				.SingleInstance();
 
@@ -38,13 +75,16 @@ namespace cyrka.api.infra._modules
 
 			builder
 				.Register<MongoEventStore>(cc =>
-				{
-					var client = new MongoClient();
-					var db = client.GetDatabase("cyrka_write");
-					return new MongoEventStore(db, cc.Resolve<IEnumerable<IDbMapping>>());
-				})
+					new MongoEventStore(
+						cc.ResolveNamed<IMongoDatabase>(WriteMongoDbKey),
+						cc.Resolve<IEnumerable<IDbMapping>>()
+					)
+				)
 				.As<IEventStore>()
 				.SingleInstance();
 		}
+
+		private readonly MongoDbConfiguration _writeDbConfig;
+		private readonly MongoDbConfiguration _readDbConfig;
 	}
 }

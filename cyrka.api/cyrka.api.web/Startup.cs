@@ -34,7 +34,10 @@ namespace cyrka.api.web
 		{
 			builder.RegisterModule(new CommonModule());
 			builder.RegisterModule(new DomainModule());
-			builder.RegisterModule(new InfraModule());
+
+			var writeDbConfig = Configuration.GetSection("MongoDbs:Write").Get<MongoDbConfiguration>();
+			var readDbConfig = Configuration.GetSection("MongoDbs:Read").Get<MongoDbConfiguration>();
+			builder.RegisterModule(new InfraModule(writeDbConfig, readDbConfig));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

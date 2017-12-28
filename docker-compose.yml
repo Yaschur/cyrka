@@ -5,6 +5,16 @@ services:
     volumes:
       - /opt/cyrka/data:/data/db
     networks:
-      - cyrka_net
+      - cyrka-net
+  cyrka-api:
+    build: ./cyrka.api
+    networks:
+      - cyrka-net
+  cyrka-nginx:
+    build: ./cyrka.nginx
+    ports:
+     - "80:80"
+    networks:
+      - cyrka-net
 networks:
-  cyrka_net:
+  cyrka-net:
