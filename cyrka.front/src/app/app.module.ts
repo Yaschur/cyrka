@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ClarityModule } from 'clarity-angular';
 
 import { AppComponent } from './app.component';
+import {  } from "./customers/";
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { AppComponent } from './app.component';
 	],
 	imports: [
 		BrowserModule,
+		CustomersModule,
 		ClarityModule.forRoot(),
 
 		AppRoutingModule
