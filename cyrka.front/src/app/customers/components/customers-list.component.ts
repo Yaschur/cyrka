@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { CustomerPlain } from '../models/customer-plain.model';
 
 @Component({
-	templateUrl: './customers-list.component.html'
+	templateUrl: './customers-list.component.html',
+	styleUrls: ['./customers-list.component.scss']
 })
 export class CustomersListComponent {
 

@@ -1,0 +1,9 @@
+tbody {
+	td.id-reduced {
+			font-family: monospace;
+			max-width: 2ch;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+}
