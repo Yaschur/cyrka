@@ -6,8 +6,10 @@ import { CustomersApiService } from './services/customers-api.service';
 import { CustomersListComponent } from './components/customers-list.component';
 
 @NgModule({
+	declarations: [
+		CustomersListComponent
+	],
 	imports: [
-		CustomersListComponent,
 		CustomersRoutingModule
 	],
 	providers: [
