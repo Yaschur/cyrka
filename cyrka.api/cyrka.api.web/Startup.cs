@@ -27,6 +27,7 @@ namespace cyrka.api.web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddCors();
 			services.AddMvc();
 		}
 
@@ -48,6 +49,12 @@ namespace cyrka.api.web
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseCors(policyBuilder =>
+				policyBuilder
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.AllowAnyOrigin()
+			);
 			app.UseMvc();
 		}
 	}
