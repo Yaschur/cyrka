@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import 'clarity-icons/shapes/essential-shapes';
+
 import { CustomersApiService } from '../services/customers-api.service';
 import { Observable } from 'rxjs/Observable';
 import { CustomerPlain } from '../models/customer-plain.model';
