@@ -3,9 +3,9 @@ using cyrka.api.common.events;
 
 namespace cyrka.api.domain.customers.commands.register
 {
-	public class CustomerRegisterHandler
+	public class RegisterCustomerHandler
 	{
-		public EventData[] Handle(CustomerRegister command)
+		public EventData[] Handle(RegisterCustomer command)
 		{
 			var id = Guid.NewGuid().ToString();
 			var customerRegistered = new CustomerRegistered(id, command.Name, command.Description);

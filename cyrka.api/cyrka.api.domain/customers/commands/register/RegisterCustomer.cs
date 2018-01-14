@@ -1,11 +1,11 @@
 namespace cyrka.api.domain.customers.commands.register
 {
-	public class CustomerRegister
+	public class RegisterCustomer
 	{
 		public readonly string Name;
 		public readonly string Description;
 
-		public CustomerRegister(string name, string description)
+		public RegisterCustomer(string name, string description)
 		{
 			Name = name;
 			Description = description;

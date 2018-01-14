@@ -32,8 +32,8 @@ namespace cyrka.api.web.Controllers
 		[HttpPost]
 		public async Task Post([FromBody]CustomerInfo value)
 		{
-			var command = new CustomerRegister(value.Name, value.Description);
-			var commandHandler = new CustomerRegisterHandler();
+			var command = new RegisterCustomer(value.Name, value.Description);
+			var commandHandler = new RegisterCustomerHandler();
 			var eventDatas = commandHandler.Handle(command);
 
 			foreach (var data in eventDatas)
