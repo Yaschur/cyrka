@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+import { CustomersApiService } from '../services/customers-api.service';
 
 @Component({
 	selector: 'app-customers-register',
@@ -9,7 +12,9 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 export class CustomersRegisterComponent implements OnInit {
 
 	constructor(
-		private _formBuilder: FormBuilder
+		private _formBuilder: FormBuilder,
+		private _customerApi: CustomersApiService,
+		private _location: Location
 	) { }
 
 	public form: FormGroup;
@@ -22,6 +27,14 @@ export class CustomersRegisterComponent implements OnInit {
 	}
 
 	public onSubmit() {
+		if (this.form.invalid) {
+			return;
+		}
+		this._customerApi.register(this.form.value)
+			.subscribe(() => this.return());
+	}
 
+	public return() {
+		this._location.back();
 	}
 }
