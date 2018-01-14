@@ -10,6 +10,10 @@ services:
     build: ./cyrka.api
     networks:
       - cyrka-net
+  cyrka-front:
+    build: ./cyrka.front
+    networks:
+      - cyrka-net
   cyrka-nginx:
     build: ./cyrka.nginx
     ports:
