@@ -3,15 +3,14 @@ using cyrka.api.common.events;
 
 namespace cyrka.api.domain.customers.commands.register
 {
-	public class CustomerRegistered : EventData
+	public class CustomerRegistered : CustomerEventData
 	{
-		public readonly string Id;
 		public readonly string Name;
 		public readonly string Description;
 
 		public CustomerRegistered(string id, string name, string description)
+			: base(id)
 		{
-			Id = id;
 			Name = name;
 			Description = description;
 		}

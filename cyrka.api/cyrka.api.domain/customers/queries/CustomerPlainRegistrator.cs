@@ -14,14 +14,14 @@ namespace cyrka.api.domain.customers.queries
 
 		public Expression<Func<CustomerPlain, bool>> IdFilterByEventData(CustomerRegistered eventData)
 		{
-			return c => c.Id == eventData.Id;
+			return c => c.Id == eventData.CustomerId;
 		}
 
 		public CustomerPlain UpdateByEventData(CustomerRegistered eventData, CustomerPlain source)
 		{
 			return new CustomerPlain
 			{
-				Id = eventData.Id,
+				Id = eventData.CustomerId,
 				Name = eventData.Name,
 				Description = eventData.Description
 			};

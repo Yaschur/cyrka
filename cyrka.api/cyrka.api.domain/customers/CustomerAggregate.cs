@@ -20,7 +20,7 @@ namespace cyrka.api.domain.customers
 		{
 			// if (Id == null)
 			// 	return;
-			Id = customerEvent.Id;
+			Id = customerEvent.CustomerId;
 			Name = customerEvent.Name;
 			Description = customerEvent.Description;
 		}
@@ -29,7 +29,7 @@ namespace cyrka.api.domain.customers
 			var newTitle = new Title
 			{
 				CustomerId = customerEvent.CustomerId,
-				Id = customerEvent.Id,
+				Id = customerEvent.TitleId,
 				Name = customerEvent.Name,
 				NumberOfSeries = customerEvent.NumberOfSeries,
 				Description = customerEvent.Description

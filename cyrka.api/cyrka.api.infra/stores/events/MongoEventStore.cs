@@ -27,7 +27,7 @@ namespace cyrka.api.infra.stores.events
 			{
 				_eventsCollection = _mDb.GetCollection<Event>(CollectionKeyName);
 			}
-			catch (System.Exception e)
+			catch (Exception e)
 			{
 				throw e;
 			}
