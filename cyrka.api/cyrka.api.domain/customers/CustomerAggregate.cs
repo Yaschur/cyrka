@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
@@ -14,6 +15,25 @@ namespace cyrka.api.domain.customers
 		public CustomerAggregate()
 		{
 			Titles = new Title[0];
+		}
+
+		public void ApplyEvents(IEnumerable<CustomerEventData> eventDatas)
+		{
+			if (eventDatas == null)
+				return;
+
+			foreach (var eventData in eventDatas)
+			{
+				switch (eventData)
+				{
+					case CustomerRegistered customerRegistered:
+						ApplyEvent(customerRegistered);
+						break;
+					case TitleRegistered titleRegistered:
+						ApplyEvent(titleRegistered);
+						break;
+				}
+			}
 		}
 
 		private void ApplyEvent(CustomerRegistered customerEvent)

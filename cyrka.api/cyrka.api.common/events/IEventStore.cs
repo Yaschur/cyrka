@@ -11,6 +11,9 @@ namespace cyrka.api.common.events
 
 		Task<Event[]> FindAllAfterId(ulong Id);
 
+		Task<Event[]> FindAllOfDataType<TEventData>(Func<TEventData, bool> predicate = null)
+			where TEventData : EventData;
+
 		IObservable<Event> AsObservable();
 	}
 }

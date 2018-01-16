@@ -55,11 +55,23 @@ namespace cyrka.api.infra.stores.events
 			return (
 				await _eventsCollection.AsQueryable()
 					.Where(e => e.Id > id)
-					.OrderByDescending(e => e.Id)
+					.OrderBy(e => e.Id)
 					.ToListAsync()
-				)
-				.ToArray();
+			)
+			.ToArray();
 		}
+
+		public async Task<Event[]> FindAllOfDataType<TEventData>(Func<TEventData, bool> predicate = null)
+			where TEventData : EventData
+		{
+			var query = _eventsCollection.AsQueryable()
+				.Where(e => e.EventData is TEventData);
+			if (predicate != null)
+				query = query
+					.Where(e => predicate(e.EventData as TEventData));
+			return (await query.OrderBy(e => e.Id).ToListAsync()).ToArray();
+		}
+
 
 		public async Task Store(Event @event)
 		{
