@@ -1,14 +1,16 @@
 using cyrka.api.common.events;
 
-namespace cyrka.api.domain.customers
+namespace cyrka.api.domain.customers.commands
 {
-	public class CustomerEventData : EventData
+	public abstract class CustomerEventData : EventData
 	{
-		public readonly string CustomerId;
+		public override string AggregateType => nameof(CustomerAggregate);
+
+		public override string AggregateId { get; }
 
 		public CustomerEventData(string customerId)
 		{
-			CustomerId = customerId;
+			AggregateId = customerId;
 		}
 	}
 }

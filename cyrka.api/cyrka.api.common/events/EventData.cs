@@ -1,4 +1,8 @@
 namespace cyrka.api.common.events
 {
-	public class EventData { }
+	public abstract class EventData
+	{
+		public abstract string AggregateType { get; }
+		public abstract string AggregateId { get; }
+	}
 }

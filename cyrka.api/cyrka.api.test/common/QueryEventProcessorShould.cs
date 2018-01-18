@@ -55,7 +55,22 @@ namespace cyrka.api.test.common
 		}
 	}
 
-	class EventData1 : EventData { }
-	class EventData2 : EventData { }
-	class EventData3 : EventData { }
+	class EventData1 : EventData
+	{
+		public override string AggregateType => throw new NotImplementedException();
+
+		public override string AggregateId => throw new NotImplementedException();
+	}
+	class EventData2 : EventData
+	{
+		public override string AggregateType => throw new NotImplementedException();
+
+		public override string AggregateId => throw new NotImplementedException();
+	}
+	class EventData3 : EventData
+	{
+		public override string AggregateType => throw new NotImplementedException();
+
+		public override string AggregateId => throw new NotImplementedException();
+	}
 }

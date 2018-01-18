@@ -24,9 +24,9 @@ namespace cyrka.api.test.infra
 			var eventsCollector = new ConcurrentBag<Event>();
 			var subs = channel.Subscribe(eventsCollector.Add);
 			var events = new List<Event> {
-				new Event(1, DateTime.Now, new EventData()),
-				new Event(2, DateTime.Now, new EventData()),
-				new Event(3, DateTime.Now, new EventData())
+				new Event(1, DateTime.Now, A.Fake<EventData>()),
+				new Event(2, DateTime.Now, A.Fake<EventData>()),
+				new Event(3, DateTime.Now, A.Fake<EventData>())
 			};
 
 			events.ForEach(async e => await storeUnderTest.Store(e));

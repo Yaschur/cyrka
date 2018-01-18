@@ -61,14 +61,12 @@ namespace cyrka.api.infra.stores.events
 			.ToArray();
 		}
 
-		public async Task<Event[]> FindAllOfDataType<TEventData>(Func<TEventData, bool> predicate = null)
-			where TEventData : EventData
+		public async Task<Event[]> FindAllOfAggregateById<TAggregate>(string aggregateId)
+			where TAggregate : class
 		{
+			var aggregateName = typeof(TAggregate).Name;
 			var query = _eventsCollection.AsQueryable()
-				.Where(e => e.EventData is TEventData);
-			if (predicate != null)
-				query = query
-					.Where(e => predicate(e.EventData as TEventData));
+				.Where(e => e.EventData.AggregateType == aggregateName && e.EventData.AggregateId == aggregateId);
 			return (await query.OrderBy(e => e.Id).ToListAsync()).ToArray();
 		}
 

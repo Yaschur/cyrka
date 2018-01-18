@@ -1,6 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using cyrka.api.common.queries;
+using cyrka.api.domain.customers.commands;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
 
@@ -16,14 +17,14 @@ namespace cyrka.api.domain.customers.queries
 
 		public Expression<Func<CustomerPlain, bool>> IdFilterByEventData(CustomerEventData eventData)
 		{
-			return c => c.Id == eventData.CustomerId;
+			return c => c.Id == eventData.AggregateId;
 		}
 
 		public CustomerPlain UpdateByEventData(CustomerRegistered eventData, CustomerPlain source)
 		{
 			return new CustomerPlain
 			{
-				Id = eventData.CustomerId,
+				Id = eventData.AggregateId,
 				Name = eventData.Name,
 				Description = eventData.Description
 			};

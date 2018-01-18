@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using cyrka.api.common.events;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
 
@@ -17,7 +18,7 @@ namespace cyrka.api.domain.customers
 			Titles = new Title[0];
 		}
 
-		public void ApplyEvents(IEnumerable<CustomerEventData> eventDatas)
+		public void ApplyEvents(IEnumerable<EventData> eventDatas)
 		{
 			if (eventDatas == null)
 				return;
@@ -40,7 +41,7 @@ namespace cyrka.api.domain.customers
 		{
 			// if (Id == null)
 			// 	return;
-			Id = customerEvent.CustomerId;
+			Id = customerEvent.AggregateId;
 			Name = customerEvent.Name;
 			Description = customerEvent.Description;
 		}
@@ -48,7 +49,7 @@ namespace cyrka.api.domain.customers
 		{
 			var newTitle = new Title
 			{
-				CustomerId = customerEvent.CustomerId,
+				CustomerId = customerEvent.AggregateId,
 				Id = customerEvent.TitleId,
 				Name = customerEvent.Name,
 				NumberOfSeries = customerEvent.NumberOfSeries,

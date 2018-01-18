@@ -15,7 +15,11 @@ namespace cyrka.api.infra.stores.events
 				cm.MapCreator(e => new Event(e.Id, e.CreatedAt, e.EventData));
 			});
 
-			BsonClassMap.RegisterClassMap<EventData>();
+			BsonClassMap.RegisterClassMap<EventData>(cm =>
+			{
+				cm.MapField(ed => ed.AggregateId);
+				cm.MapField(ed => ed.AggregateType);
+			});
 		}
 	}
 }

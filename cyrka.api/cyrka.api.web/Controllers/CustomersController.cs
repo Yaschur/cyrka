@@ -58,18 +58,18 @@ namespace cyrka.api.web.Controllers
 			var customerAggregate = await _customerRepository.GetById(id);
 			if (customerAggregate == null)
 				return NotFound();
-			// var command = new RegisterTitle(id, value.Name, value.NumberOfSeries, value.Description);
-			// var commandHandler = new RegisterTitleHandler();
-			// var eventDatas = commandHandler.Handle(command);
+			var command = new RegisterTitle(id, value.Name, value.NumberOfSeries, value.Description);
+			var commandHandler = new RegisterTitleHandler();
+			var eventDatas = commandHandler.Handle(command);
 
-			// foreach (var data in eventDatas)
-			// {
-			// 	var lastEventId = await _eventStore.GetLastStoredId();
-			// 	var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-			// 	var createdAt = DateTime.UtcNow;
-			// 	var newEvent = new Event(newEventId, createdAt, data);
-			// 	await _eventStore.Store(newEvent);
-			// }
+			foreach (var data in eventDatas)
+			{
+				var lastEventId = await _eventStore.GetLastStoredId();
+				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
+				var createdAt = DateTime.UtcNow;
+				var newEvent = new Event(newEventId, createdAt, data);
+				await _eventStore.Store(newEvent);
+			}
 
 			return Ok();
 		}

@@ -14,8 +14,8 @@ namespace cyrka.api.domain.customers
 		public async Task<CustomerAggregate> GetById(string customerId)
 		{
 			var aggEventDatas = (await _eventStore
-				.FindAllOfDataType<CustomerEventData>(ced => ced.CustomerId == customerId))
-				.Select(e => e.EventData as CustomerEventData)
+				.FindAllOfAggregateById<CustomerAggregate>(customerId))
+				.Select(e => e.EventData)
 				.ToArray();
 
 			if (aggEventDatas.Length == 0)
