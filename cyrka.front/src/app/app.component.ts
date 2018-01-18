@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 // use "../node_modules/clarity-icons/clarity-icons.min.js" in angular-cli/scripts if ClarityIcons will be removed from here
-import { ClarityIcons } from 'clarity-icons';
+import { ClarityIcons } from '@clr/icons';
 
 @Component({
 	selector: 'app-root',

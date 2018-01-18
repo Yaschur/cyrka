@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import 'clarity-icons/shapes/essential-shapes';
+import '@clr/icons/shapes/essential-shapes';
 
 import { CustomersApiService } from '../services/customers-api.service';
 import { Observable } from 'rxjs/Observable';
