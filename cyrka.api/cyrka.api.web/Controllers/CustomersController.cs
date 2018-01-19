@@ -52,7 +52,7 @@ namespace cyrka.api.web.Controllers
 			return Ok();
 		}
 
-		[HttpPost("{id}")]
+		[HttpPost("{id}/titles")]
 		public async Task<IActionResult> RegisterTitle(string id, [FromBody]TitleInfo value)
 		{
 			var customerAggregate = await _customerRepository.GetById(id);
@@ -79,6 +79,19 @@ namespace cyrka.api.web.Controllers
 			_queryStore
 				.AsQueryable<CustomerPlain>()
 				.ToList();
+
+		[HttpGet("{id}")]
+		public IActionResult Details(string id)
+		{
+			var customer = _queryStore
+				.AsQueryable<CustomerPlain>()
+				.FirstOrDefault(c => c.Id == id);
+
+			if (customer == null)
+				return NotFound();
+
+			return Ok(customer);
+		}
 
 		private readonly NexterGenerator _nexter;
 		private readonly IEventStore _eventStore;
