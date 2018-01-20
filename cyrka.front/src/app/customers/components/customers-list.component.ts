@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import '@clr/icons/shapes/essential-shapes';
 
@@ -12,9 +13,16 @@ import { CustomerPlain } from '../models/customer-plain.model';
 })
 export class CustomersListComponent {
 
-	constructor(private _customerApi: CustomersApiService) {
+	constructor(
+		private _customerApi: CustomersApiService,
+		private _router: Router
+	) {
 		this.customers = _customerApi.getAll();
 	}
 
 	public customers: Observable<CustomerPlain[]>;
+
+	public details(id: string): void {
+		this._router.navigate(['customers', id]);
+	}
 }
