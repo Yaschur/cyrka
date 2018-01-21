@@ -10,12 +10,14 @@ import { CustomersApiService } from './services/customers-api.service';
 import { CustomersListComponent } from './components/customers-list.component';
 import { CustomersRegisterComponent } from './components/customers-register.component';
 import { CustomersDetailsComponent } from './components/customers-details.component';
+import { TitlesAddComponent } from './components/titles-add.component';
 
 @NgModule({
 	declarations: [
 		CustomersListComponent,
 		CustomersRegisterComponent,
-		CustomersDetailsComponent
+		CustomersDetailsComponent,
+		TitlesAddComponent
 	],
 	imports: [
 		CommonModule,

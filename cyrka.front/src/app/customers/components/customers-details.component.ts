@@ -17,14 +17,21 @@ export class CustomersDetailsComponent implements OnInit {
 		private _router: Router,
 		private _route: ActivatedRoute,
 		private _customerApi: CustomersApiService
-	) { }
+	) {
+		this.noEdit = true;
+	}
 
 	public customer: CustomerPlain;
+	public noEdit: boolean;
 
 	public ngOnInit() {
 		this._route.params
 			.switchMap(params => this._customerApi.getById(params['id']))
 			.subscribe(c => this.customer = c);
+	}
+
+	public addTitle() {
+		this.noEdit = false;
 	}
 
 }
