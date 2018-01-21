@@ -18,7 +18,7 @@ import { CustomersModule } from './customers/customers.module';
 		BrowserModule,
 		HttpClientModule,
 		CustomersModule,
-		ClarityModule.forRoot(),
+		ClarityModule,
 		AppRoutingModule
 	],
 	providers: [],

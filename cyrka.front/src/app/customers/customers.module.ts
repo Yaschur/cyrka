@@ -20,7 +20,7 @@ import { CustomersDetailsComponent } from './components/customers-details.compon
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		ClarityModule.forChild(),
+		ClarityModule,
 		CustomersRoutingModule
 	],
 	providers: [

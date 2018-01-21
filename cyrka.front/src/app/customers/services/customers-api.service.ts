@@ -10,13 +10,17 @@ import { CustomerPlain } from '../models/customer-plain.model';
 export class CustomersApiService {
 	constructor(private _httpClient: HttpClient) { }
 
+	public getById(id: string): Observable<CustomerPlain> {
+		return this._httpClient.get<CustomerPlain>(`${environment.cyrkaApi.baseUrl}/customers/${id}`);
+	}
+
 	public getAll(): Observable<CustomerPlain[]> {
-		return this._httpClient.get<CustomerPlain[]>(environment.cyrkaApi.baseUrl + '/customers');
+		return this._httpClient.get<CustomerPlain[]>(`${environment.cyrkaApi.baseUrl}/customers`);
 	}
 
 	public register(customer: { name: string, description?: string }): Observable<Object> {
 		return this._httpClient.post(
-			environment.cyrkaApi.baseUrl + '/customers',
+			`${environment.cyrkaApi.baseUrl}/customers`,
 			customer
 		);
 	}
