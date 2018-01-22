@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using cyrka.api.common.events;
+using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
 
@@ -30,6 +31,9 @@ namespace cyrka.api.domain.customers
 					case CustomerRegistered customerRegistered:
 						ApplyEvent(customerRegistered);
 						break;
+					case CustomerChanged customerChanged:
+						ApplyEvent(customerChanged);
+						break;
 					case TitleRegistered titleRegistered:
 						ApplyEvent(titleRegistered);
 						break;
@@ -45,6 +49,13 @@ namespace cyrka.api.domain.customers
 			Name = customerEvent.Name;
 			Description = customerEvent.Description;
 		}
+
+		private void ApplyEvent(CustomerChanged customerEvent)
+		{
+			Name = customerEvent.Name;
+			Description = customerEvent.Description;
+		}
+
 		private void ApplyEvent(TitleRegistered customerEvent)
 		{
 			var newTitle = new Title

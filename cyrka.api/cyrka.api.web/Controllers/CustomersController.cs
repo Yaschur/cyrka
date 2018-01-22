@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using cyrka.api.common.events;
 using cyrka.api.common.queries;
 using cyrka.api.domain.customers;
+using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
 using cyrka.api.domain.customers.queries;
@@ -38,6 +39,28 @@ namespace cyrka.api.web.Controllers
 		{
 			var command = new RegisterCustomer(value.Name, value.Description);
 			var commandHandler = new RegisterCustomerHandler();
+			var eventDatas = commandHandler.Handle(command);
+
+			foreach (var data in eventDatas)
+			{
+				var lastEventId = await _eventStore.GetLastStoredId();
+				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
+				var createdAt = DateTime.UtcNow;
+				var newEvent = new Event(newEventId, createdAt, data);
+				await _eventStore.Store(newEvent);
+			}
+
+			return Ok();
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> ChangeCustomer(string id, [FromBody]CustomerInfo value)
+		{
+			var customerAggregate = await _customerRepository.GetById(id);
+			if (customerAggregate == null)
+				return NotFound();
+			var command = new ChangeCustomer(id, value.Name, value.Description);
+			var commandHandler = new ChangeCustomerHandler();
 			var eventDatas = commandHandler.Handle(command);
 
 			foreach (var data in eventDatas)

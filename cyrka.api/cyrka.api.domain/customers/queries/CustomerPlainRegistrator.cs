@@ -2,6 +2,7 @@ using System;
 using System.Linq.Expressions;
 using cyrka.api.common.queries;
 using cyrka.api.domain.customers.commands;
+using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
 
@@ -12,6 +13,7 @@ namespace cyrka.api.domain.customers.queries
 		public void RegisterIn(QueryEventProcessor processor)
 		{
 			processor.RegisterEventProcessing<CustomerRegistered, CustomerPlain>(UpdateByEventData, IdFilterByEventData);
+			processor.RegisterEventProcessing<CustomerChanged, CustomerPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<TitleRegistered, CustomerPlain>(UpdateByEventData, IdFilterByEventData);
 		}
 
@@ -27,6 +29,17 @@ namespace cyrka.api.domain.customers.queries
 				Id = eventData.AggregateId,
 				Name = eventData.Name,
 				Description = eventData.Description
+			};
+		}
+
+		public CustomerPlain UpdateByEventData(CustomerChanged eventData, CustomerPlain source)
+		{
+			return new CustomerPlain
+			{
+				Id = source.Id,
+				Name = eventData.Name ?? source.Name,
+				Description = eventData.Description ?? source.Description,
+				Titles = source.Titles
 			};
 		}
 
