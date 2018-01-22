@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { CustomersApiService } from '../services/customers-api.service';
@@ -14,10 +14,15 @@ export class TitlesAddComponent implements OnInit {
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _customerApi: CustomersApiService,
-	) { }
+	) {
+		this.done = new EventEmitter<boolean>();
+	}
 
 	@Input()
 	public customer: CustomerPlain;
+
+	@Output()
+	public done: EventEmitter<boolean>;
 
 	public form: FormGroup;
 
@@ -34,10 +39,13 @@ export class TitlesAddComponent implements OnInit {
 			return;
 		}
 		this._customerApi.addTitle(this.customer.id, this.form.value)
-			.subscribe(() => this.return());
+			.subscribe(() => {
+				this.customer.titles.unshift(this.form.value);
+				this.return();
+			});
 	}
 
 	public return() {
-
+		this.done.emit(true);
 	}
 }

@@ -33,5 +33,8 @@ export class CustomersDetailsComponent implements OnInit {
 	public addTitle() {
 		this.noEdit = false;
 	}
+	public doneTitle(done: boolean) {
+		this.noEdit = done;
+	}
 
 }

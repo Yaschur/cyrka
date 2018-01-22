@@ -1,9 +1,10 @@
 <h2>{{customer?.name}}</h2>
 <pre *ngIf="customer?.description" class="p1">{{customer?.description}}</pre>
 <hr>
+<h3>продукты</h3>
 <a *ngIf="noEdit; else addFormTemplate" class="nav-link nav-text" href="javascript://" (click)="addTitle()">добавить продукт</a>
 <ng-template #addFormTemplate>
-	<app-titles-add [customer]="customer"></app-titles-add>
+	<app-titles-add [customer]="customer" (done)="doneTitle($event)"></app-titles-add>
 </ng-template>
 <table *ngIf="customer && customer.titles.length != 0" class="table">
 	<thead>
