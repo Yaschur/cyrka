@@ -24,4 +24,11 @@ export class CustomersApiService {
 			customer
 		);
 	}
+
+	public addTitle(customerId: string, title: { name: string, numberOfSeries: number, description?: string }): Observable<Object> {
+		return this._httpClient.post(
+			`${environment.cyrkaApi.baseUrl}/customers/${customerId}/titles`,
+			title
+		);
+	}
 }

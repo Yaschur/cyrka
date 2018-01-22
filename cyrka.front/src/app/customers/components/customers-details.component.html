@@ -3,5 +3,5 @@
 <hr>
 <a *ngIf="noEdit; else addFormTemplate" class="nav-link nav-text" href="javascript://" (click)="addTitle()">добавить продукт</a>
 <ng-template #addFormTemplate>
-	<app-titles-add></app-titles-add>
+	<app-titles-add [customer]="customer"></app-titles-add>
 </ng-template>
