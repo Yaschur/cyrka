@@ -25,6 +25,13 @@ export class CustomersApiService {
 		);
 	}
 
+	public change(customerId: string, customer: { name: string, description?: string }): Observable<Object> {
+		return this._httpClient.put(
+			`${environment.cyrkaApi.baseUrl}/customers/${customerId}`,
+			customer
+		);
+	}
+
 	public addTitle(customerId: string, title: { name: string, numberOfSeries: number, description?: string }): Observable<Object> {
 		return this._httpClient.post(
 			`${environment.cyrkaApi.baseUrl}/customers/${customerId}/titles`,
