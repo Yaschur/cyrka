@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { CustomersApiService } from '../services/customers-api.service';
@@ -14,6 +15,7 @@ export class CustomersRegisterComponent implements OnInit {
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _customerApi: CustomersApiService,
+		private _route: ActivatedRoute,
 		private _location: Location
 	) { }
 

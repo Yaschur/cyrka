@@ -23,6 +23,6 @@ export class CustomersListComponent {
 	public customers: Observable<CustomerPlain[]>;
 
 	public details(id: string): void {
-		this._router.navigate(['customers', id]);
+		this._router.navigate(['customers', id, 'details']);
 	}
 }
