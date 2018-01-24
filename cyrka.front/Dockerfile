@@ -1,10 +1,10 @@
 ### Build stage
 FROM node:alpine as build
-COPY package.json .
+COPY package.json package-lock.json ./
 RUN npm install && mkdir /cyrka.front && cp -R ./node_modules ./cyrka.front
 WORKDIR /cyrka.front
 COPY . .
-RUN $(npm bin)/ng build --aot --prod
+RUN $(npm bin)/ng build --prod
 
 ### Test stage
 
