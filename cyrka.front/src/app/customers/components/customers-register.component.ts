@@ -7,8 +7,7 @@ import { CustomersApiService } from '../services/customers-api.service';
 
 @Component({
 	selector: 'app-customers-register',
-	templateUrl: './customers-register.component.html',
-	styleUrls: ['./customers-register.component.scss']
+	templateUrl: './customers-register.component.html'
 })
 export class CustomersRegisterComponent implements OnInit {
 

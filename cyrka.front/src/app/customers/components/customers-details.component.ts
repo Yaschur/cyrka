@@ -9,8 +9,7 @@ import { CustomersApiService } from '../services/customers-api.service';
 
 @Component({
 	selector: 'app-customers-details',
-	templateUrl: './customers-details.component.html',
-	styleUrls: ['./customers-details.component.scss']
+	templateUrl: './customers-details.component.html'
 })
 export class CustomersDetailsComponent implements OnInit {
 	constructor(

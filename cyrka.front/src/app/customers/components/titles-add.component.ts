@@ -6,8 +6,7 @@ import { CustomerPlain } from '../models/customer-plain.model';
 
 @Component({
 	selector: 'app-titles-add',
-	templateUrl: './titles-add.component.html',
-	styleUrls: ['./titles-add.component.scss']
+	templateUrl: './titles-add.component.html'
 })
 export class TitlesAddComponent implements OnInit {
 
