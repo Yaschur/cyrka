@@ -11,8 +11,8 @@ const customersRoutes: Routes = [
 		path: 'customers', component: CustomersComponent, children: [
 			{ path: '', component: CustomersListComponent, pathMatch: 'full' },
 			{ path: 'register', component: CustomersRegisterComponent },
-			{ path: ':id/change', component: CustomersRegisterComponent },
-			{ path: ':id/details', component: CustomersDetailsComponent }
+			{ path: ':customerId/change', component: CustomersRegisterComponent },
+			{ path: ':customerId/details', component: CustomersDetailsComponent }
 		]
 	}
 ];

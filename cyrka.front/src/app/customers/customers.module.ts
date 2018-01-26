@@ -12,7 +12,7 @@ import { CustomersRegisterComponent } from './components/customers-register.comp
 import { CustomersDetailsComponent } from './components/customers-details.component';
 import { TitlesAddComponent } from './components/titles-add.component';
 import { CustomersComponent } from './components/customers.component';
-import { CustomerChangeComponent } from './components/customers-change.component';
+import { CustomerFormComponent } from './components/customers-form.component';
 
 @NgModule({
 	declarations: [
@@ -21,7 +21,7 @@ import { CustomerChangeComponent } from './components/customers-change.component
 		CustomersDetailsComponent,
 		TitlesAddComponent,
 		CustomersComponent,
-		CustomerChangeComponent
+		CustomerFormComponent
 	],
 	imports: [
 		CommonModule,
