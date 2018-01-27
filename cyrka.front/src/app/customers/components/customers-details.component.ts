@@ -25,7 +25,7 @@ export class CustomersDetailsComponent implements OnInit {
 
 	public ngOnInit() {
 		this._route.params
-			.switchMap(params => this._customerApi.getById(params['id']))
+			.switchMap(params => this._customerApi.getById(params['customerId']))
 			.subscribe(c => this.customer = c);
 	}
 

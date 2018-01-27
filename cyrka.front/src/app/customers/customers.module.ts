@@ -17,11 +17,11 @@ import { CustomerFormComponent } from './components/customers-form.component';
 @NgModule({
 	declarations: [
 		CustomersListComponent,
+		CustomerFormComponent,
 		CustomersRegisterComponent,
 		CustomersDetailsComponent,
 		TitlesAddComponent,
-		CustomersComponent,
-		CustomerFormComponent
+		CustomersComponent
 	],
 	imports: [
 		CommonModule,

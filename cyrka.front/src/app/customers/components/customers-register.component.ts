@@ -1,41 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { CustomersApiService } from '../services/customers-api.service';
+import { CustomerDefinition } from '../models/customer-definition.model';
 
 @Component({
 	selector: 'app-customers-register',
 	templateUrl: './customers-register.component.html'
 })
-export class CustomersRegisterComponent implements OnInit {
+export class CustomersRegisterComponent {
 
 	constructor(
-		private _formBuilder: FormBuilder,
 		private _customerApi: CustomersApiService,
-		private _route: ActivatedRoute,
 		private _location: Location
-	) { }
-
-	public form: FormGroup;
-
-	public ngOnInit() {
-		this.form = this._formBuilder.group({
-			'name': ['', Validators.required],
-			'description': ''
-		});
+	) {
+		this.customer = <CustomerDefinition>{};
 	}
+
+	public customer: CustomerDefinition;
 
 	public onSubmit() {
-		if (this.form.invalid) {
-			return;
-		}
-		this._customerApi.register(this.form.value)
-			.subscribe(() => this.return());
+		this._customerApi.register(this.customer)
+			.subscribe(() => {
+				this.onClose();
+			});
 	}
 
-	public return() {
+	public onClose() {
 		this._location.back();
 	}
 }

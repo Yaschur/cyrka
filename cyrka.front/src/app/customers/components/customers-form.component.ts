@@ -4,8 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomerDefinition } from '../models/customer-definition.model';
 
 @Component({
-	selector: 'app-customers-change',
-	templateUrl: './customers-change.component.html'
+	selector: 'app-customers-form',
+	templateUrl: './customers-form.component.html'
 })
 export class CustomerFormComponent implements OnInit {
 
@@ -13,14 +13,14 @@ export class CustomerFormComponent implements OnInit {
 		private _formBuilder: FormBuilder
 	) {
 		this.close = new EventEmitter();
-		this.submit = new EventEmitter();
+		this.save = new EventEmitter();
 	}
 
 	@Input()
 	public customer: CustomerDefinition;
 
 	@Output()
-	public submit: EventEmitter<void>;
+	public save: EventEmitter<void>;
 	@Output()
 	public close: EventEmitter<void>;
 
@@ -32,24 +32,20 @@ export class CustomerFormComponent implements OnInit {
 			'name': [this.customer.name, Validators.required],
 			'description': this.customer.description
 		});
-		this.formTitle = this.customer.id ? 'регистрация нового заказчика' : 'изменение данных заказчика';
+		this.formTitle = this.customer.id ? 'изменение данных заказчика' : 'регистрация нового заказчика';
 	}
 
 	public onSubmit() {
 		this.form.updateValueAndValidity();
-		if (this.form.invalid) {
-			// this.form.markAsDirty()
+		if (this.form.invalid || this.form.pristine) {
 			return;
 		}
-		if (!this.form.pristine) {
-			this.customer.name = this.form.value['name'];
-			this.customer.description = this.form.value['description'];
-			this.submit.emit();
-		}
-		this.close.emit();
+		this.customer.name = this.form.value['name'];
+		this.customer.description = this.form.value['description'];
+		this.save.emit();
 	}
 
-	public onCancel() {
+	public onClose() {
 		this.close.emit();
 	}
 }
