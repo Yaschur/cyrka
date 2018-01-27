@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { CustomersApiService } from '../services/customers-api.service';
@@ -12,6 +13,7 @@ export class CustomersRegisterComponent {
 
 	constructor(
 		private _customerApi: CustomersApiService,
+		private _router: Router,
 		private _location: Location
 	) {
 		this.customer = <CustomerDefinition>{};
@@ -22,7 +24,7 @@ export class CustomersRegisterComponent {
 	public onSubmit() {
 		this._customerApi.register(this.customer)
 			.subscribe(() => {
-				this.onClose();
+				this._router.navigate(['..']);
 			});
 	}
 
