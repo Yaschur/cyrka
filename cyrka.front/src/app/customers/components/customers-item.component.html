@@ -1,3 +1,4 @@
 <app-customers-details *ngIf="inDetailsMode" [customer]="customerDefinition"></app-customers-details>
+<app-customers-form *ngIf="inChangeMode" [customer]="customerDefinition"></app-customers-form>
 <button (click)="toggle()">toggle</button>
 <button (click)="toggleCustomer()">toggle customer</button>

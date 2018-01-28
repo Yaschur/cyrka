@@ -32,6 +32,9 @@ export class CustomersItemComponent implements OnInit {
 	public get inDetailsMode(): boolean {
 		return this._mode === ItemMode.Details;
 	}
+	public get inChangeMode(): boolean {
+		return this._mode === ItemMode.Change;
+	}
 
 	public ngOnInit() {
 		console.log('item init');
