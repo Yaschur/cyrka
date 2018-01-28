@@ -6,4 +6,10 @@ tbody {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+	td {
+		a {
+			display: inline-block;
+			width: 100%;
+		}
+	}
 }
