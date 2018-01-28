@@ -66,13 +66,8 @@ export class CustomersItemComponent implements OnInit {
 		this._router.navigate([ItemMode.Change], { relativeTo: this._route.parent });
 	}
 
-	// public toggle() {
-	// 	const m = this.mode === ItemMode.Details ? ItemMode.Change : ItemMode.Details;
-	// 	this._router.navigate([m], { relativeTo: this._route.parent });
-	// }
-	// public toggleCustomer() {
-	// 	const id = this.customerDefinition.id === '52c452bc-7009-4ec3-9282-5ce5f00299c0' ? '9f319df9-7452-4f39-bdfe-e1244cf2d060'
-	// 		: '52c452bc-7009-4ec3-9282-5ce5f00299c0';
-	// 	this._router.navigate([id, this.mode], { relativeTo: this._route.parent.parent });
-	// }
+	public onSave() {
+		this._customerApi.change(this.customerDefinition.id, this.customerDefinition)
+			.subscribe(() => this.onBack());
+	}
 }

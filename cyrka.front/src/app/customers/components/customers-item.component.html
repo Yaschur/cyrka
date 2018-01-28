@@ -1,14 +1,5 @@
-<ng-container *ngIf="inDetailsMode; then detailsTemplate; else changeTemplate"></ng-container>
-<ng-template #detailsTemplate>
-	<app-customers-details [customer]="customerDefinition"></app-customers-details>
-	<clr-button-group>
-		<clr-button (click)="onBack()">назад</clr-button>
-		<clr-button (click)="onChange()" class="btn-primary">изменить</clr-button>
-		<clr-button class="btn-primary btn-danger">удалить</clr-button>
-	</clr-button-group>
-</ng-template>
-<ng-template #changeTemplate>
-	<app-customers-form [customer]="customerDefinition" (close)="onBack()"></app-customers-form>
-</ng-template>
-<hr>
-<button class="btn btn-success">добавить продукт</button>
+<app-customers-details *ngIf="inDetailsMode" [customer]="customerDefinition" (close)="onBack()"
+ (change)="onChange()"></app-customers-details>
+<app-customers-form *ngIf="inChangeMode" [customer]="customerDefinition" (close)="onBack()"
+ (save)="onSave()"></app-customers-form>
+<button class="btn btn-sm btn-success">добавить продукт</button>

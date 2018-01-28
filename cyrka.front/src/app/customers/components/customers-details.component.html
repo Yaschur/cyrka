@@ -1,5 +1,20 @@
-<h2>{{customer?.name}}</h2>
-<pre *ngIf="customer?.description" class="p1">{{customer?.description}}</pre>
+<div class="card">
+	<div class="card-header">
+		{{customer?.name}}
+	</div>
+	<div class="card-block">
+		<div class="card-text">
+			<pre *ngIf="customer?.description" class="p1">{{customer?.description}}</pre>
+		</div>
+	</div>
+	<div class="card-footer">
+		<clr-button-group class="btn-sm">
+			<clr-button (click)="close.emit()">назад</clr-button>
+			<clr-button (click)="change.emit()" class="btn-primary">изменить</clr-button>
+			<clr-button (click)="delete.emit()" class="btn-danger">удалить</clr-button>
+		</clr-button-group>
+	</div>
+</div>
 <!-- <hr>
 <h3>продукты</h3>
 <a *ngIf="noEdit; else addFormTemplate" class="nav-link nav-text" href="javascript://" (click)="addTitle()">добавить продукт</a>

@@ -26,6 +26,7 @@ export class CustomerFormComponent implements OnInit {
 
 	public form: FormGroup;
 	public formTitle: string;
+	public submitTitle: string;
 
 	public ngOnInit() {
 		this.form = this._formBuilder.group({
@@ -33,6 +34,7 @@ export class CustomerFormComponent implements OnInit {
 			'description': this.customer.description
 		});
 		this.formTitle = this.customer.id ? 'изменение данных заказчика' : 'регистрация нового заказчика';
+		this.submitTitle = this.customer.id ? 'изменить' : 'зарегистрировать';
 	}
 
 	public onSubmit() {
