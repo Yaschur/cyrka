@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -22,18 +23,20 @@ enum ItemMode {
 export class CustomersItemComponent implements OnInit {
 
 	constructor(
+		private _location: Location,
 		private _router: Router,
 		private _route: ActivatedRoute,
 		private _customerApi: CustomersApiService
 	) { }
 
+	public mode: ItemMode;
 	public customerDefinition: CustomerDefinition;
 
 	public get inDetailsMode(): boolean {
-		return this._mode === ItemMode.Details;
+		return this.mode === ItemMode.Details;
 	}
 	public get inChangeMode(): boolean {
-		return this._mode === ItemMode.Change;
+		return this.mode === ItemMode.Change;
 	}
 
 	public ngOnInit() {
@@ -42,7 +45,7 @@ export class CustomersItemComponent implements OnInit {
 			.switchMap(p => Observable.of(<ItemMode>p['mode'] || ItemMode.Details))
 			.distinctUntilChanged()
 			.subscribe(mode => {
-				this._mode = mode;
+				this.mode = mode;
 				console.log(`mode change subscription: ${mode}`);
 			});
 		this._route.params
@@ -55,15 +58,21 @@ export class CustomersItemComponent implements OnInit {
 			});
 	}
 
-	public toggle() {
-		const m = this._mode === ItemMode.Details ? ItemMode.Change : ItemMode.Details;
-		this._router.navigate([m], { relativeTo: this._route.parent });
-	}
-	public toggleCustomer() {
-		const id = this.customerDefinition.id === '52c452bc-7009-4ec3-9282-5ce5f00299c0' ? '9f319df9-7452-4f39-bdfe-e1244cf2d060'
-			: '52c452bc-7009-4ec3-9282-5ce5f00299c0';
-		this._router.navigate([id, this._mode], { relativeTo: this._route.parent.parent });
+	public onBack() {
+		this._location.back();
 	}
 
-	private _mode: ItemMode;
+	public onChange() {
+		this._router.navigate([ItemMode.Change], { relativeTo: this._route.parent });
+	}
+
+	// public toggle() {
+	// 	const m = this.mode === ItemMode.Details ? ItemMode.Change : ItemMode.Details;
+	// 	this._router.navigate([m], { relativeTo: this._route.parent });
+	// }
+	// public toggleCustomer() {
+	// 	const id = this.customerDefinition.id === '52c452bc-7009-4ec3-9282-5ce5f00299c0' ? '9f319df9-7452-4f39-bdfe-e1244cf2d060'
+	// 		: '52c452bc-7009-4ec3-9282-5ce5f00299c0';
+	// 	this._router.navigate([id, this.mode], { relativeTo: this._route.parent.parent });
+	// }
 }
