@@ -13,12 +13,14 @@ import { CustomersDetailsComponent } from './components/customers-details.compon
 import { TitlesAddComponent } from './components/titles-add.component';
 import { CustomersComponent } from './components/customers.component';
 import { CustomerFormComponent } from './components/customers-form.component';
+import { CustomersItemComponent } from './components/customers-item.component';
 
 @NgModule({
 	declarations: [
 		CustomersListComponent,
-		CustomerFormComponent,
 		CustomersRegisterComponent,
+		CustomerFormComponent,
+		CustomersItemComponent,
 		CustomersDetailsComponent,
 		TitlesAddComponent,
 		CustomersComponent
