@@ -1,5 +1,5 @@
 <app-customers-details *ngIf="inDetailsMode" [customer]="customerDefinition" (close)="onBack()"
- (change)="onChange()"></app-customers-details>
+ (change)="onChange()" (delete)="onRetire()"></app-customers-details>
 <app-customers-form *ngIf="inChangeMode" [customer]="customerDefinition" (close)="onBack()"
  (save)="onSave()"></app-customers-form>
 

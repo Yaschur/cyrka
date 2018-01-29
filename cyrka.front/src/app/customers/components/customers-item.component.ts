@@ -75,6 +75,11 @@ export class CustomersItemComponent implements OnInit {
 			.subscribe(() => this.onBack());
 	}
 
+	public onRetire() {
+		this._customerApi.retire(this.customerDefinition.id)
+			.subscribe(() => this._router.navigate(['customers']));
+	}
+
 	public onNewTitle() {
 		this.titleToEdit = <TitlePlain>{ numberOfSeries: 1 };
 	}

@@ -25,6 +25,10 @@ export class CustomersApiService {
 		);
 	}
 
+	public retire(customerId: string) {
+		return this._httpClient.delete(`${environment.cyrkaApi.baseUrl}/customers/${customerId}`);
+	}
+
 	public change(customerId: string, customer: { name: string, description?: string }): Observable<Object> {
 		return this._httpClient.put(
 			`${environment.cyrkaApi.baseUrl}/customers/${customerId}`,
