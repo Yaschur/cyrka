@@ -5,6 +5,7 @@ using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
+using cyrka.api.domain.customers.commands.retire;
 
 namespace cyrka.api.domain.customers
 {
@@ -14,10 +15,12 @@ namespace cyrka.api.domain.customers
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public Title[] Titles { get; private set; }
+		public bool IsRetired { get; private set; }
 
 		public CustomerAggregate()
 		{
 			Titles = new Title[0];
+			IsRetired = false;
 		}
 
 		public void ApplyEvents(IEnumerable<EventData> eventDatas)
@@ -40,6 +43,9 @@ namespace cyrka.api.domain.customers
 						break;
 					case TitleChanged titleChanged:
 						ApplyEvent(titleChanged);
+						break;
+					case CustomerRetired customerRetired:
+						ApplyEvent(customerRetired);
 						break;
 				}
 			}
@@ -93,6 +99,11 @@ namespace cyrka.api.domain.customers
 			list.RemoveAll(t => t.Id == exTitle.Id);
 			list.Add(exTitle);
 			Titles = list.ToArray();
+		}
+
+		private void ApplyEvent(CustomerRetired customerEvent)
+		{
+			IsRetired = true;
 		}
 	}
 }

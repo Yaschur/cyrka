@@ -6,6 +6,7 @@ using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
+using cyrka.api.domain.customers.commands.retire;
 
 namespace cyrka.api.domain.customers.queries
 {
@@ -17,6 +18,7 @@ namespace cyrka.api.domain.customers.queries
 			processor.RegisterEventProcessing<CustomerChanged, CustomerPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<TitleRegistered, CustomerPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<TitleChanged, CustomerPlain>(UpdateByEventData, IdFilterByEventData);
+			processor.RegisterEventProcessing<CustomerRetired, CustomerPlain>(UpdateByEventData, IdFilterByEventData);
 		}
 
 		public Expression<Func<CustomerPlain, bool>> IdFilterByEventData(CustomerEventData eventData)
@@ -70,6 +72,11 @@ namespace cyrka.api.domain.customers.queries
 			});
 
 			return source;
+		}
+
+		public CustomerPlain UpdateByEventData(CustomerRetired eventData, CustomerPlain source)
+		{
+			return null;
 		}
 	}
 }

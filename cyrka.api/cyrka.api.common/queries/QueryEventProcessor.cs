@@ -34,6 +34,8 @@ namespace cyrka.api.common.queries
 					var resultObject = procFunc(eData, queryObject);
 					if (resultObject != default(TQueryModel))
 						_queryStore.Upsert(resultObject, idPredicate);
+					else if (queryObject != default(TQueryModel))
+						_queryStore.Delete(idPredicate);
 				});
 
 			_subscriptions.Add(newSubs);
