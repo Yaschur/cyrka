@@ -38,4 +38,15 @@ export class CustomersApiService {
 			title
 		);
 	}
+
+	public changeTitle(
+		customerId: string,
+		titleId: string,
+		title: { name: string, numberOfSeries: number, description?: string }
+	): Observable<Object> {
+		return this._httpClient.put(
+			`${environment.cyrkaApi.baseUrl}/customers/${customerId}/titles/${titleId}`,
+			title
+		);
+	}
 }

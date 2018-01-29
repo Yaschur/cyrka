@@ -79,13 +79,17 @@ export class CustomersItemComponent implements OnInit {
 		this.titleToEdit = <TitlePlain>{ numberOfSeries: 1 };
 	}
 
+	public onTitleSelect(title: TitlePlain) {
+		this.titleToEdit = title;
+	}
+
 	public onTitleFormClose() {
 		this.titleToEdit = null;
 	}
 
 	public onTitleFormSave() {
 		(this.titleToEdit.id ?
-			this._customerApi.addTitle(this.customerDefinition.id, this.titleToEdit)
+			this._customerApi.changeTitle(this.customerDefinition.id, this.titleToEdit.id, this.titleToEdit)
 			: this._customerApi.addTitle(this.customerDefinition.id, this.titleToEdit)
 		).subscribe(() => {
 			this.titleToEdit = null;

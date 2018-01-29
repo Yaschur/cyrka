@@ -18,9 +18,15 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let title of titles">
-				<td class="left">{{title.name}}</td>
-				<td class="left">{{title.numberOfSeries}}</td>
-				<td class="left">{{title.description}}</td>
+				<td *ngIf="titleToEdit && title.id === titleToEdit.id; else viewTemplate" colspan="3" class="left">
+					<app-titles-form [title]="titleToEdit" (close)="onTitleFormClose()" (save)="onTitleFormSave()"></app-titles-form>
+				</td>
+
+				<ng-template #viewTemplate>
+					<td class="left" (click)="onTitleSelect(title)">{{title.name}}</td>
+					<td class="left">{{title.numberOfSeries}}</td>
+					<td class="left">{{title.description}}</td>
+				</ng-template>
 			</tr>
 		</tbody>
 	</table>
