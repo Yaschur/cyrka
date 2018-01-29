@@ -5,6 +5,7 @@ using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
+using cyrka.api.domain.customers.commands.removeTitle;
 using cyrka.api.domain.customers.commands.retire;
 
 namespace cyrka.api.domain.customers
@@ -104,6 +105,18 @@ namespace cyrka.api.domain.customers
 		private void ApplyEvent(CustomerRetired customerEvent)
 		{
 			IsRetired = true;
+		}
+
+		private void ApplyEvent(TitleRemoved customerEvent)
+		{
+			var exTitle = Titles
+				.FirstOrDefault(t => t.Id == customerEvent.TitleId);
+			if (exTitle == null)
+				return;
+			var list = Titles
+				.ToList();
+			list.RemoveAll(t => t.Id == exTitle.Id);
+			Titles = list.ToArray();
 		}
 	}
 }

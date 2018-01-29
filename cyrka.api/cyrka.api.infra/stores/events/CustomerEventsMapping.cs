@@ -4,6 +4,7 @@ using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
+using cyrka.api.domain.customers.commands.removeTitle;
 using cyrka.api.domain.customers.commands.retire;
 using MongoDB.Bson.Serialization;
 
@@ -50,6 +51,12 @@ namespace cyrka.api.infra.stores.events
 			BsonClassMap.RegisterClassMap<CustomerRetired>(cm =>
 			{
 				cm.MapCreator(cr => new CustomerRetired(cr.AggregateId));
+			});
+
+			BsonClassMap.RegisterClassMap<TitleRemoved>(cm =>
+			{
+				cm.MapField(cr => cr.TitleId);
+				cm.MapCreator(cr => new TitleRemoved(cr.AggregateId, cr.TitleId));
 			});
 		}
 	}

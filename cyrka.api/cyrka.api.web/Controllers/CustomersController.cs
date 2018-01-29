@@ -10,6 +10,7 @@ using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
+using cyrka.api.domain.customers.commands.removeTitle;
 using cyrka.api.domain.customers.commands.retire;
 using cyrka.api.domain.customers.queries;
 using cyrka.api.infra.nexter;
@@ -129,6 +130,28 @@ namespace cyrka.api.web.Controllers
 				return NotFound();
 			var command = new RetireCustomer(customerId);
 			var commandHandler = new RetireCustomerHandler();
+			var eventDatas = commandHandler.Handle(command);
+
+			foreach (var data in eventDatas)
+			{
+				var lastEventId = await _eventStore.GetLastStoredId();
+				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
+				var createdAt = DateTime.UtcNow;
+				var newEvent = new Event(newEventId, createdAt, data);
+				await _eventStore.Store(newEvent);
+			}
+
+			return Ok();
+		}
+
+		[HttpDelete("{customerId}/titles/{titleId}")]
+		public async Task<IActionResult> RemoveTitle(string customerId, string titleId)
+		{
+			var customerAggregate = await _customerRepository.GetById(customerId);
+			if (customerAggregate == null || customerAggregate.IsRetired)
+				return NotFound();
+			var command = new RemoveTitle(customerId, titleId);
+			var commandHandler = new RemoveTitleHandler();
 			var eventDatas = commandHandler.Handle(command);
 
 			foreach (var data in eventDatas)
