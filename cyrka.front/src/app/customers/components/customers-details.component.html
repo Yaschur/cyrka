@@ -2,9 +2,9 @@
 	<div class="card-header">
 		{{customer?.name}}
 	</div>
-	<div class="card-block">
+	<div *ngIf="customer?.description" class="card-block">
 		<div class="card-text">
-			<pre *ngIf="customer?.description" class="p1">{{customer?.description}}</pre>
+			<pre class="p1">{{customer?.description}}</pre>
 		</div>
 	</div>
 	<div class="card-footer">

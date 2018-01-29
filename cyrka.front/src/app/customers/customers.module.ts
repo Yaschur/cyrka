@@ -10,7 +10,7 @@ import { CustomersApiService } from './services/customers-api.service';
 import { CustomersListComponent } from './components/customers-list.component';
 import { CustomersRegisterComponent } from './components/customers-register.component';
 import { CustomersDetailsComponent } from './components/customers-details.component';
-import { TitlesAddComponent } from './components/titles-add.component';
+import { TitlesFormComponent } from './components/titles-form.component';
 import { CustomersComponent } from './components/customers.component';
 import { CustomerFormComponent } from './components/customers-form.component';
 import { CustomersItemComponent } from './components/customers-item.component';
@@ -22,7 +22,7 @@ import { CustomersItemComponent } from './components/customers-item.component';
 		CustomerFormComponent,
 		CustomersItemComponent,
 		CustomersDetailsComponent,
-		TitlesAddComponent,
+		TitlesFormComponent,
 		CustomersComponent
 	],
 	imports: [

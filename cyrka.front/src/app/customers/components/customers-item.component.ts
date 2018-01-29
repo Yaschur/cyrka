@@ -9,6 +9,7 @@ import 'rxjs/add/observable/of';
 
 import { CustomersApiService } from '../services/customers-api.service';
 import { CustomerDefinition } from '../models/customer-definition.model';
+import { TitlePlain } from '../models/title-plain.model';
 
 enum ItemMode {
 	Details = 'details',
@@ -31,6 +32,8 @@ export class CustomersItemComponent implements OnInit {
 
 	public mode: ItemMode;
 	public customerDefinition: CustomerDefinition;
+	public titles: TitlePlain[];
+	public titleToEdit: TitlePlain;
 
 	public get inDetailsMode(): boolean {
 		return this.mode === ItemMode.Details;
@@ -54,6 +57,7 @@ export class CustomersItemComponent implements OnInit {
 			.switchMap(id => this._customerApi.getById(id))
 			.subscribe(c => {
 				this.customerDefinition = <CustomerDefinition>{ id: c.id, name: c.name, description: c.description };
+				this.titles = c.titles;
 				console.log(`customer change subscription: ${c.id}`);
 			});
 	}
@@ -69,5 +73,28 @@ export class CustomersItemComponent implements OnInit {
 	public onSave() {
 		this._customerApi.change(this.customerDefinition.id, this.customerDefinition)
 			.subscribe(() => this.onBack());
+	}
+
+	public onNewTitle() {
+		this.titleToEdit = <TitlePlain>{ numberOfSeries: 1 };
+	}
+
+	public onTitleFormClose() {
+		this.titleToEdit = null;
+	}
+
+	public onTitleFormSave() {
+		(this.titleToEdit.id ?
+			this._customerApi.addTitle(this.customerDefinition.id, this.titleToEdit)
+			: this._customerApi.addTitle(this.customerDefinition.id, this.titleToEdit)
+		).subscribe(() => {
+			this.titleToEdit = null;
+			this.reloadTitles();
+		});
+	}
+
+	private reloadTitles() {
+		this._customerApi.getById(this.customerDefinition.id)
+			.subscribe(c => this.titles = c.titles);
 	}
 }
