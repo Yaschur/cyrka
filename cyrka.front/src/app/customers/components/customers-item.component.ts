@@ -102,6 +102,14 @@ export class CustomersItemComponent implements OnInit {
 		});
 	}
 
+	public onTitleFormDelete() {
+		this._customerApi.removeTitle(this.customerDefinition.id, this.titleToEdit.id)
+			.subscribe(() => {
+				this.titleToEdit = null;
+				this.reloadTitles();
+			});
+	}
+
 	private reloadTitles() {
 		this._customerApi.getById(this.customerDefinition.id)
 			.subscribe(c => this.titles = c.titles);

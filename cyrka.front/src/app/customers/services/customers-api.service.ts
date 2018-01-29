@@ -53,4 +53,11 @@ export class CustomersApiService {
 			title
 		);
 	}
+
+	public removeTitle(
+		customerId: string,
+		titleId: string
+	): Observable<Object> {
+		return this._httpClient.delete(`${environment.cyrkaApi.baseUrl}/customers/${customerId}/titles/${titleId}`);
+	}
 }

@@ -15,6 +15,7 @@ export class TitlesFormComponent implements OnInit {
 		private _formBuilder: FormBuilder
 	) {
 		this.close = new EventEmitter();
+		this.delete = new EventEmitter();
 		this.save = new EventEmitter();
 	}
 
@@ -23,6 +24,8 @@ export class TitlesFormComponent implements OnInit {
 
 	@Output()
 	public save: EventEmitter<void>;
+	@Output()
+	public delete: EventEmitter<void>;
 	@Output()
 	public close: EventEmitter<void>;
 
@@ -49,6 +52,10 @@ export class TitlesFormComponent implements OnInit {
 		this.title.numberOfSeries = this.form.value['numberOfSeries'];
 		this.title.description = this.form.value['description'];
 		this.save.emit();
+	}
+
+	public onDelete() {
+		this.delete.emit();
 	}
 
 	public onClose() {

@@ -19,5 +19,6 @@
 		</div>
 		<button type="submit" class="btn btn-sm btn-primary">{{submitTitle}}</button>
 		<button type="button" class="btn btn-sm btn-secondary" (click)="onClose()">отмена</button>
+		<button *ngIf="title.id" type="button" class="btn btn-sm btn-danger" (click)="onDelete()">удалить</button>
 	</section>
 </form>
