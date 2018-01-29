@@ -7,6 +7,7 @@ using cyrka.api.common.events;
 using cyrka.api.common.queries;
 using cyrka.api.domain.customers;
 using cyrka.api.domain.customers.commands.change;
+using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
 using cyrka.api.domain.customers.queries;
@@ -53,13 +54,13 @@ namespace cyrka.api.web.Controllers
 			return Ok();
 		}
 
-		[HttpPut("{id}")]
-		public async Task<IActionResult> ChangeCustomer(string id, [FromBody]CustomerInfo value)
+		[HttpPut("{customerId}")]
+		public async Task<IActionResult> ChangeCustomer(string customerId, [FromBody]CustomerInfo value)
 		{
-			var customerAggregate = await _customerRepository.GetById(id);
+			var customerAggregate = await _customerRepository.GetById(customerId);
 			if (customerAggregate == null)
 				return NotFound();
-			var command = new ChangeCustomer(id, value.Name, value.Description);
+			var command = new ChangeCustomer(customerId, value.Name, value.Description);
 			var commandHandler = new ChangeCustomerHandler();
 			var eventDatas = commandHandler.Handle(command);
 
@@ -75,14 +76,36 @@ namespace cyrka.api.web.Controllers
 			return Ok();
 		}
 
-		[HttpPost("{id}/titles")]
-		public async Task<IActionResult> RegisterTitle(string id, [FromBody]TitleInfo value)
+		[HttpPost("{customerId}/titles")]
+		public async Task<IActionResult> RegisterTitle(string customerId, [FromBody]TitleInfo value)
 		{
-			var customerAggregate = await _customerRepository.GetById(id);
+			var customerAggregate = await _customerRepository.GetById(customerId);
 			if (customerAggregate == null)
 				return NotFound();
-			var command = new RegisterTitle(id, value.Name, value.NumberOfSeries, value.Description);
+			var command = new RegisterTitle(customerId, value.Name, value.NumberOfSeries, value.Description);
 			var commandHandler = new RegisterTitleHandler();
+			var eventDatas = commandHandler.Handle(command);
+
+			foreach (var data in eventDatas)
+			{
+				var lastEventId = await _eventStore.GetLastStoredId();
+				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
+				var createdAt = DateTime.UtcNow;
+				var newEvent = new Event(newEventId, createdAt, data);
+				await _eventStore.Store(newEvent);
+			}
+
+			return Ok();
+		}
+
+		[HttpPut("{customerId}/titles/{titleId}")]
+		public async Task<IActionResult> ChangeTitle(string customerId, string titleId, [FromBody]TitleInfo value)
+		{
+			var customerAggregate = await _customerRepository.GetById(customerId);
+			if (customerAggregate == null)
+				return NotFound();
+			var command = new ChangeTitle(customerId, titleId, value.Name, value.NumberOfSeries, value.Description);
+			var commandHandler = new ChangeTitleHandler();
 			var eventDatas = commandHandler.Handle(command);
 
 			foreach (var data in eventDatas)
@@ -103,12 +126,12 @@ namespace cyrka.api.web.Controllers
 				.AsQueryable<CustomerPlain>()
 				.ToList();
 
-		[HttpGet("{id}")]
-		public IActionResult Details(string id)
+		[HttpGet("{customerId}")]
+		public IActionResult Details(string customerId)
 		{
 			var customer = _queryStore
 				.AsQueryable<CustomerPlain>()
-				.FirstOrDefault(c => c.Id == id);
+				.FirstOrDefault(c => c.Id == customerId);
 
 			if (customer == null)
 				return NotFound();

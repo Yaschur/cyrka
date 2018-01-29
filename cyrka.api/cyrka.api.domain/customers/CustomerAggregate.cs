@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using cyrka.api.common.events;
 using cyrka.api.domain.customers.commands.change;
+using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.commands.register;
 using cyrka.api.domain.customers.commands.registerTitle;
 
@@ -37,6 +38,9 @@ namespace cyrka.api.domain.customers
 					case TitleRegistered titleRegistered:
 						ApplyEvent(titleRegistered);
 						break;
+					case TitleChanged titleChanged:
+						ApplyEvent(titleChanged);
+						break;
 				}
 			}
 		}
@@ -70,6 +74,24 @@ namespace cyrka.api.domain.customers
 			var list = Titles
 				.ToList();
 			list.Add(newTitle);
+			Titles = list.ToArray();
+		}
+
+		private void ApplyEvent(TitleChanged customerEvent)
+		{
+			var exTitle = Titles
+				.FirstOrDefault(t => t.Id == customerEvent.TitleId);
+			if (exTitle == null)
+				return;
+
+			exTitle.Name = customerEvent.Name;
+			exTitle.NumberOfSeries = customerEvent.NumberOfSeries;
+			exTitle.Description = customerEvent.Description;
+
+			var list = Titles
+				.ToList();
+			list.RemoveAll(t => t.Id == exTitle.Id);
+			list.Add(exTitle);
 			Titles = list.ToArray();
 		}
 	}
