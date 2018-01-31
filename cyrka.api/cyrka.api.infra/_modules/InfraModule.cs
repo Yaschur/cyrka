@@ -72,6 +72,9 @@ namespace cyrka.api.infra._modules
 			builder
 				.RegisterType<CustomerEventsMapping>()
 				.As<IDbMapping>();
+			builder
+				.RegisterType<JobTypeEventsMapping>()
+				.As<IDbMapping>();
 
 			builder
 				.Register<MongoEventStore>(cc =>
