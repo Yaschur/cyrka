@@ -1,11 +1,12 @@
-# GET http://localhost:5000/jobs/types HTTP/1.1
+GET http://localhost:5000/jobs/types HTTP/1.1
 
+###
 
-# POST http://localhost:5000/jobs/types HTTP/1.1
-# Content-Type: application/json
+POST http://localhost:5000/jobs/types HTTP/1.1
+Content-Type: application/json
 
-# {
-# 	"name": "Subtitling",
-# 	"unit": "minute",
-# 	"rate": 99
-# }
+{
+	"name": "Subtitling",
+	"unit": "minute",
+	"rate": 99
+}
