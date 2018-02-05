@@ -7,6 +7,8 @@ using cyrka.api.infra.nexter;
 using cyrka.api.infra.stores;
 using cyrka.api.infra.stores.events;
 using cyrka.api.infra.stores.queries;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
 namespace cyrka.api.infra._modules
@@ -20,6 +22,11 @@ namespace cyrka.api.infra._modules
 		{
 			_readDbConfig = readConfig;
 			_writeDbConfig = writeConfig;
+
+			// TODO: move somewhere from di module
+			var pack = new ConventionPack();
+			pack.Add(new EnumRepresentationConvention(BsonType.String));
+			ConventionRegistry.Register("EnumStringConvention", pack, t => true);
 		}
 
 		protected override void Load(ContainerBuilder builder)

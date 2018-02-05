@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Converters;
 
 namespace cyrka.api.web
 {
@@ -28,7 +29,12 @@ namespace cyrka.api.web
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddCors();
-			services.AddMvc();
+			services
+				.AddMvc()
+				.AddJsonOptions(opts =>
+				{
+					opts.SerializerSettings.Converters.Add(new StringEnumConverter());
+				});
 		}
 
 		public void ConfigureContainer(ContainerBuilder builder)
