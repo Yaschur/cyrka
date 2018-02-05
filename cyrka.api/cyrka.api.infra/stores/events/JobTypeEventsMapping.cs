@@ -1,5 +1,6 @@
 using cyrka.api.domain.jobs;
 using cyrka.api.domain.jobs.commands;
+using cyrka.api.domain.jobs.commands.change;
 using cyrka.api.domain.jobs.commands.register;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -21,6 +22,16 @@ namespace cyrka.api.infra.stores.events
 					.SetSerializer(new EnumSerializer<JobTypeUnit>(BsonType.String));
 				cm.MapField(cr => cr.Rate);
 				cm.MapCreator(cr => new JobTypeRegistered(cr.AggregateId, cr.Name, cr.Description, cr.Unit, cr.Rate));
+			});
+
+			BsonClassMap.RegisterClassMap<JobTypeChanged>(cm =>
+			{
+				cm.MapField(cr => cr.Name);
+				cm.MapField(cr => cr.Description);
+				cm.MapField(cr => cr.Unit)
+					.SetSerializer(new EnumSerializer<JobTypeUnit>(BsonType.String));
+				cm.MapField(cr => cr.Rate);
+				cm.MapCreator(cr => new JobTypeChanged(cr.AggregateId, cr.Name, cr.Description, cr.Unit, cr.Rate));
 			});
 		}
 	}
