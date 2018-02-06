@@ -2,13 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-
 import { ClarityModule } from '@clr/angular';
 
-import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { CustomersModule } from './customers/customers.module';
+import { JobTypesModule } from './jobtypes/jobtypes.module';
 
+import { AppComponent } from './app.component';
 
 @NgModule({
 	declarations: [
@@ -18,6 +18,7 @@ import { CustomersModule } from './customers/customers.module';
 		BrowserModule,
 		HttpClientModule,
 		CustomersModule,
+		JobTypesModule,
 		ClarityModule,
 		AppRoutingModule
 	],
