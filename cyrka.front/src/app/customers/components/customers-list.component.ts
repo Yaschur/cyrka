@@ -5,7 +5,7 @@ import '@clr/icons/shapes/essential-shapes';
 
 import { CustomersApiService } from '../services/customers-api.service';
 import { Observable } from 'rxjs/Observable';
-import { CustomerPlain } from '../models/customer-plain.model';
+import { CustomerPlain } from '../models/customer-plain';
 
 @Component({
 	templateUrl: './customers-list.component.html',

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CustomerDefinition } from '../models/customer-definition.model';
+import { CustomerDefinition } from '../models/customer-definition';
 
 @Component({
 	selector: 'app-customers-details',

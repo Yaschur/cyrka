@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { CustomerDefinition } from '../models/customer-definition.model';
+import { CustomerDefinition } from '../models/customer-definition';
 
 @Component({
 	selector: 'app-customers-form',

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { JobTypesRoutingModule } from './jobtypes-routing.module';
 
 import { JobTypesListComponent } from './components/jobtypes-list.component';
-import { JobtypesApiService } from './services/jobtypes-api.service';
+import { JobTypesApiService } from './services/jobtypes-api.service';
 
 @NgModule({
 	imports: [
@@ -12,6 +12,6 @@ import { JobtypesApiService } from './services/jobtypes-api.service';
 		JobTypesRoutingModule
 	],
 	declarations: [JobTypesListComponent],
-	providers: [JobtypesApiService]
+	providers: [JobTypesApiService]
 })
 export class JobTypesModule { }

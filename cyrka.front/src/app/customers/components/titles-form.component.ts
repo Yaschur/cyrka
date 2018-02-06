@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { CustomersApiService } from '../services/customers-api.service';
-import { CustomerPlain } from '../models/customer-plain.model';
-import { TitlePlain } from '../models/title-plain.model';
+import { CustomerPlain } from '../models/customer-plain';
+import { TitlePlain } from '../models/title-plain';
 
 @Component({
 	selector: 'app-titles-form',

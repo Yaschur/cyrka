@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { JobTypePlain } from '../models/jobtype-plain';
 
 @Injectable()
-export class JobtypesApiService {
+export class JobTypesApiService {
 
 	constructor(private _httpClient: HttpClient) { }
 

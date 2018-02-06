@@ -8,8 +8,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/of';
 
 import { CustomersApiService } from '../services/customers-api.service';
-import { CustomerDefinition } from '../models/customer-definition.model';
-import { TitlePlain } from '../models/title-plain.model';
+import { CustomerDefinition } from '../models/customer-definition';
+import { TitlePlain } from '../models/title-plain';
 
 enum ItemMode {
 	Details = 'details',

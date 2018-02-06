@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 
-import { CustomerPlain } from '../models/customer-plain.model';
+import { CustomerPlain } from '../models/customer-plain';
 
 @Injectable()
 export class CustomersApiService {

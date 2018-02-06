@@ -1,4 +1,4 @@
-import { TitlePlain } from './title-plain.model';
+import { TitlePlain } from './title-plain';
 
 export interface CustomerPlain {
 	id: string;

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { CustomersApiService } from '../services/customers-api.service';
-import { CustomerDefinition } from '../models/customer-definition.model';
+import { CustomerDefinition } from '../models/customer-definition';
 
 @Component({
 	selector: 'app-customers-register',
