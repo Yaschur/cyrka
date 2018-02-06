@@ -9,10 +9,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let jt of jobTypes | async">
-      <!-- <td class="left">
-				<a routerLink="{{jt.id}}/details">{{jt.name}}</a>
-      </td> -->
-      <td class="left">{{jt.name}}</td>
+      <td class="left">
+        <a routerLink="{{jt.id}}">{{jt.name}}</a>
+      </td>
       <td class="left">{{jt.unit}}</td>
       <td class="left">{{jt.rate}}</td>
       <td class="left">{{jt.description}}</td>
