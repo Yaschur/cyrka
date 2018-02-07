@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { JobTypePlain } from '../models/jobtype-plain';
 
 @Component({
 	selector: 'app-jobtypes-form',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JobTypesFormComponent implements OnInit {
 
-	constructor() { }
+	constructor(
+		private _route: ActivatedRoute
+	) {
+		this.jt = <JobTypePlain>{};
+	}
+
+	public jt: JobTypePlain;
 
 	public ngOnInit() {
+		this._route.data
+			.subscribe((data: {jobType: JobTypePlain}) => this.jt = data.jobType);
 	}
 
 }
