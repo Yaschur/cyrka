@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { JobTypesRoutingModule } from './jobtypes-routing.module';
 
 import { JobTypesApiService } from './services/jobtypes-api.service';
+import { JobTypesComponent } from './components/jobtypes.component';
 import { JobTypesListComponent } from './components/jobtypes-list.component';
 import { JobTypesFormComponent } from './components/jobtypes-form.component';
 
@@ -13,6 +14,7 @@ import { JobTypesFormComponent } from './components/jobtypes-form.component';
 		JobTypesRoutingModule
 	],
 	declarations: [
+		JobTypesComponent,
 		JobTypesListComponent,
 		JobTypesFormComponent
 	],
