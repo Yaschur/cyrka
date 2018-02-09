@@ -19,7 +19,7 @@ export class JobTypesFormComponent implements OnInit {
 
 	public ngOnInit() {
 		this._route.params
-			.switchMap(p => p['jobTypesId'] ? Observable.of(<JobTypePlain>{}) : this._api.getById(p['jobTypesId']))
+			.switchMap(p => p['jobTypeId'] ? this._api.getById(p['jobTypesId']) : Observable.of(<JobTypePlain>{}))
 			.subscribe(jt => { });
 	}
 

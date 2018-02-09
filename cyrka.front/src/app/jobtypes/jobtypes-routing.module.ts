@@ -9,6 +9,7 @@ const jobTypesRoutes: Routes = [
 	{
 		path: 'jobtypes', component: JobTypesComponent, children: [
 			{ path: '', component: JobTypesListComponent, pathMatch: 'full' },
+			{ path: 'register', component: JobTypesFormComponent },
 			{ path: ':jobTypeId', component: JobTypesFormComponent }
 		]
 	}
