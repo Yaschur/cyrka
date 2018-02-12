@@ -1,3 +1,11 @@
+#### Projects ####
+
+GET http://localhost:5000/projects HTTP/1.1
+
+###
+
+POST http://localhost:5000/projects HTTP/1.1
+
 #### Customers ####
 
 GET http://localhost:5000/customers HTTP/1.1

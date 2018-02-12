@@ -94,6 +94,6 @@ namespace cyrka.api.web.Controllers
 		private readonly NexterGenerator _nexter;
 		private readonly IEventStore _eventStore;
 		private readonly IQueryStore _queryStore;
-		JobTypeAggregateRepository _jobTypeRepository;
+		private readonly JobTypeAggregateRepository _jobTypeRepository;
 	}
 }

@@ -4,6 +4,8 @@ using cyrka.api.domain.customers;
 using cyrka.api.domain.customers.queries;
 using cyrka.api.domain.jobs;
 using cyrka.api.domain.jobs.queries;
+using cyrka.api.domain.projects;
+using cyrka.api.domain.projects.queries;
 
 namespace cyrka.api.domain._modules
 {
@@ -15,9 +17,12 @@ namespace cyrka.api.domain._modules
 				.SingleInstance();
 			builder.RegisterType<JobTypePlainRegistrator>()
 				.SingleInstance();
+			builder.RegisterType<ProjectPlainRegistrator>()
+				.SingleInstance();
 
 			builder.RegisterType<CustomerAggregateRepository>();
 			builder.RegisterType<JobTypeAggregateRepository>();
+			builder.RegisterType<ProjectAggregateRepository>();
 
 			builder.RegisterBuildCallback(c =>
 			{
@@ -25,6 +30,8 @@ namespace cyrka.api.domain._modules
 				c.Resolve<CustomerPlainRegistrator>()
 					.RegisterIn(processor);
 				c.Resolve<JobTypePlainRegistrator>()
+					.RegisterIn(processor);
+				c.Resolve<ProjectPlainRegistrator>()
 					.RegisterIn(processor);
 			});
 		}

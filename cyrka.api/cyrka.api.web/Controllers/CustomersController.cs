@@ -188,6 +188,6 @@ namespace cyrka.api.web.Controllers
 		private readonly NexterGenerator _nexter;
 		private readonly IEventStore _eventStore;
 		private readonly IQueryStore _queryStore;
-		CustomerAggregateRepository _customerRepository;
+		private readonly CustomerAggregateRepository _customerRepository;
 	}
 }
