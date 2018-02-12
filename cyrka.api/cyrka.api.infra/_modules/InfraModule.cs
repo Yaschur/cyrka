@@ -77,7 +77,7 @@ namespace cyrka.api.infra._modules
 				.RegisterType<CoreEventsMapping>()
 				.As<IDbMapping>();
 			builder
-				.RegisterType<CustomerEventsMapping>()
+				.RegisterType<ProjectEventsMapping>()
 				.As<IDbMapping>();
 			builder
 				.RegisterType<JobTypeEventsMapping>()
