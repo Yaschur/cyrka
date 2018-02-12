@@ -71,7 +71,6 @@ namespace cyrka.api.domain.customers
 		{
 			var newTitle = new Title
 			{
-				CustomerId = customerEvent.AggregateId,
 				Id = customerEvent.TitleId,
 				Name = customerEvent.Name,
 				NumberOfSeries = customerEvent.NumberOfSeries,

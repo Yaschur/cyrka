@@ -1,3 +1,29 @@
+#### Customers ####
+
+GET http://localhost:5000/customers HTTP/1.1
+
+###
+
+POST http://localhost:5000/customers HTTP/1.1
+Content-Type: application/json
+
+{
+	"name": "HBO"
+}
+
+
+###
+
+PUT http://localhost:5000/customers/202cd1bf-5c5f-4895-a45c-d316571eed08/titles/ee79f760-058f-482d-89bc-1e4229b25608
+Content-Type: application/json
+
+{
+	"name": "Ну погоди СССР",
+	"numberOfSeries": 15
+}
+
+#### Job Types ####
+
 GET http://localhost:5000/jobs/types HTTP/1.1
 
 ###
