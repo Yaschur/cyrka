@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using cyrka.api.domain;
 
 namespace cyrka.api.infra.nexter
 {

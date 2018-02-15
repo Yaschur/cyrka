@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using cyrka.api.common.events;
 using cyrka.api.domain.jobs.commands.change;

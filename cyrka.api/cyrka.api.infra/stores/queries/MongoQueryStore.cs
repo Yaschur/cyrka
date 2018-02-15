@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using cyrka.api.common.queries;
-using cyrka.api.domain;
 using MongoDB.Driver;
 
 namespace cyrka.api.infra.stores.queries

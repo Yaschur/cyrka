@@ -1,4 +1,3 @@
-using cyrka.api.domain.customers;
 using cyrka.api.domain.customers.commands;
 using cyrka.api.domain.customers.commands.change;
 using cyrka.api.domain.customers.commands.changeTitle;

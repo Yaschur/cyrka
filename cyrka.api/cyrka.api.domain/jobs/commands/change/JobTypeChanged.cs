@@ -1,6 +1,3 @@
-using System;
-using cyrka.api.common.events;
-
 namespace cyrka.api.domain.jobs.commands.change
 {
 	public class JobTypeChanged : JobTypeEventData

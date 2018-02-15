@@ -1,5 +1,3 @@
-using cyrka.api.common.events;
-
 namespace cyrka.api.domain.customers.commands.registerTitle
 {
 	public class TitleRegistered : CustomerEventData
