@@ -8,7 +8,7 @@ using cyrka.api.domain.jobs;
 using cyrka.api.domain.jobs.commands.change;
 using cyrka.api.domain.jobs.commands.register;
 using cyrka.api.domain.jobs.queries;
-using cyrka.api.infra.nexter;
+using cyrka.api.common.generators;
 using cyrka.api.web.Models.Jobs;
 using Microsoft.AspNetCore.Mvc;
 

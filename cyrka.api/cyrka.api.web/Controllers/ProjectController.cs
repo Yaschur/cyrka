@@ -7,7 +7,7 @@ using cyrka.api.common.queries;
 using cyrka.api.domain.projects;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.queries;
-using cyrka.api.infra.nexter;
+using cyrka.api.common.generators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cyrka.api.web.Controllers
@@ -33,7 +33,8 @@ namespace cyrka.api.web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> RegisterProject()
 		{
-			var eventData = new ProjectRegistered(Guid.NewGuid().ToString());
+			var handler = new RegisterProjectHandler(_eventStore, _nexter);
+			var eventData = await handler.Handle(new RegisterProject());
 			var lastEventId = await _eventStore.GetLastStoredId();
 			var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
 			var createdAt = DateTime.UtcNow;

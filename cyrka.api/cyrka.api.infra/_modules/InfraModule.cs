@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Autofac;
 using cyrka.api.common.events;
 using cyrka.api.common.queries;
-using cyrka.api.infra.nexter;
 using cyrka.api.infra.stores;
 using cyrka.api.infra.stores.events;
 using cyrka.api.infra.stores.queries;
@@ -31,10 +30,6 @@ namespace cyrka.api.infra._modules
 
 		protected override void Load(ContainerBuilder builder)
 		{
-			builder
-				.RegisterType<NexterGenerator>()
-				.SingleInstance();
-
 			// Configure MongoDb clients
 			builder
 				.Register<IMongoClient>(cc => new MongoClient(_writeDbConfig.ConnectionString))

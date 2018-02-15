@@ -12,7 +12,7 @@ using cyrka.api.domain.customers.commands.registerTitle;
 using cyrka.api.domain.customers.commands.removeTitle;
 using cyrka.api.domain.customers.commands.retire;
 using cyrka.api.domain.customers.queries;
-using cyrka.api.infra.nexter;
+using cyrka.api.common.generators;
 using cyrka.api.web.Models.Customers;
 using Microsoft.AspNetCore.Mvc;
 

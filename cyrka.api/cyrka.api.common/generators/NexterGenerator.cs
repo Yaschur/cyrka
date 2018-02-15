@@ -5,7 +5,7 @@ using System.Threading.Tasks.Dataflow;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace cyrka.api.infra.nexter
+namespace cyrka.api.common.generators
 {
 	public class NexterGenerator
 	{

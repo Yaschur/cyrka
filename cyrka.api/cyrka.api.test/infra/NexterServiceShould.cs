@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
-using cyrka.api.infra.nexter;
+using cyrka.api.common.generators;
 using NUnit.Framework;
 
 namespace cyrka.api.test.infra
