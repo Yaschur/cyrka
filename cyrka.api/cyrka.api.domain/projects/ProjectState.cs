@@ -1,8 +1,10 @@
+using cyrka.api.common.identities;
+
 namespace cyrka.api.domain.projects
 {
 	public class ProjectState
 	{
-		public string ProjectId { get; set; }
+		public CompositeSerialId ProjectId { get; set; }
 
 		public (string Id, string Name) Customer { get; set; }
 

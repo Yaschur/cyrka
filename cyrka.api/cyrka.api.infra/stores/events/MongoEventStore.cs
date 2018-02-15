@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
@@ -70,7 +71,15 @@ namespace cyrka.api.infra.stores.events
 			return (await query.OrderBy(e => e.Id).ToListAsync()).ToArray();
 		}
 
-
+		public async Task<Event[]> FindLastNWithDataOf<TEventData>(int n, Expression<Func<Event, bool>> eventDataPredicate = null)
+			where TEventData : EventData
+		{
+			var query = _eventsCollection.AsQueryable()
+				.Where(e => e.EventData is TEventData);
+			if (eventDataPredicate != null)
+				query = query.Where(eventDataPredicate);
+			return (await query.OrderByDescending(e => e.Id).Take(n).ToListAsync()).ToArray();
+		}
 		public async Task Store(Event @event)
 		{
 			try

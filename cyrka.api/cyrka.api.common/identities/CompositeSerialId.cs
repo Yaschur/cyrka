@@ -5,7 +5,17 @@ namespace cyrka.api.common.identities
 {
 	public class CompositeSerialId
 	{
-		public ulong Serial { get { return (ulong)_idParts.Last();} }
+		public ulong Serial { get { return (ulong)_idParts.Last(); } }
+
+		public string CommonPrefix
+		{
+			get
+			{
+				var lInd = _value.LastIndexOf('-');
+				return _value.Substring(0, lInd + 1);
+			}
+		}
+
 		public CompositeSerialId(ulong serialNumber, params object[] prefixes)
 		{
 			CreateParts(serialNumber, prefixes);
@@ -32,14 +42,14 @@ namespace cyrka.api.common.identities
 			_value = string.Join('-', _idParts);
 		}
 
-		public static explicit operator string(CompositeSerialId compositeSerialId)
+		public static implicit operator string(CompositeSerialId compositeSerialId)
 		{
 			if (compositeSerialId == null)
 				return null;
 			return compositeSerialId.ToString();
 		}
 
-		public static explicit operator CompositeSerialId(string stringId)
+		public static implicit operator CompositeSerialId(string stringId)
 		{
 			if (string.IsNullOrEmpty(stringId))
 				return null;
