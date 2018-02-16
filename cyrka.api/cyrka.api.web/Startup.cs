@@ -2,6 +2,7 @@ using Autofac;
 using cyrka.api.common._modules;
 using cyrka.api.domain._modules;
 using cyrka.api.infra._modules;
+using cyrka.api.web._modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,6 +40,8 @@ namespace cyrka.api.web
 			var writeDbConfig = Configuration.GetSection("MongoDbs:Write").Get<MongoDbConfiguration>();
 			var readDbConfig = Configuration.GetSection("MongoDbs:Read").Get<MongoDbConfiguration>();
 			builder.RegisterModule(new InfraModule(writeDbConfig, readDbConfig));
+
+			builder.RegisterModule(new WebModule());
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
