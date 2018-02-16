@@ -5,6 +5,7 @@ using cyrka.api.common.generators;
 using cyrka.api.common.queries;
 using cyrka.api.domain.projects;
 using cyrka.api.domain.projects.commands.register;
+using cyrka.api.domain.projects.commands.setCustomer;
 
 namespace cyrka.api.web.services
 {
@@ -27,12 +28,23 @@ namespace cyrka.api.web.services
 		public async Task<WebAnswerBody> Do(RegisterProject command)
 		{
 			var handler = new RegisterProjectHandler(_eventStore, _nexter);
-			var eventData = await handler.Handle(new RegisterProject());
-			var lastEventId = await _eventStore.GetLastStoredId();
-			var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-			var createdAt = DateTime.UtcNow;
-			var newEvent = new Event(newEventId, createdAt, eventData);
-			await _eventStore.Store(newEvent);
+			var eventData = await handler.Handle(command);
+			await HandleEventData(eventData);
+
+			return new WebAnswerBody
+			{
+				ResourceId = eventData.AggregateId,
+				ResourceType = ProjectResourceKey
+			};
+		}
+
+		public async Task<WebAnswerBody> Do(SetCustomer command)
+		{
+			var handler = new SetCustomerHandler(_projectRepository);
+			var eventData = await handler.Handle(command);
+			if (eventData == null)
+				return null;
+			await HandleEventData(eventData);
 
 			return new WebAnswerBody
 			{
@@ -44,6 +56,15 @@ namespace cyrka.api.web.services
 		private readonly NexterGenerator _nexter;
 		private readonly IEventStore _eventStore;
 		private readonly ProjectAggregateRepository _projectRepository;
+
+		private async Task HandleEventData(EventData eventData)
+		{
+			var lastEventId = await _eventStore.GetLastStoredId();
+			var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
+			var createdAt = DateTime.UtcNow;
+			var newEvent = new Event(newEventId, createdAt, eventData);
+			await _eventStore.Store(newEvent);
+		}
 	}
 
 }

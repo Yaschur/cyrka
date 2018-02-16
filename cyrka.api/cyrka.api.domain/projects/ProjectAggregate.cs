@@ -42,7 +42,7 @@ namespace cyrka.api.domain.projects
 
 		private void ApplyEvent(CustomerSet customerSet)
 		{
-			State.Customer = (customerSet.CustomerId, customerSet.CustomerName);
+			State.Customer = new ProjectCustomer { Id = customerSet.CustomerId, Name = customerSet.CustomerName };
 		}
 
 		private void ApplyEvent(TitleSet titleSet)

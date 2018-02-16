@@ -36,7 +36,7 @@ namespace cyrka.api.domain.projects.queries
 			return new ProjectPlain
 			{
 				Id = source.Id,
-				Customer = new IdName { Id = eventData.CustomerId, Name = eventData.CustomerName },
+				Customer = new ProjectCustomer { Id = eventData.CustomerId, Name = eventData.CustomerName },
 				EpisodeNumber = source.EpisodeNumber,
 				Title = source.Title
 			};
@@ -49,7 +49,7 @@ namespace cyrka.api.domain.projects.queries
 				Id = source.Id,
 				Customer = source.Customer,
 				EpisodeNumber = source.EpisodeNumber,
-				Title = new IdName { Id = eventData.TitleId, Name = eventData.TitleName }
+				Title = new ProjectTitle { Id = eventData.TitleId, Name = eventData.TitleName }
 			};
 		}
 
