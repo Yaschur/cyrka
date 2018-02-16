@@ -10,7 +10,7 @@ using cyrka.api.domain.projects.queries;
 using cyrka.api.common.generators;
 using Microsoft.AspNetCore.Mvc;
 
-namespace cyrka.api.web.Controllers
+namespace cyrka.api.web.controllers
 {
 	[Route("projects")]
 	public class ProjectController : Controller

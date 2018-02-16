@@ -13,10 +13,10 @@ using cyrka.api.domain.customers.commands.removeTitle;
 using cyrka.api.domain.customers.commands.retire;
 using cyrka.api.domain.customers.queries;
 using cyrka.api.common.generators;
-using cyrka.api.web.Models.Customers;
+using cyrka.api.web.models.customers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace cyrka.api.web.Controllers
+namespace cyrka.api.web.controllers
 {
 	[Route("customers")]
 	public class CustomersController : Controller

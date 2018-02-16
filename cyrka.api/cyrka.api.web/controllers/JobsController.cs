@@ -9,10 +9,10 @@ using cyrka.api.domain.jobs.commands.change;
 using cyrka.api.domain.jobs.commands.register;
 using cyrka.api.domain.jobs.queries;
 using cyrka.api.common.generators;
-using cyrka.api.web.Models.Jobs;
+using cyrka.api.web.models.jobs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace cyrka.api.web.Controllers
+namespace cyrka.api.web.controllers
 {
 	[Route("jobs")]
 	public class JobsController : Controller

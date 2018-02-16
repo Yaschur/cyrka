@@ -1,6 +1,6 @@
 using cyrka.api.domain.jobs;
 
-namespace cyrka.api.web.Models.Jobs
+namespace cyrka.api.web.models.jobs
 {
 	public class JobTypeInfo
 	{

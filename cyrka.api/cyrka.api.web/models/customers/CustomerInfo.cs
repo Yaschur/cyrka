@@ -1,4 +1,4 @@
-namespace cyrka.api.web.Models.Customers
+namespace cyrka.api.web.models.customers
 {
 	public class CustomerInfo
 	{
