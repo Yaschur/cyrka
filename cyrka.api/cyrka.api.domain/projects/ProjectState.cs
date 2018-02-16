@@ -8,7 +8,7 @@ namespace cyrka.api.domain.projects
 
 		public ProjectCustomer Customer { get; set; }
 
-		public (string Id, string Name) Title { get; set; }
+		public ProjectTitle Title { get; set; }
 
 		public int EpisodeNumber { get; set; }
 	}

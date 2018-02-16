@@ -1,6 +1,6 @@
-namespace cyrka.api.domain.projects
+namespace cyrka.api.web.models.projects
 {
-	public class ProjectTitle
+	public class ProjectTitleInfo
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }

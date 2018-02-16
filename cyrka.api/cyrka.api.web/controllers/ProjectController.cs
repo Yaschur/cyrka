@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using cyrka.api.web.services;
 using cyrka.api.web.models.projects;
 using cyrka.api.domain.projects.commands.setCustomer;
+using cyrka.api.domain.projects.commands.setTitle;
 
 namespace cyrka.api.web.controllers
 {
@@ -38,6 +39,18 @@ namespace cyrka.api.web.controllers
 		public async Task<IActionResult> SetCustomer(string projectId, [FromBody] ProjectCustomerInfo body)
 		{
 			var command = new SetCustomer(projectId, body.Id, body.Name);
+			var result = await _projectService.Do(command);
+
+			if (result == null)
+				return NotFound();
+
+			return Ok(result);
+		}
+
+		[HttpPost("{projectId}/title")]
+		public async Task<IActionResult> SetTitle(string projectId, [FromBody] ProjectTitleInfo body)
+		{
+			var command = new SetTitle(projectId, body.Id, body.Name, body.NumberOfEpisodes);
 			var result = await _projectService.Do(command);
 
 			if (result == null)

@@ -5,6 +5,7 @@ using cyrka.api.domain.projects.commands;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setCustomer;
 using cyrka.api.domain.projects.commands.setEpisode;
+using cyrka.api.domain.projects.commands.setTitle;
 
 namespace cyrka.api.domain.projects.queries
 {
@@ -49,7 +50,7 @@ namespace cyrka.api.domain.projects.queries
 				Id = source.Id,
 				Customer = source.Customer,
 				EpisodeNumber = source.EpisodeNumber,
-				Title = new ProjectTitle { Id = eventData.TitleId, Name = eventData.TitleName }
+				Title = new ProjectTitle { Id = eventData.TitleId, Name = eventData.TitleName, NumberOfEpisodes = eventData.NumberOfEpisodes }
 			};
 		}
 

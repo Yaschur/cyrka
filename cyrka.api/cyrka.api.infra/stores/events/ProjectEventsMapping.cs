@@ -2,6 +2,7 @@ using cyrka.api.domain.projects.commands;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setCustomer;
 using cyrka.api.domain.projects.commands.setEpisode;
+using cyrka.api.domain.projects.commands.setTitle;
 using MongoDB.Bson.Serialization;
 
 namespace cyrka.api.infra.stores.events
@@ -28,7 +29,8 @@ namespace cyrka.api.infra.stores.events
 			{
 				cm.MapField(cr => cr.TitleId);
 				cm.MapField(cr => cr.TitleName);
-				cm.MapCreator(cr => new TitleSet(cr.AggregateId, cr.TitleId, cr.TitleName));
+				cm.MapField(cr => cr.NumberOfEpisodes);
+				cm.MapCreator(cr => new TitleSet(cr.AggregateId, cr.TitleId, cr.TitleName, cr.NumberOfEpisodes));
 			});
 
 			BsonClassMap.RegisterClassMap<EpisodeSet>(cm =>

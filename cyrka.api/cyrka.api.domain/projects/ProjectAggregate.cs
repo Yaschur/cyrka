@@ -3,6 +3,7 @@ using cyrka.api.common.events;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setCustomer;
 using cyrka.api.domain.projects.commands.setEpisode;
+using cyrka.api.domain.projects.commands.setTitle;
 
 namespace cyrka.api.domain.projects
 {
@@ -47,7 +48,7 @@ namespace cyrka.api.domain.projects
 
 		private void ApplyEvent(TitleSet titleSet)
 		{
-			State.Title = (titleSet.TitleId, titleSet.TitleName);
+			State.Title = new ProjectTitle { Id = titleSet.TitleId, Name = titleSet.TitleName, NumberOfEpisodes = titleSet.NumberOfEpisodes };
 		}
 
 		private void ApplyEvent(EpisodeSet episodeSet)
