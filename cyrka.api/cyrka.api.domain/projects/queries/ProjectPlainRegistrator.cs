@@ -38,7 +38,7 @@ namespace cyrka.api.domain.projects.queries
 			{
 				Id = source.Id,
 				Customer = new ProjectCustomer { Id = eventData.CustomerId, Name = eventData.CustomerName },
-				EpisodeNumber = source.EpisodeNumber,
+				Episode = source.Episode,
 				Title = source.Title
 			};
 		}
@@ -49,7 +49,7 @@ namespace cyrka.api.domain.projects.queries
 			{
 				Id = source.Id,
 				Customer = source.Customer,
-				EpisodeNumber = source.EpisodeNumber,
+				Episode = source.Episode,
 				Title = new ProjectTitle { Id = eventData.TitleId, Name = eventData.TitleName, NumberOfEpisodes = eventData.NumberOfEpisodes }
 			};
 		}
@@ -60,7 +60,7 @@ namespace cyrka.api.domain.projects.queries
 			{
 				Id = source.Id,
 				Customer = source.Customer,
-				EpisodeNumber = eventData.EpisodeNumber,
+				Episode = new ProjectEpisode { Number = eventData.Number, Duration = eventData.Duration },
 				Title = source.Title
 			};
 		}

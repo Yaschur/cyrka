@@ -53,7 +53,7 @@ namespace cyrka.api.domain.projects
 
 		private void ApplyEvent(EpisodeSet episodeSet)
 		{
-			State.EpisodeNumber = episodeSet.EpisodeNumber;
+			State.Episode = new ProjectEpisode { Number = episodeSet.Number, Duration = episodeSet.Duration };
 		}
 	}
 }

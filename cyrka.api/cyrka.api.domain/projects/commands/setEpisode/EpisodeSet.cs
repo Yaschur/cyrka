@@ -2,12 +2,14 @@ namespace cyrka.api.domain.projects.commands.setEpisode
 {
 	public class EpisodeSet : ProjectEventData
 	{
-		public readonly int EpisodeNumber;
+		public readonly int Number;
+		public readonly int Duration;
 
-		public EpisodeSet(string projectId, int episodeNumber)
+		public EpisodeSet(string projectId, int episodeNumber, int episodeDuration)
 			: base(projectId)
 		{
-			EpisodeNumber = episodeNumber;
+			Number = episodeNumber;
+			Duration = episodeDuration;
 		}
 	}
 }

@@ -35,8 +35,9 @@ namespace cyrka.api.infra.stores.events
 
 			BsonClassMap.RegisterClassMap<EpisodeSet>(cm =>
 			{
-				cm.MapField(cr => cr.EpisodeNumber);
-				cm.MapCreator(cr => new EpisodeSet(cr.AggregateId, cr.EpisodeNumber));
+				cm.MapField(cr => cr.Number);
+				cm.MapField(cr => cr.Duration);
+				cm.MapCreator(cr => new EpisodeSet(cr.AggregateId, cr.Number, cr.Duration));
 			});
 		}
 	}

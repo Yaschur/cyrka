@@ -9,6 +9,7 @@ using cyrka.api.web.services;
 using cyrka.api.web.models.projects;
 using cyrka.api.domain.projects.commands.setCustomer;
 using cyrka.api.domain.projects.commands.setTitle;
+using cyrka.api.domain.projects.commands.setEpisode;
 
 namespace cyrka.api.web.controllers
 {
@@ -51,6 +52,18 @@ namespace cyrka.api.web.controllers
 		public async Task<IActionResult> SetTitle(string projectId, [FromBody] ProjectTitleInfo body)
 		{
 			var command = new SetTitle(projectId, body.Id, body.Name, body.NumberOfEpisodes);
+			var result = await _projectService.Do(command);
+
+			if (result == null)
+				return NotFound();
+
+			return Ok(result);
+		}
+
+		[HttpPost("{projectId}/episode")]
+		public async Task<IActionResult> SetEpisode(string projectId, [FromBody] ProjectEpisodeInfo body)
+		{
+			var command = new SetEpisode(projectId, body.Number, body.Duration);
 			var result = await _projectService.Do(command);
 
 			if (result == null)

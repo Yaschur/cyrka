@@ -6,6 +6,7 @@ using cyrka.api.common.queries;
 using cyrka.api.domain.projects;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setCustomer;
+using cyrka.api.domain.projects.commands.setEpisode;
 using cyrka.api.domain.projects.commands.setTitle;
 
 namespace cyrka.api.web.services
@@ -57,6 +58,21 @@ namespace cyrka.api.web.services
 		public async Task<WebAnswerBody> Do(SetTitle command)
 		{
 			var handler = new SetTitleHandler(_projectRepository);
+			var eventData = await handler.Handle(command);
+			if (eventData == null)
+				return null;
+			await HandleEventData(eventData);
+
+			return new WebAnswerBody
+			{
+				ResourceId = eventData.AggregateId,
+				ResourceType = ProjectResourceKey
+			};
+		}
+
+		public async Task<WebAnswerBody> Do(SetEpisode command)
+		{
+			var handler = new SetEpisodeHandler(_projectRepository);
 			var eventData = await handler.Handle(command);
 			if (eventData == null)
 				return null;
