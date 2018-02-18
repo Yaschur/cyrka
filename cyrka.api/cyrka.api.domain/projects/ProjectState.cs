@@ -6,10 +6,6 @@ namespace cyrka.api.domain.projects
 	{
 		public CompositeSerialId ProjectId { get; set; }
 
-		public ProjectCustomer Customer { get; set; }
-
-		public ProjectTitle Title { get; set; }
-
-		public ProjectEpisode Episode { get; set; }
+		public ProductState Product { get; set; }
 	}
 }

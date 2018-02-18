@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using cyrka.api.common.events;
 using cyrka.api.domain.projects.commands.register;
-using cyrka.api.domain.projects.commands.setCustomer;
-using cyrka.api.domain.projects.commands.setEpisode;
-using cyrka.api.domain.projects.commands.setTitle;
+using cyrka.api.domain.projects.commands.setProduct;
 
 namespace cyrka.api.domain.projects
 {
@@ -23,14 +21,8 @@ namespace cyrka.api.domain.projects
 					case ProjectRegistered projectRegistered:
 						ApplyEvent(projectRegistered);
 						break;
-					case CustomerSet customerSet:
-						ApplyEvent(customerSet);
-						break;
-					case TitleSet titleSet:
-						ApplyEvent(titleSet);
-						break;
-					case EpisodeSet episodeSet:
-						ApplyEvent(episodeSet);
+					case ProductSet productSet:
+						ApplyEvent(productSet);
 						break;
 				}
 			}
@@ -41,19 +33,18 @@ namespace cyrka.api.domain.projects
 			State.ProjectId = projectRegistered.AggregateId;
 		}
 
-		private void ApplyEvent(CustomerSet customerSet)
+		private void ApplyEvent(ProductSet productSet)
 		{
-			State.Customer = new ProjectCustomer { Id = customerSet.CustomerId, Name = customerSet.CustomerName };
-		}
-
-		private void ApplyEvent(TitleSet titleSet)
-		{
-			State.Title = new ProjectTitle { Id = titleSet.TitleId, Name = titleSet.TitleName, NumberOfEpisodes = titleSet.NumberOfEpisodes };
-		}
-
-		private void ApplyEvent(EpisodeSet episodeSet)
-		{
-			State.Episode = new ProjectEpisode { Number = episodeSet.Number, Duration = episodeSet.Duration };
+			State.Product = new ProductState
+			{
+				CustomerId = productSet.CustomerId,
+				CustomerName = productSet.CustomerName,
+				TitleId = productSet.TitleId,
+				TitleName = productSet.TitleName,
+				TotalEpisodes = productSet.TotalEpisodes,
+				EpisodeNumber = productSet.EpisodeNumber,
+				EpisodeDuration = productSet.EpisodeDuration
+			};
 		}
 	}
 }

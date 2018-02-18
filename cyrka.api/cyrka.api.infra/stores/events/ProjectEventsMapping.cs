@@ -1,8 +1,6 @@
 using cyrka.api.domain.projects.commands;
 using cyrka.api.domain.projects.commands.register;
-using cyrka.api.domain.projects.commands.setCustomer;
-using cyrka.api.domain.projects.commands.setEpisode;
-using cyrka.api.domain.projects.commands.setTitle;
+using cyrka.api.domain.projects.commands.setProduct;
 using MongoDB.Bson.Serialization;
 
 namespace cyrka.api.infra.stores.events
@@ -18,26 +16,25 @@ namespace cyrka.api.infra.stores.events
 				cm.MapCreator(cr => new ProjectRegistered(cr.AggregateId));
 			});
 
-			BsonClassMap.RegisterClassMap<CustomerSet>(cm =>
+			BsonClassMap.RegisterClassMap<ProductSet>(cm =>
 			{
 				cm.MapField(cr => cr.CustomerId);
 				cm.MapField(cr => cr.CustomerName);
-				cm.MapCreator(cr => new CustomerSet(cr.AggregateId, cr.CustomerId, cr.CustomerName));
-			});
-
-			BsonClassMap.RegisterClassMap<TitleSet>(cm =>
-			{
 				cm.MapField(cr => cr.TitleId);
 				cm.MapField(cr => cr.TitleName);
-				cm.MapField(cr => cr.NumberOfEpisodes);
-				cm.MapCreator(cr => new TitleSet(cr.AggregateId, cr.TitleId, cr.TitleName, cr.NumberOfEpisodes));
-			});
-
-			BsonClassMap.RegisterClassMap<EpisodeSet>(cm =>
-			{
-				cm.MapField(cr => cr.Number);
-				cm.MapField(cr => cr.Duration);
-				cm.MapCreator(cr => new EpisodeSet(cr.AggregateId, cr.Number, cr.Duration));
+				cm.MapField(cr => cr.TotalEpisodes);
+				cm.MapField(cr => cr.EpisodeNumber);
+				cm.MapField(cr => cr.EpisodeDuration);
+				cm.MapCreator(cr => new ProductSet(
+					cr.AggregateId,
+					cr.CustomerId,
+					cr.CustomerName,
+					cr.TitleId,
+					cr.TitleName,
+					cr.TotalEpisodes,
+					cr.EpisodeNumber,
+					cr.EpisodeDuration
+				));
 			});
 		}
 	}

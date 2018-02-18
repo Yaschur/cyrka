@@ -7,9 +7,7 @@ using cyrka.api.domain.projects.queries;
 using Microsoft.AspNetCore.Mvc;
 using cyrka.api.web.services;
 using cyrka.api.web.models.projects;
-using cyrka.api.domain.projects.commands.setCustomer;
-using cyrka.api.domain.projects.commands.setTitle;
-using cyrka.api.domain.projects.commands.setEpisode;
+using cyrka.api.domain.projects.commands.setProduct;
 
 namespace cyrka.api.web.controllers
 {
@@ -36,34 +34,19 @@ namespace cyrka.api.web.controllers
 			return Ok(result);
 		}
 
-		[HttpPost("{projectId}/customer")]
-		public async Task<IActionResult> SetCustomer(string projectId, [FromBody] ProjectCustomerInfo body)
+		[HttpPost("{projectId}/product")]
+		public async Task<IActionResult> SetCustomer(string projectId, [FromBody] ProductInfo body)
 		{
-			var command = new SetCustomer(projectId, body.Id, body.Name);
-			var result = await _projectService.Do(command);
-
-			if (result == null)
-				return NotFound();
-
-			return Ok(result);
-		}
-
-		[HttpPost("{projectId}/title")]
-		public async Task<IActionResult> SetTitle(string projectId, [FromBody] ProjectTitleInfo body)
-		{
-			var command = new SetTitle(projectId, body.Id, body.Name, body.NumberOfEpisodes);
-			var result = await _projectService.Do(command);
-
-			if (result == null)
-				return NotFound();
-
-			return Ok(result);
-		}
-
-		[HttpPost("{projectId}/episode")]
-		public async Task<IActionResult> SetEpisode(string projectId, [FromBody] ProjectEpisodeInfo body)
-		{
-			var command = new SetEpisode(projectId, body.Number, body.Duration);
+			var command = new SetProduct(
+				projectId,
+				body.CustomerId,
+				body.CustomerName,
+				body.TitleId,
+				body.TitleName,
+				body.TotalEpisodes,
+				body.EpisodeNumber,
+				body.EpisodeDuration
+			);
 			var result = await _projectService.Do(command);
 
 			if (result == null)

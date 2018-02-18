@@ -4,8 +4,6 @@ namespace cyrka.api.domain.projects.queries
 	{
 		public string Id { get; set; }
 
-		public ProjectCustomer Customer { get; set; }
-		public ProjectTitle Title { get; set; }
-		public ProjectEpisode Episode { get; set; }
+		public ProductState Product { get; set; }
 	}
 }
