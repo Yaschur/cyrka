@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { ClrWizard } from '@clr/angular';
+
 @Component({
 	selector: 'app-projects',
 	templateUrl: './projects.component.html',
@@ -7,6 +9,9 @@ import { Component } from '@angular/core';
 })
 export class ProjectsComponent {
 
-	constructor() { }
+	constructor() {
+		this.wzOpen = false;
+	}
 
+	public wzOpen: boolean;
 }
