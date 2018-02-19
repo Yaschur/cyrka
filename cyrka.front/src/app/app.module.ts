@@ -7,6 +7,7 @@ import { ClarityModule } from '@clr/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { CustomersModule } from './customers/customers.module';
 import { JobTypesModule } from './jobtypes/jobtypes.module';
+import { ProjectsModule } from './projects/projects.module';
 
 import { AppComponent } from './app.component';
 
@@ -19,6 +20,7 @@ import { AppComponent } from './app.component';
 		HttpClientModule,
 		CustomersModule,
 		JobTypesModule,
+		ProjectsModule,
 		ClarityModule,
 		AppRoutingModule
 	],
