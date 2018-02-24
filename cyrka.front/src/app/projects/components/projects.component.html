@@ -1,7 +1,8 @@
 <nav class="subnav">
 	<ul class="nav">
 		<li class="nav-item">
-			<a class="nav-link" title="создать новый проект" (click)="wzOpen=true" routerLink=".">Новый проект</a>
+			<a class="nav-link" title="создать новый проект" routerLink="create" routerLinkActive="active"
+			 [routerLinkActiveOptions]="{exact: true}">Новый проект</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" title="список проектов" routerLink="." routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Список</a>
@@ -13,31 +14,3 @@
 		<router-outlet></router-outlet>
 	</div>
 </div>
-<clr-wizard #wizard [(clrWizardOpen)]="wzOpen">
-	<clr-wizard-title>Новый проект</clr-wizard-title>
-
-	<clr-wizard-button [type]="'cancel'">Отмена</clr-wizard-button>
-	<clr-wizard-button [type]="'previous'">Назад</clr-wizard-button>
-	<clr-wizard-button [type]="'next'">Вперед</clr-wizard-button>
-	<clr-wizard-button [type]="'finish'">Закончить</clr-wizard-button>
-
-	<clr-wizard-page>
-		<ng-template clrPageTitle>Заказчик</ng-template>
-		...
-	</clr-wizard-page>
-
-	<clr-wizard-page>
-		<ng-template clrPageTitle>Тайтл</ng-template>
-		...
-	</clr-wizard-page>
-
-	<clr-wizard-page>
-		<ng-template clrPageTitle>Эпизод/ серия</ng-template>
-		...
-	</clr-wizard-page>
-
-	<clr-wizard-page>
-		<ng-template clrPageTitle>Услуги</ng-template>
-		...
-	</clr-wizard-page>
-</clr-wizard>

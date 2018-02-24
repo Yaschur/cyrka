@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ClrWizard } from '@clr/angular';
-
 const newKey = 'new';
 
 @Component({
