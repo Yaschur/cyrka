@@ -11,9 +11,11 @@
 		</div>
 		<div class="form-group">
 			<label for="unit">измерение</label>
-			<select id="unit" formControlName="unit">
-				<option *ngFor="let unit of units" value="{{unit.key}}">{{unit.value}}</option>
-			</select>
+			<div class="select">
+				<select id="unit" formControlName="unit">
+					<option *ngFor="let unit of units" value="{{unit.key}}">{{unit.value}}</option>
+				</select>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="rate" class="required">ставка</label>

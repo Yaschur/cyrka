@@ -1,3 +1,27 @@
-<p>
-	projects-form works!
-</p>
+<form (ngSubmit)="onSave()" [formGroup]="form">
+	<section class="form-block">
+		<label>{{formTitle}}</label>
+		<div formGroupName="product">
+			<div class="form-group">
+				<label for="customer" class="required">заказчик</label>
+				<div class="select">
+					<select id="customer" formControlName="customer">
+						<option value=""></option>
+						<option *ngFor="let customer of customers" value="customer.id">{{customer.name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="title" class="required">тайтл</label>
+				<div class="select">
+					<select id="title" formControlName="title">
+						<option value=""></option>
+						<option *ngFor="let title of titles" value="title.id">{{title.name}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-sm btn-primary">{{submitTitle}}</button>
+		<button type="button" class="btn btn-sm btn-secondary" (click)="onCancel()">отмена</button>
+	</section>
+</form>
