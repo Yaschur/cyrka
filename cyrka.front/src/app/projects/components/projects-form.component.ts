@@ -4,13 +4,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/zip';
+
 
 import { Project } from '../models/project';
 import { CustomersApiService } from '../services/customers-api.service';
 import { ProjectsApiService } from '../services/projects-api.service';
 import { Customer } from '../models/customer';
 import { Title } from '../models/title';
+import { ProductSet } from '../models/product-set';
 
 @Component({
 	selector: 'app-projects-form',
@@ -62,9 +65,12 @@ export class ProjectsFormComponent implements OnInit {
 		if (this.form.invalid || this.form.pristine) {
 			return;
 		}
-		console.log(this.form.value);
+		// console.log(this.form.value);
 		// (this._id ? this._api.change(this._id, this.form.value) : this._api.register(this.form.value))
 		// 	.subscribe(() => this.onCancel());
+		this._projectApi.register()
+			.flatMap(res => this._projectApi.setCustomer(res.resourceId, this.getProductSet()))
+			.subscribe(() => this.onCancel);
 	}
 
 	public onCancel() {
@@ -107,6 +113,19 @@ export class ProjectsFormComponent implements OnInit {
 			this.noe = null;
 			this.form.get('product.episodeNumber').disable();
 			this.form.get('product.episodeDuration').disable();
+		}
+	}
+
+	private getProductSet(): ProductSet {
+		const formProduct = this.form.get('product').value;
+		return <ProductSet>{
+			customerId: formProduct.customer.id,
+			customerName: formProduct.customer.name,
+			titleId: formProduct.title.id,
+			titleName: formProduct.title.name,
+			totalEpisodes: this.noe,
+			episodeNumber: formProduct.episodeNumber,
+			episodeDuration: formProduct.episodeDuration
 		}
 	}
 
