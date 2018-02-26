@@ -12,6 +12,10 @@ import { ProductSet } from '../models/product-set';
 export class ProjectsApiService {
 	constructor(private _httpClient: HttpClient) { }
 
+	public getAll(id: string): Observable<Project[]> {
+		return this._httpClient.get<Project[]>(`${environment.cyrkaApi.baseUrl}/projects`);
+	}
+
 	public getById(id: string): Observable<Project> {
 		return this._httpClient.get<Project>(`${environment.cyrkaApi.baseUrl}/projects/${id}`);
 	}

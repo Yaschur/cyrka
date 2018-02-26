@@ -7,6 +7,7 @@ import { ProjectsComponent } from './components/projects.component';
 import { ProjectsFormComponent } from './components/projects-form.component';
 import { CustomersApiService } from './services/customers-api.service';
 import { ProjectsApiService } from './services/projects-api.service';
+import { ProjectsListComponent } from './components/projects-list.component';
 
 @NgModule({
 	imports: [
@@ -16,7 +17,8 @@ import { ProjectsApiService } from './services/projects-api.service';
 	],
 	declarations: [
 		ProjectsComponent,
-		ProjectsFormComponent],
+		ProjectsFormComponent,
+		ProjectsListComponent],
 	providers: [
 		CustomersApiService,
 		ProjectsApiService
