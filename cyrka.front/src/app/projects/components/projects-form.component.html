@@ -6,8 +6,8 @@
 				<label for="customer" class="required">заказчик</label>
 				<div class="select">
 					<select id="customer" formControlName="customer">
-						<option value=""></option>
-						<option *ngFor="let customer of customers" value="customer.id">{{customer.name}}</option>
+						<option [ngValue]="null">Выберите заказчика</option>
+						<option *ngFor="let customer of customers" [ngValue]="customer">{{ customer.name }}</option>
 					</select>
 				</div>
 			</div>
@@ -15,13 +15,22 @@
 				<label for="title" class="required">тайтл</label>
 				<div class="select">
 					<select id="title" formControlName="title">
-						<option value=""></option>
-						<option *ngFor="let title of titles" value="title.id">{{title.name}}</option>
+						<option [ngValue]="null">Выберите продукт</option>
+						<option *ngFor="let title of titles" [ngValue]="title">{{ title.name }}</option>
 					</select>
 				</div>
 			</div>
+			<div class="form-group">
+				<label for="episodeNumber" class="required">номер эпизода</label>
+				<input type="number" id="episodeNumber" formControlName="episodeNumber">
+				(всего эпизодов: {{noe}})
+			</div>
+			<div class="form-group">
+				<label for="episodeDuration" class="required">хронометраж</label>
+				<input type="number" id="episodeDuration" formControlName="episodeDuration">
+			</div>
 		</div>
-		<button type="submit" class="btn btn-sm btn-primary">{{submitTitle}}</button>
+		<button type="submit" [disabled]="!form.valid" class="btn btn-sm btn-primary">{{submitTitle}}</button>
 		<button type="button" class="btn btn-sm btn-secondary" (click)="onCancel()">отмена</button>
 	</section>
 </form>

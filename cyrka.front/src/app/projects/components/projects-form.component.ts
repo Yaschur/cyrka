@@ -3,6 +3,8 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/zip';
 
 import { Project } from '../models/project';
 import { CustomersApiService } from '../services/customers-api.service';
@@ -26,15 +28,19 @@ export class ProjectsFormComponent implements OnInit {
 	) {
 		this.customers = [];
 		this.titles = [];
+		this.noe = 0;
 		this.form = this._formBuilder.group({
 			'product': this._formBuilder.group({
-				'customer': ['', Validators.required],
-				'title': ['', Validators.required],
-				'episodeNumber': [0, Validators.required],
-				'episodeDuration': [0, Validators.required]
+				'customer': [null, Validators.required],
+				'title': [null, Validators.required],
+				'episodeNumber': [null, Validators.required],
+				'episodeDuration': [null, Validators.required]
 			})
 		});
-		this.form.get('product.title').disable();
+		this.form.get('product.customer').valueChanges
+			.subscribe(c => this.customerChanges(c));
+		this.form.get('product.title').valueChanges
+			.subscribe(c => this.titleChanges(c));
 	}
 
 	public form: FormGroup;
@@ -43,38 +49,65 @@ export class ProjectsFormComponent implements OnInit {
 
 	public customers: Customer[];
 	public titles: Title[];
+	public noe: number;
 
 	public ngOnInit() {
 		this._route.params
 			.switchMap(p => p['projectId'] ? this._projectApi.getById(p['projectId']) : Observable.of(<Project>{ product: {} }))
-			.subscribe(proj => {
-				this.form.setValue({
-					product: {
-						customer: proj.product.customerId || '',
-						title: proj.product.titleId || '',
-						episodeNumber: proj.product.episodeNumber || 0,
-						episodeDuration: proj.product.episodeDuration || 0
-					}
-				});
-				this._id = proj.id;
-				this.formTitle = this._id ? 'изменение данных проекта' : 'создание нового проекта';
-				this.submitTitle = this._id ? 'изменить' : 'создать';
-			});
-		this._customerApi.getAll()
-			.subscribe(customers => this.customers = customers);
+			.zip(this._customerApi.getAll(), (project: Project, customers: Customer[]) => ({ project, customers }))
+			.subscribe(p => this.initItAll(p.project, p.customers));
 	}
 
 	public onSave() {
-		// this.form.updateValueAndValidity();
-		// if (this.form.invalid || this.form.pristine) {
-		// 	return;
-		// }
+		if (this.form.invalid || this.form.pristine) {
+			return;
+		}
+		console.log(this.form.value);
 		// (this._id ? this._api.change(this._id, this.form.value) : this._api.register(this.form.value))
 		// 	.subscribe(() => this.onCancel());
 	}
 
 	public onCancel() {
 		this._router.navigate(['..'], { relativeTo: this._route });
+	}
+
+	private initItAll(project: Project, customers: Customer[]) {
+		this._id = project.id;
+		this.formTitle = this._id ? 'изменение данных проекта' : 'создание нового проекта';
+		this.submitTitle = this._id ? 'изменить' : 'создать';
+		this.customers = customers;
+		const selCustomer = customers.find(c => c.id === project.product.customerId) || null;
+		const selTitle = selCustomer ? selCustomer.titles.find(t => t.id === project.product.titleId) || null : null;
+		this.form.setValue({
+			product: {
+				customer: selCustomer,
+				title: selTitle,
+				episodeNumber: project.product.episodeNumber || 0,
+				episodeDuration: project.product.episodeDuration || 0
+			}
+		});
+	}
+
+	private customerChanges(val: Customer) {
+		if (val) {
+			this.titles = val.titles;
+			this.form.get('product.title').enable();
+		} else {
+			this.titles = [];
+			this.form.get('product.title').disable();
+		}
+	}
+
+	private titleChanges(val: Title) {
+		if (val) {
+			this.noe = val.numberOfSeries;
+			this.form.get('product.episodeNumber').enable();
+			this.form.get('product.episodeDuration').enable();
+		} else {
+			this.noe = null;
+			this.form.get('product.episodeNumber').disable();
+			this.form.get('product.episodeDuration').disable();
+		}
 	}
 
 	private _id: string;
