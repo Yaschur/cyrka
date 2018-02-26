@@ -65,17 +65,16 @@ export class ProjectsFormComponent implements OnInit {
 		if (this.form.invalid || this.form.pristine) {
 			return;
 		}
-		// console.log(this.form.value);
-		// (this._id ? this._api.change(this._id, this.form.value) : this._api.register(this.form.value))
-		// 	.subscribe(() => this.onCancel());
 		this._projectApi.register()
-			.flatMap(res => this._projectApi.setCustomer(res.resourceId, this.getProductSet()))
-			.subscribe(() => this.onCancel);
+			.flatMap(res => this._projectApi.setProduct(res.resourceId, this.getProductSet()))
+			.subscribe(() => this.onCancel());
 	}
 
 	public onCancel() {
 		this._router.navigate(['..'], { relativeTo: this._route });
 	}
+
+	private _id: string;
 
 	private initItAll(project: Project, customers: Customer[]) {
 		this._id = project.id;
@@ -126,9 +125,6 @@ export class ProjectsFormComponent implements OnInit {
 			totalEpisodes: this.noe,
 			episodeNumber: formProduct.episodeNumber,
 			episodeDuration: formProduct.episodeDuration
-		}
+		};
 	}
-
-	private _id: string;
-
 }

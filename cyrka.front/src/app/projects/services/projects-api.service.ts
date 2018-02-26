@@ -20,9 +20,9 @@ export class ProjectsApiService {
 		return this._httpClient.post<ApiAnswer>(`${environment.cyrkaApi.baseUrl}/projects`, {});
 	}
 
-	public setCustomer(id: string, productSet: ProductSet): Observable<ApiAnswer> {
+	public setProduct(id: string, productSet: ProductSet): Observable<ApiAnswer> {
 		return this._httpClient.post<ApiAnswer>(
-			`${environment.cyrkaApi.baseUrl}/projects/${id}`,
+			`${environment.cyrkaApi.baseUrl}/projects/${id}/product`,
 			productSet
 		);
 	}
