@@ -7,5 +7,7 @@ namespace cyrka.api.domain.projects
 		public CompositeSerialId ProjectId { get; set; }
 
 		public ProductState Product { get; set; }
+
+		public JobState[] Jobs { get; set; }
 	}
 }
