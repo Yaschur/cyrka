@@ -10,7 +10,7 @@ const projectRoutes: Routes = [
 		path: 'projects', component: ProjectsComponent, children: [
 			{ path: '', component: ProjectsListComponent, pathMatch: 'full' },
 			{ path: 'register', component: ProjectsFormComponent },
-			// { path: ':jobTypeId', component: JobTypesFormComponent }
+			{ path: ':projectId', component: ProjectsFormComponent }
 		]
 	}
 ];

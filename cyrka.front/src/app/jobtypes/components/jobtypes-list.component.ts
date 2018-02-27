@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -14,8 +13,7 @@ import { JobTypePlain } from '../models/jobtype-plain';
 export class JobTypesListComponent {
 
 	constructor(
-		private _jobTypesApi: JobTypesApiService,
-		private _router: Router
+		private _jobTypesApi: JobTypesApiService
 	) {
 		this.jobTypes = _jobTypesApi.getAll();
 	}

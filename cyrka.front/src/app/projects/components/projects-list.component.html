@@ -1,3 +1,22 @@
-<p>
-	projects-list works!
-</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th class="left">номер</th>
+			<th class="left">заказчик</th>
+			<th class="left">продукт (тайтл)</th>
+			<th class="left">эпизод</th>
+			<th class="left">хронометраж, мин.</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let proj of projects | async">
+			<td class="left">
+				<a routerLink="{{proj.id}}">{{proj.id}}</a>
+			</td>
+			<td class="left">{{proj.product?.customerName}}</td>
+			<td class="left">{{proj.product?.titleName}}</td>
+			<td class="left">{{proj.product?.episodeNumber}} (из {{proj.product?.totalEpisodes}})</td>
+			<td class="left">{{proj.product?.episodeDuration}}</td>
+		</tr>
+	</tbody>
+</table>

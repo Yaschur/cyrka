@@ -14,6 +14,7 @@ import { ProjectsApiService } from '../services/projects-api.service';
 import { Customer } from '../models/customer';
 import { Title } from '../models/title';
 import { ProductSet } from '../models/product-set';
+import { ApiAnswer } from '../models/api-answer';
 
 @Component({
 	selector: 'app-projects-form',
@@ -65,7 +66,7 @@ export class ProjectsFormComponent implements OnInit {
 		if (this.form.invalid || this.form.pristine) {
 			return;
 		}
-		this._projectApi.register()
+		(this._id ? Observable.of<ApiAnswer>({resourceId: this._id, resourceType: ""}) : this._projectApi.register())
 			.flatMap(res => this._projectApi.setProduct(res.resourceId, this.getProductSet()))
 			.subscribe(() => this.onCancel());
 	}
@@ -81,14 +82,14 @@ export class ProjectsFormComponent implements OnInit {
 		this.formTitle = this._id ? 'изменение данных проекта' : 'создание нового проекта';
 		this.submitTitle = this._id ? 'изменить' : 'создать';
 		this.customers = customers;
-		const selCustomer = customers.find(c => c.id === project.product.customerId) || null;
+		const selCustomer = project.product ? customers.find(c => c.id === project.product.customerId) || null : null;
 		const selTitle = selCustomer ? selCustomer.titles.find(t => t.id === project.product.titleId) || null : null;
 		this.form.setValue({
 			product: {
 				customer: selCustomer,
 				title: selTitle,
-				episodeNumber: project.product.episodeNumber || 0,
-				episodeDuration: project.product.episodeDuration || 0
+				episodeNumber: project.product ? project.product.episodeNumber || 0 : 0,
+				episodeDuration: project.product ? project.product.episodeDuration || 0 : 0
 			}
 		});
 	}

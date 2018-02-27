@@ -61,6 +61,19 @@ namespace cyrka.api.web.controllers
 				.AsQueryable<ProjectPlain>()
 				.ToList();
 
+		[HttpGet("{projectId}")]
+		public IActionResult Details(string projectId)
+		{
+			var project = _queryStore
+				.AsQueryable<ProjectPlain>()
+				.FirstOrDefault(c => c.Id == projectId);
+
+			if (project == null)
+				return NotFound();
+
+			return Ok(project);
+		}
+
 		private readonly ProjectService _projectService;
 		private readonly IQueryStore _queryStore;
 	}
