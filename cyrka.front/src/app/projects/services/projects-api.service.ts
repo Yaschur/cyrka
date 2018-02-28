@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { Project } from '../models/project';
 import { ApiAnswer } from '../models/api-answer';
 import { ProductSet } from '../models/product-set';
+import { JobSet } from '../models/job-set';
+import { JobChange } from '../models/job-change';
 
 @Injectable()
 export class ProjectsApiService {
@@ -28,6 +30,20 @@ export class ProjectsApiService {
 		return this._httpClient.post<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/projects/${id}/product`,
 			productSet
+		);
+	}
+
+	public setJob(id: string, jobSet: JobSet): Observable<ApiAnswer> {
+		return this._httpClient.post<ApiAnswer>(
+			`${environment.cyrkaApi.baseUrl}/projects/${id}/jobs`,
+			jobSet
+		);
+	}
+
+	public changeJob(id: string, jobId: string, jobChange: JobChange): Observable<ApiAnswer> {
+		return this._httpClient.put<ApiAnswer>(
+			`${environment.cyrkaApi.baseUrl}/projects/${id}/jobs/${jobId}`,
+			jobChange
 		);
 	}
 }

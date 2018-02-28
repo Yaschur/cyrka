@@ -9,4 +9,11 @@ export interface Project {
 		episodeNumber: number;
 		episodeDuration: number;
 	};
+	jobs: {
+		jobTypeId: string;
+		jobTypeName: string;
+		unitName: string;
+		ratePerUnit: number;
+		amount: number;
+	}[]
 }

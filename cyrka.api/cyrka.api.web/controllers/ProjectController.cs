@@ -56,7 +56,7 @@ namespace cyrka.api.web.controllers
 			return Ok(result);
 		}
 
-		[HttpPost("{projectId}/job")]
+		[HttpPost("{projectId}/jobs")]
 		public async Task<IActionResult> SetJob(string projectId, [FromBody] JobInfo body)
 		{
 			var command = new SetJob(
@@ -74,7 +74,7 @@ namespace cyrka.api.web.controllers
 			return Ok(result);
 		}
 
-		[HttpPut("{projectId}/job/{jobTypeId}")]
+		[HttpPut("{projectId}/jobs/{jobTypeId}")]
 		public async Task<IActionResult> ChangeJob(string projectId, string jobTypeId, [FromBody] JobVolumeInfo body)
 		{
 			var command = new ChangeJob(

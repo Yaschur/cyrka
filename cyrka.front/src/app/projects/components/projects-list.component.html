@@ -6,6 +6,7 @@
 			<th class="left">продукт (тайтл)</th>
 			<th class="left">эпизод</th>
 			<th class="left">хронометраж, мин.</th>
+			<th class="left">работы</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -17,6 +18,11 @@
 			<td class="left">{{proj.product?.titleName}}</td>
 			<td class="left">{{proj.product?.episodeNumber}} (из {{proj.product?.totalEpisodes}})</td>
 			<td class="left">{{proj.product?.episodeDuration}}</td>
+			<td class="left">
+				<ul class="list compact">
+					<li *ngFor="let job of proj.jobs">{{job.jobTypeName}}</li>
+				</ul>
+			</td>
 		</tr>
 	</tbody>
 </table>
