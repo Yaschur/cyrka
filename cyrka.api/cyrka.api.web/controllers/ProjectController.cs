@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using cyrka.api.web.services;
 using cyrka.api.web.models.projects;
 using cyrka.api.domain.projects.commands.setProduct;
+using cyrka.api.domain.projects.commands.setJob;
 
 namespace cyrka.api.web.controllers
 {
@@ -35,7 +36,7 @@ namespace cyrka.api.web.controllers
 		}
 
 		[HttpPost("{projectId}/product")]
-		public async Task<IActionResult> SetCustomer(string projectId, [FromBody] ProductInfo body)
+		public async Task<IActionResult> SetProduct(string projectId, [FromBody] ProductInfo body)
 		{
 			var command = new SetProduct(
 				projectId,
@@ -46,6 +47,25 @@ namespace cyrka.api.web.controllers
 				body.TotalEpisodes,
 				body.EpisodeNumber,
 				body.EpisodeDuration
+			);
+			var result = await _projectService.Do(command);
+
+			if (result == null)
+				return NotFound();
+
+			return Ok(result);
+		}
+
+		[HttpPost("{projectId}/job")]
+		public async Task<IActionResult> SetJob(string projectId, [FromBody] JobInfo body)
+		{
+			var command = new SetJob(
+				projectId,
+				body.JobTypeId,
+				body.JobTypeName,
+				body.UnitName,
+				body.RatePerUnit,
+				body.Amount
 			);
 			var result = await _projectService.Do(command);
 
