@@ -32,6 +32,15 @@ Content-Type: application/json
 	"amount": 117
 }
 
+### change job
+PUT http://localhost:5000/projects/SUBST-1802-1/job/47f91b73-9f3a-4e39-a5a5-eab73c9e7340 HTTP/1.1
+Content-Type: application/json
+
+{
+	"ratePerUnit": 200,
+	"amount": 59
+}
+
 #### Customers ####
 
 ### get all

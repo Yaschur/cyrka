@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using cyrka.api.common.events;
 using cyrka.api.common.generators;
 using cyrka.api.domain.projects;
+using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
@@ -57,6 +58,21 @@ namespace cyrka.api.web.services
 		{
 			var handler = new SetJobHandler(_projectRepository);
 			var eventData = await handler.Handle(command);
+			if (eventData == null)
+				return null;
+			await HandleEventData(eventData);
+
+			return new WebAnswerBody
+			{
+				ResourceId = eventData.AggregateId,
+				ResourceType = ProjectResourceKey
+			};
+		}
+
+		public async Task<WebAnswerBody> Do(string projectId, ChangeJob command)
+		{
+			var handler = new ChangeJobHandler(_projectRepository);
+			var eventData = await handler.Handle(projectId, command);
 			if (eventData == null)
 				return null;
 			await HandleEventData(eventData);

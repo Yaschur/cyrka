@@ -9,6 +9,7 @@ using cyrka.api.web.services;
 using cyrka.api.web.models.projects;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setJob;
+using cyrka.api.domain.projects.commands.changeJob;
 
 namespace cyrka.api.web.controllers
 {
@@ -68,6 +69,22 @@ namespace cyrka.api.web.controllers
 				body.Amount
 			);
 			var result = await _projectService.Do(command);
+
+			if (result == null)
+				return NotFound();
+
+			return Ok(result);
+		}
+
+		[HttpPut("{projectId}/job/{jobTypeId}")]
+		public async Task<IActionResult> ChangeJob(string projectId, string jobTypeId, [FromBody] JobVolumeInfo body)
+		{
+			var command = new ChangeJob(
+				jobTypeId,
+				body.RatePerUnit,
+				body.Amount
+			);
+			var result = await _projectService.Do(projectId, command);
 
 			if (result == null)
 				return NotFound();

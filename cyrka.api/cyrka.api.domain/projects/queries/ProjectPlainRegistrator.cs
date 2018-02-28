@@ -17,6 +17,7 @@ namespace cyrka.api.domain.projects.queries
 			processor.RegisterEventProcessing<ProjectRegistered, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<ProductSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<JobSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
+			processor.RegisterEventProcessing<JobChanged, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 		}
 
 		public Expression<Func<ProjectPlain, bool>> IdFilterByEventData(ProjectEventData eventData)
