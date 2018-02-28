@@ -9,9 +9,9 @@ namespace cyrka.api.domain.projects.commands.setProduct
 			_repository = repository;
 		}
 
-		public async Task<ProductSet> Handle(SetProduct command)
+		public async Task<ProductSet> Handle(string projectId, SetProduct command)
 		{
-			var project = await _repository.GetById(command.ProjectId);
+			var project = await _repository.GetById(projectId);
 			if (project == null)
 				return null;
 			return new ProductSet(

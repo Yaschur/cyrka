@@ -2,7 +2,6 @@ namespace cyrka.api.domain.projects.commands.setProduct
 {
 	public class SetProduct
 	{
-		public readonly string ProjectId;
 		public readonly string CustomerId;
 		public readonly string CustomerName;
 		public readonly string TitleId;
@@ -12,7 +11,6 @@ namespace cyrka.api.domain.projects.commands.setProduct
 		public readonly int EpisodeDuration;
 
 		public SetProduct(
-			string projectId,
 			string customerId,
 			string customerName,
 			string titleId,
@@ -22,7 +20,6 @@ namespace cyrka.api.domain.projects.commands.setProduct
 			int episodeDuration
 		)
 		{
-			ProjectId = projectId;
 			CustomerId = customerId;
 			CustomerName = customerName;
 			TitleId = titleId;

@@ -9,9 +9,9 @@ namespace cyrka.api.domain.projects.commands.setJob
 			_repository = repository;
 		}
 
-		public async Task<JobSet> Handle(SetJob command)
+		public async Task<JobSet> Handle(string projectId, SetJob command)
 		{
-			var project = await _repository.GetById(command.ProjectId);
+			var project = await _repository.GetById(projectId);
 			if (project == null)
 				return null;
 			return new JobSet(

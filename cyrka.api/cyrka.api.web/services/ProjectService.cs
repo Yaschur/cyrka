@@ -39,10 +39,10 @@ namespace cyrka.api.web.services
 			};
 		}
 
-		public async Task<WebAnswerBody> Do(SetProduct command)
+		public async Task<WebAnswerBody> Do(string projectId, SetProduct command)
 		{
 			var handler = new SetProductHandler(_projectRepository);
-			var eventData = await handler.Handle(command);
+			var eventData = await handler.Handle(projectId, command);
 			if (eventData == null)
 				return null;
 			await HandleEventData(eventData);
@@ -54,10 +54,10 @@ namespace cyrka.api.web.services
 			};
 		}
 
-		public async Task<WebAnswerBody> Do(SetJob command)
+		public async Task<WebAnswerBody> Do(string projectId, SetJob command)
 		{
 			var handler = new SetJobHandler(_projectRepository);
-			var eventData = await handler.Handle(command);
+			var eventData = await handler.Handle(projectId, command);
 			if (eventData == null)
 				return null;
 			await HandleEventData(eventData);

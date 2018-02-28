@@ -13,11 +13,11 @@ Content-Type: application/json
 {
 	"customerId": "8efec7a9-941f-4c20-aa36-ba41a19cecdb",
   "customerName": "HBO",
-	"titleId": "edb78042-7a40-4b33-a1ac-344abfa45f83",
-  "titleName": "Pilot season 1",
-  "totalEpisodes": 3,
+	"titleId": "dc6f8e8b-7bd3-4547-9fde-16e487364bbc",
+  "titleName": "Pilot season 2",
+  "totalEpisodes": 5,
 	"episodeNumber": 1,
-  "episodeDuration": 55
+  "episodeDuration": 77
 }
 
 ### set job
@@ -29,7 +29,7 @@ Content-Type: application/json
 	"jobTypeName": "Subtitling",
 	"unitName": "Minute",
 	"ratePerUnit": 150,
-	"amount": 117
+	"amount": 77
 }
 
 ### change job

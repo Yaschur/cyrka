@@ -2,7 +2,6 @@ namespace cyrka.api.domain.projects.commands.setJob
 {
 	public class SetJob
 	{
-		public readonly string ProjectId;
 		public readonly string JobTypeId;
 		public readonly string JobTypeName;
 		public readonly string UnitName;
@@ -10,7 +9,6 @@ namespace cyrka.api.domain.projects.commands.setJob
 		public readonly uint Amount;
 
 		public SetJob(
-			string projectId,
 			string jobTypeId,
 			string jobTypeName,
 			string unitName,
@@ -18,7 +16,6 @@ namespace cyrka.api.domain.projects.commands.setJob
 			uint amount
 		)
 		{
-			ProjectId = projectId;
 			JobTypeId = jobTypeId;
 			JobTypeName = jobTypeName;
 			UnitName = unitName;

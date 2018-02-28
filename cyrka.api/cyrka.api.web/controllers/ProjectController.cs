@@ -40,7 +40,6 @@ namespace cyrka.api.web.controllers
 		public async Task<IActionResult> SetProduct(string projectId, [FromBody] ProductInfo body)
 		{
 			var command = new SetProduct(
-				projectId,
 				body.CustomerId,
 				body.CustomerName,
 				body.TitleId,
@@ -49,7 +48,7 @@ namespace cyrka.api.web.controllers
 				body.EpisodeNumber,
 				body.EpisodeDuration
 			);
-			var result = await _projectService.Do(command);
+			var result = await _projectService.Do(projectId, command);
 
 			if (result == null)
 				return NotFound();
@@ -61,14 +60,13 @@ namespace cyrka.api.web.controllers
 		public async Task<IActionResult> SetJob(string projectId, [FromBody] JobInfo body)
 		{
 			var command = new SetJob(
-				projectId,
 				body.JobTypeId,
 				body.JobTypeName,
 				body.UnitName,
 				body.RatePerUnit,
 				body.Amount
 			);
-			var result = await _projectService.Do(command);
+			var result = await _projectService.Do(projectId, command);
 
 			if (result == null)
 				return NotFound();
