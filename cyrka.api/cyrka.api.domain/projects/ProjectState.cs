@@ -8,6 +8,6 @@ namespace cyrka.api.domain.projects
 
 		public ProductState Product { get; set; }
 
-		public JobState[] Jobs { get; set; }
+		public JobState[] Jobs { get; set; } = { };
 	}
 }

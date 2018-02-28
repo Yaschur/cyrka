@@ -1,5 +1,6 @@
 using cyrka.api.domain.projects.commands;
 using cyrka.api.domain.projects.commands.register;
+using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
 using MongoDB.Bson.Serialization;
 
@@ -34,6 +35,23 @@ namespace cyrka.api.infra.stores.events
 					cr.TotalEpisodes,
 					cr.EpisodeNumber,
 					cr.EpisodeDuration
+				));
+			});
+
+			BsonClassMap.RegisterClassMap<JobSet>(cm =>
+			{
+				cm.MapField(cr => cr.Amount);
+				cm.MapField(cr => cr.JobTypeId);
+				cm.MapField(cr => cr.JobTypeName);
+				cm.MapField(cr => cr.RatePerUnit);
+				cm.MapField(cr => cr.UnitName);
+				cm.MapCreator(cr => new JobSet(
+					cr.AggregateId,
+					cr.JobTypeId,
+					cr.JobTypeName,
+					cr.UnitName,
+					cr.RatePerUnit,
+					cr.Amount
 				));
 			});
 		}

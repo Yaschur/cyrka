@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using cyrka.api.common.queries;
 using cyrka.api.domain.projects.commands;
 using cyrka.api.domain.projects.commands.register;
+using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
 
 namespace cyrka.api.domain.projects.queries
@@ -13,6 +15,7 @@ namespace cyrka.api.domain.projects.queries
 		{
 			processor.RegisterEventProcessing<ProjectRegistered, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<ProductSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
+			processor.RegisterEventProcessing<JobSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 		}
 
 		public Expression<Func<ProjectPlain, bool>> IdFilterByEventData(ProjectEventData eventData)
@@ -41,8 +44,34 @@ namespace cyrka.api.domain.projects.queries
 					TitleName = eventData.TitleName,
 					TotalEpisodes = eventData.TotalEpisodes,
 					EpisodeNumber = eventData.EpisodeNumber,
-					EpisodeDuration = eventData.EpisodeDuration
+					EpisodeDuration = eventData.EpisodeDuration,
+				},
+				Jobs = source.Jobs
+			};
+		}
+
+		public ProjectPlain UpdateByEventData(JobSet eventData, ProjectPlain source)
+		{
+			var jobs = source.Jobs
+				.Where(j => j.JobTypeId != eventData.JobTypeId)
+				.ToList();
+
+			jobs.Add(
+				new JobState
+				{
+					Amount = eventData.Amount,
+					JobTypeId = eventData.JobTypeId,
+					JobTypeName = eventData.JobTypeName,
+					RatePerUnit = eventData.RatePerUnit,
+					UnitName = eventData.UnitName,
 				}
+			);
+
+			return new ProjectPlain
+			{
+				Id = source.Id,
+				Product = source.Product,
+				Jobs = jobs,
 			};
 		}
 	}
