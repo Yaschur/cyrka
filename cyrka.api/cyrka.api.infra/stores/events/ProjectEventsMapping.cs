@@ -1,4 +1,5 @@
 using cyrka.api.domain.projects.commands;
+using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
@@ -50,6 +51,19 @@ namespace cyrka.api.infra.stores.events
 					cr.JobTypeId,
 					cr.JobTypeName,
 					cr.UnitName,
+					cr.RatePerUnit,
+					cr.Amount
+				));
+			});
+
+			BsonClassMap.RegisterClassMap<JobChanged>(cm =>
+			{
+				cm.MapField(cr => cr.Amount);
+				cm.MapField(cr => cr.JobTypeId);
+				cm.MapField(cr => cr.RatePerUnit);
+				cm.MapCreator(cr => new JobChanged(
+					cr.AggregateId,
+					cr.JobTypeId,
 					cr.RatePerUnit,
 					cr.Amount
 				));

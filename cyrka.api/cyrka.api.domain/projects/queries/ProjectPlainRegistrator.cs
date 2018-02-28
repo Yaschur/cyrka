@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using cyrka.api.common.queries;
 using cyrka.api.domain.projects.commands;
+using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
@@ -64,6 +65,35 @@ namespace cyrka.api.domain.projects.queries
 					JobTypeName = eventData.JobTypeName,
 					RatePerUnit = eventData.RatePerUnit,
 					UnitName = eventData.UnitName,
+				}
+			);
+
+			return new ProjectPlain
+			{
+				Id = source.Id,
+				Product = source.Product,
+				Jobs = jobs,
+			};
+		}
+
+		public ProjectPlain UpdateByEventData(JobChanged eventData, ProjectPlain source)
+		{
+			var exJob = source.Jobs
+				.FirstOrDefault(j => j.JobTypeId == eventData.JobTypeId);
+			if (exJob == null)
+				return null;
+			var jobs = source.Jobs
+				.Where(j => j.JobTypeId != eventData.JobTypeId)
+				.ToList();
+
+			jobs.Add(
+				new JobState
+				{
+					Amount = eventData.Amount,
+					JobTypeId = exJob.JobTypeId,
+					JobTypeName = exJob.JobTypeName,
+					RatePerUnit = eventData.RatePerUnit,
+					UnitName = exJob.UnitName,
 				}
 			);
 

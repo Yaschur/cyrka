@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using cyrka.api.common.events;
+using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
@@ -28,6 +29,9 @@ namespace cyrka.api.domain.projects
 						break;
 					case JobSet jobSet:
 						ApplyEvent(jobSet);
+						break;
+					case JobChanged jobChanged:
+						ApplyEvent(jobChanged);
 						break;
 				}
 			}
@@ -67,6 +71,16 @@ namespace cyrka.api.domain.projects
 				}
 			);
 			State.Jobs = jobList.ToArray();
+		}
+
+		private void ApplyEvent(JobChanged jobChanged)
+		{
+			var job = State.Jobs
+				.FirstOrDefault(j => j.JobTypeId == jobChanged.JobTypeId);
+			if (job == null)
+				return;
+			job.Amount = jobChanged.Amount;
+			job.RatePerUnit = jobChanged.RatePerUnit;
 		}
 	}
 }
