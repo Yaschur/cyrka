@@ -16,6 +16,8 @@ import { Title } from '../models/title';
 import { ProductSet } from '../models/product-set';
 import { ApiAnswer } from '../models/api-answer';
 import { JobType } from '../models/job-type';
+import { JobsApiService } from '../services/jobs-api.service';
+import { JobSet } from '../models/job-set';
 
 @Component({
 	selector: 'app-projects-form',
@@ -28,11 +30,13 @@ export class ProjectsFormComponent implements OnInit {
 		private _formBuilder: FormBuilder,
 		private _projectApi: ProjectsApiService,
 		private _customerApi: CustomersApiService,
+		private _jobApi: JobsApiService,
 		private _route: ActivatedRoute,
 		private _router: Router
 	) {
 		this.customers = [];
 		this.titles = [];
+		this.jobTypes = [];
 		this.noe = 0;
 		this.form = this._formBuilder.group({
 			'product': this._formBuilder.group({
@@ -55,21 +59,36 @@ export class ProjectsFormComponent implements OnInit {
 
 	public customers: Customer[];
 	public titles: Title[];
+	public jobTypes: JobType[];
 	public noe: number;
+
+	public get formJobs(): FormArray { return this.form.get('jobs') as FormArray; }
+	public get availableJobTypes(): JobType[] {
+		return this.jobTypes.filter(jt =>
+			!this.formJobs.controls
+				.map(c => c.value['jobType'].id)
+				.some(id => jt.id === id)
+		);
+	}
 
 	public ngOnInit() {
 		this._route.params
-			.switchMap(p => p['projectId'] ? this._projectApi.getById(p['projectId']) : Observable.of(<Project>{ product: {} }))
-			.zip(this._customerApi.getAll(), (project: Project, customers: Customer[]) => ({ project, customers }))
-			.subscribe(p => this.initItAll(p.project, p.customers));
+			.switchMap(p => p['projectId'] ? this._projectApi.getById(p['projectId']) : Observable.of(<Project>{ product: {}, jobs: [] }))
+			.zip(
+				this._customerApi.getAll(),
+				this._jobApi.getAll(),
+				(project: Project, customers: Customer[], jobTypes: JobType[]) => ({ project, customers, jobTypes }))
+			.subscribe(p => this.initItAll(p.project, p.customers, p.jobTypes));
 	}
 
 	public onSave() {
 		if (this.form.invalid || this.form.pristine) {
+			console.log(`form is invalid: ${this.form.invalid}, form is pristine: ${this.form.pristine}`);
 			return;
 		}
 		(this._id ? Observable.of<ApiAnswer>({ resourceId: this._id, resourceType: '' }) : this._projectApi.register())
 			.flatMap(res => this._projectApi.setProduct(res.resourceId, this.getProductSet()))
+			.flatMap(res => this._projectApi.setJobs(res.resourceId, this.getJobSets()))
 			.subscribe(() => this.onCancel());
 	}
 
@@ -77,16 +96,20 @@ export class ProjectsFormComponent implements OnInit {
 		this._router.navigate(['..'], { relativeTo: this._route });
 	}
 
+	public addJobType(jtId: string) {
+		this.addJobFormGroup(jtId);
+	}
+
 	private _id: string;
 
-	private initItAll(project: Project, customers: Customer[]) {
+	private initItAll(project: Project, customers: Customer[], jobTypes: JobType[]) {
 		this._id = project.id;
 		this.formTitle = this._id ? 'изменение данных проекта' : 'создание нового проекта';
 		this.submitTitle = this._id ? 'изменить' : 'создать';
 		this.customers = customers;
 		const selCustomer = project.product ? customers.find(c => c.id === project.product.customerId) || null : null;
 		const selTitle = selCustomer ? selCustomer.titles.find(t => t.id === project.product.titleId) || null : null;
-		this.form.setValue({
+		this.form.patchValue({
 			product: {
 				customer: selCustomer,
 				title: selTitle,
@@ -94,6 +117,9 @@ export class ProjectsFormComponent implements OnInit {
 				episodeDuration: project.product ? project.product.episodeDuration || 0 : 0
 			}
 		});
+		this.jobTypes = jobTypes;
+		project.jobs
+			.forEach(j => this.addJobFormGroup(j.jobTypeId, j.amount, j.ratePerUnit));
 	}
 
 	private customerChanges(val: Customer) {
@@ -131,13 +157,30 @@ export class ProjectsFormComponent implements OnInit {
 		};
 	}
 
-	private addJobFormGroup(selJobType?: JobType, rate?: number, amount?: number) {
-		(<FormArray>this.form.controls['jobs']).push(
+	private getJobSets(): JobSet[] {
+		const formJobs = this.form.get('jobs').value;
+		return formJobs.map(j => <JobSet>{
+			jobTypeId: j.jobType.id,
+			jobTypeName: j.jobType.name,
+			unitName: j.jobType.unitName,
+			ratePerUnit: j.rate,
+			amount: j.amount
+		});
+	}
+
+	private addJobFormGroup(jobTypeId: string, amount?: number, rate?: number) {
+		const selJobType = this.jobTypes
+			.find(j => j.id === jobTypeId);
+		if (!selJobType) {
+			return;
+		}
+		this.formJobs.push(
 			this._formBuilder.group({
-				'jobType': [selJobType || null, Validators.required],
-				'rate': [rate || 0, Validators.required],
-				'amount': [amount || 0, Validators.required]
+				'jobType': [selJobType, Validators.required],
+				'rate': [rate || selJobType ? selJobType.rate : 0, Validators.required],
+				'amount': [amount || 1, Validators.required]
 			})
 		);
+		this.form.markAsDirty();
 	}
 }

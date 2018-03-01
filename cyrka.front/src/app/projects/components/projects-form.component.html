@@ -1,6 +1,7 @@
+<label>{{formTitle}}</label>
 <form (ngSubmit)="onSave()" [formGroup]="form">
 	<section class="form-block">
-		<label>{{formTitle}}</label>
+		<h4>заказчик и продукт</h4>
 		<div formGroupName="product">
 			<div class="form-group">
 				<label for="customer" class="required">заказчик</label>
@@ -22,15 +23,38 @@
 			</div>
 			<div class="form-group">
 				<label for="episodeNumber" class="required">номер эпизода</label>
-				<input type="number" id="episodeNumber" formControlName="episodeNumber">
-				(всего эпизодов: {{noe}})
+				<input type="number" id="episodeNumber" formControlName="episodeNumber"> (всего эпизодов: {{noe}})
 			</div>
 			<div class="form-group">
 				<label for="episodeDuration" class="required">хронометраж</label>
 				<input type="number" id="episodeDuration" formControlName="episodeDuration">
 			</div>
 		</div>
-		<button type="submit" [disabled]="!form.valid" class="btn btn-sm btn-primary">{{submitTitle}}</button>
-		<button type="button" class="btn btn-sm btn-secondary" (click)="onCancel()">отмена</button>
 	</section>
+	<section class="form-block">
+		<h4>работы</h4>
+		<div class="form-group">
+			<div *ngIf="availableJobTypes.length != 0" class="select">
+				<select #aJobTypes (change)="addJobType(aJobTypes.value);aJobTypes.value='';">
+					<option value=''>Добавить работу</option>
+					<option *ngFor="let jt of availableJobTypes" [value]="jt.id">{{ jt.name }}</option>
+				</select>
+			</div>
+		</div>
+		<div formArrayName="jobs">
+			<div *ngFor="let job of formJobs.controls; index as i" [formGroupName]="i">
+				<h6>{{job.value['jobType'].name}}</h6>
+				<div class="form-group">
+					<label for="rate" class="required">ставка за единицу</label>
+					<input type="number" id="rate" formControlName="rate">
+				</div>
+				<div class="form-group">
+					<label for="amount" class="required">объем</label>
+					<input type="number" id="amount" formControlName="amount">
+				</div>
+			</div>
+		</div>
+	</section>
+	<button type="submit" [disabled]="!form.valid" class="btn btn-sm btn-primary">{{submitTitle}}</button>
+	<button type="button" class="btn btn-sm btn-secondary" (click)="onCancel()">отмена</button>
 </form>

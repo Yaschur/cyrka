@@ -35,6 +35,13 @@ export class ProjectsApiService {
 
 	public setJob(id: string, jobSet: JobSet): Observable<ApiAnswer> {
 		return this._httpClient.post<ApiAnswer>(
+			`${environment.cyrkaApi.baseUrl}/projects/${id}/job`,
+			jobSet
+		);
+	}
+
+	public setJobs(id: string, jobSet: JobSet[]): Observable<ApiAnswer> {
+		return this._httpClient.post<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/projects/${id}/jobs`,
 			jobSet
 		);

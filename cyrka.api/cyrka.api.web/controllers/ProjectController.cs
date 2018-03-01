@@ -56,7 +56,7 @@ namespace cyrka.api.web.controllers
 			return Ok(result);
 		}
 
-		[HttpPost("{projectId}/jobs")]
+		[HttpPost("{projectId}/job")]
 		public async Task<IActionResult> SetJob(string projectId, [FromBody] JobInfo body)
 		{
 			var command = new SetJob(
@@ -72,6 +72,29 @@ namespace cyrka.api.web.controllers
 				return NotFound();
 
 			return Ok(result);
+		}
+
+		[HttpPost("{projectId}/jobs")]
+		public async Task<IActionResult> SetJobs(string projectId, [FromBody] JobInfo[] bodies)
+		{
+			var results = new List<WebAnswerBody>();
+			foreach (var body in bodies)
+			{
+				var command = new SetJob(
+					body.JobTypeId,
+					body.JobTypeName,
+					body.UnitName,
+					body.RatePerUnit,
+					body.Amount
+				);
+				var result = await _projectService.Do(projectId, command);
+				results.Add(result);
+			}
+
+			if (results.All(r => r == null))
+				return NotFound();
+
+			return Ok(results.First(r => r != null));
 		}
 
 		[HttpPut("{projectId}/jobs/{jobTypeId}")]
