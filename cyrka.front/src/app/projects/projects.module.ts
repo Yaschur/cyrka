@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsComponent } from './components/projects.component';
 import { ProjectsFormComponent } from './components/projects-form.component';
+import { JobsApiService } from './services/jobs-api.service';
 import { CustomersApiService } from './services/customers-api.service';
 import { ProjectsApiService } from './services/projects-api.service';
 import { ProjectsListComponent } from './components/projects-list.component';
@@ -20,6 +21,7 @@ import { ProjectsListComponent } from './components/projects-list.component';
 		ProjectsFormComponent,
 		ProjectsListComponent],
 	providers: [
+		JobsApiService,
 		CustomersApiService,
 		ProjectsApiService
 	]

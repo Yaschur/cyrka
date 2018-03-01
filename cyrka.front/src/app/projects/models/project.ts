@@ -15,5 +15,5 @@ export interface Project {
 		unitName: string;
 		ratePerUnit: number;
 		amount: number;
-	}[]
+	}[];
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -15,6 +15,7 @@ import { Customer } from '../models/customer';
 import { Title } from '../models/title';
 import { ProductSet } from '../models/product-set';
 import { ApiAnswer } from '../models/api-answer';
+import { JobType } from '../models/job-type';
 
 @Component({
 	selector: 'app-projects-form',
@@ -39,7 +40,8 @@ export class ProjectsFormComponent implements OnInit {
 				'title': [null, Validators.required],
 				'episodeNumber': [null, Validators.required],
 				'episodeDuration': [null, Validators.required]
-			})
+			}),
+			'jobs': _formBuilder.array([])
 		});
 		this.form.get('product.customer').valueChanges
 			.subscribe(c => this.customerChanges(c));
@@ -66,7 +68,7 @@ export class ProjectsFormComponent implements OnInit {
 		if (this.form.invalid || this.form.pristine) {
 			return;
 		}
-		(this._id ? Observable.of<ApiAnswer>({resourceId: this._id, resourceType: ""}) : this._projectApi.register())
+		(this._id ? Observable.of<ApiAnswer>({ resourceId: this._id, resourceType: '' }) : this._projectApi.register())
 			.flatMap(res => this._projectApi.setProduct(res.resourceId, this.getProductSet()))
 			.subscribe(() => this.onCancel());
 	}
@@ -127,5 +129,15 @@ export class ProjectsFormComponent implements OnInit {
 			episodeNumber: formProduct.episodeNumber,
 			episodeDuration: formProduct.episodeDuration
 		};
+	}
+
+	private addJobFormGroup(selJobType?: JobType, rate?: number, amount?: number) {
+		(<FormArray>this.form.controls['jobs']).push(
+			this._formBuilder.group({
+				'jobType': [selJobType || null, Validators.required],
+				'rate': [rate || 0, Validators.required],
+				'amount': [amount || 0, Validators.required]
+			})
+		);
 	}
 }
