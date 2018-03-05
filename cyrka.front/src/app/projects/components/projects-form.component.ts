@@ -7,7 +7,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/zip';
 
-
 import { Project } from '../models/project';
 import { CustomersApiService } from '../services/customers-api.service';
 import { ProjectsApiService } from '../services/projects-api.service';
@@ -18,19 +17,25 @@ import { ApiAnswer } from '../models/api-answer';
 import { JobType } from '../models/job-type';
 import { JobsApiService } from '../services/jobs-api.service';
 import { JobSet } from '../models/job-set';
+import { UnitDescriptor } from '../../shared/units/unit-descriptor';
+import { UnitService } from '../../shared/units/unit.service';
+
+interface JobTypeWithUnit extends JobType {
+	unitDescriptor: UnitDescriptor;
+}
 
 @Component({
 	selector: 'app-projects-form',
 	templateUrl: './projects-form.component.html',
-	styleUrls: ['./projects-form.component.scss']
+	styleUrls: ['./projects-form.component.scss'],
 })
 export class ProjectsFormComponent implements OnInit {
-
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _projectApi: ProjectsApiService,
 		private _customerApi: CustomersApiService,
 		private _jobApi: JobsApiService,
+		private _unitSrv: UnitService,
 		private _route: ActivatedRoute,
 		private _router: Router
 	) {
@@ -39,18 +44,20 @@ export class ProjectsFormComponent implements OnInit {
 		this.jobTypes = [];
 		this.noe = 0;
 		this.form = this._formBuilder.group({
-			'product': this._formBuilder.group({
-				'customer': [null, Validators.required],
-				'title': [null, Validators.required],
-				'episodeNumber': [null, Validators.required],
-				'episodeDuration': [null, Validators.required]
+			product: this._formBuilder.group({
+				customer: [null, Validators.required],
+				title: [null, Validators.required],
+				episodeNumber: [null, Validators.required],
+				episodeDuration: [null, Validators.required],
 			}),
-			'jobs': _formBuilder.array([])
+			jobs: _formBuilder.array([]),
 		});
-		this.form.get('product.customer').valueChanges
-			.subscribe(c => this.customerChanges(c));
-		this.form.get('product.title').valueChanges
-			.subscribe(c => this.titleChanges(c));
+		this.form
+			.get('product.customer')
+			.valueChanges.subscribe(c => this.customerChanges(c));
+		this.form
+			.get('product.title')
+			.valueChanges.subscribe(c => this.titleChanges(c));
 	}
 
 	public form: FormGroup;
@@ -59,36 +66,65 @@ export class ProjectsFormComponent implements OnInit {
 
 	public customers: Customer[];
 	public titles: Title[];
-	public jobTypes: JobType[];
+	public jobTypes: JobTypeWithUnit[];
+	public units: UnitDescriptor[];
 	public noe: number;
 
-	public get formJobs(): FormArray { return this.form.get('jobs') as FormArray; }
-	public get availableJobTypes(): JobType[] {
-		return this.jobTypes.filter(jt =>
-			!this.formJobs.controls
-				.map(c => c.value['jobType'].id)
-				.some(id => jt.id === id)
+	public get formJobs(): FormArray {
+		return this.form.get('jobs') as FormArray;
+	}
+	public get availableJobTypes(): JobTypeWithUnit[] {
+		return this.jobTypes.filter(
+			jt =>
+				!this.formJobs.controls
+					.map(c => c.value['jobType'].id)
+					.some(id => jt.id === id)
 		);
 	}
 
 	public ngOnInit() {
 		this._route.params
-			.switchMap(p => p['projectId'] ? this._projectApi.getById(p['projectId']) : Observable.of(<Project>{ product: {}, jobs: [] }))
+			.switchMap(
+				p =>
+					p['projectId']
+						? this._projectApi.getById(p['projectId'])
+						: Observable.of(<Project>{ product: {}, jobs: [] })
+			)
 			.zip(
 				this._customerApi.getAll(),
 				this._jobApi.getAll(),
-				(project: Project, customers: Customer[], jobTypes: JobType[]) => ({ project, customers, jobTypes }))
-			.subscribe(p => this.initItAll(p.project, p.customers, p.jobTypes));
+				this._unitSrv.getAll(),
+				(
+					project: Project,
+					customers: Customer[],
+					jobTypes: JobType[],
+					units: UnitDescriptor[]
+				) => ({ project, customers, jobTypes, units })
+			)
+			.subscribe(p =>
+				this.initItAll(p.project, p.customers, p.jobTypes, p.units)
+			);
 	}
 
 	public onSave() {
 		if (this.form.invalid || this.form.pristine) {
-			console.log(`form is invalid: ${this.form.invalid}, form is pristine: ${this.form.pristine}`);
+			console.log(
+				`form is invalid: ${this.form.invalid}, form is pristine: ${
+					this.form.pristine
+				}`
+			);
 			return;
 		}
-		(this._id ? Observable.of<ApiAnswer>({ resourceId: this._id, resourceType: '' }) : this._projectApi.register())
-			.flatMap(res => this._projectApi.setProduct(res.resourceId, this.getProductSet()))
-			.flatMap(res => this._projectApi.setJobs(res.resourceId, this.getJobSets()))
+		(this._id
+			? Observable.of<ApiAnswer>({ resourceId: this._id, resourceType: '' })
+			: this._projectApi.register()
+		)
+			.flatMap(res =>
+				this._projectApi.setProduct(res.resourceId, this.getProductSet())
+			)
+			.flatMap(res =>
+				this._projectApi.setJobs(res.resourceId, this.getJobSets())
+			)
 			.subscribe(() => this.onCancel());
 	}
 
@@ -102,24 +138,41 @@ export class ProjectsFormComponent implements OnInit {
 
 	private _id: string;
 
-	private initItAll(project: Project, customers: Customer[], jobTypes: JobType[]) {
+	private initItAll(
+		project: Project,
+		customers: Customer[],
+		jobTypes: JobType[],
+		units: UnitDescriptor[]
+	) {
 		this._id = project.id;
-		this.formTitle = this._id ? 'изменение данных проекта' : 'создание нового проекта';
+		this.formTitle = this._id
+			? 'изменение данных проекта'
+			: 'создание нового проекта';
 		this.submitTitle = this._id ? 'изменить' : 'создать';
 		this.customers = customers;
-		const selCustomer = project.product ? customers.find(c => c.id === project.product.customerId) || null : null;
-		const selTitle = selCustomer ? selCustomer.titles.find(t => t.id === project.product.titleId) || null : null;
+		const selCustomer = project.product
+			? customers.find(c => c.id === project.product.customerId) || null
+			: null;
+		const selTitle = selCustomer
+			? selCustomer.titles.find(t => t.id === project.product.titleId) || null
+			: null;
 		this.form.patchValue({
 			product: {
 				customer: selCustomer,
 				title: selTitle,
 				episodeNumber: project.product ? project.product.episodeNumber || 0 : 0,
-				episodeDuration: project.product ? project.product.episodeDuration || 0 : 0
-			}
+				episodeDuration: project.product
+					? project.product.episodeDuration || 0
+					: 0,
+			},
 		});
-		this.jobTypes = jobTypes;
-		project.jobs
-			.forEach(j => this.addJobFormGroup(j.jobTypeId, j.amount, j.ratePerUnit));
+		this.jobTypes = jobTypes.map(jt => <JobTypeWithUnit>jt).map(jtu => {
+			jtu.unitDescriptor = units.find(u => u.key === jtu.unit) || units[0];
+			return jtu;
+		});
+		project.jobs.forEach(j =>
+			this.addJobFormGroup(j.jobTypeId, j.amount, j.ratePerUnit)
+		);
 	}
 
 	private customerChanges(val: Customer) {
@@ -153,32 +206,34 @@ export class ProjectsFormComponent implements OnInit {
 			titleName: formProduct.title.name,
 			totalEpisodes: this.noe,
 			episodeNumber: formProduct.episodeNumber,
-			episodeDuration: formProduct.episodeDuration
+			episodeDuration: formProduct.episodeDuration,
 		};
 	}
 
 	private getJobSets(): JobSet[] {
 		const formJobs = this.form.get('jobs').value;
-		return formJobs.map(j => <JobSet>{
-			jobTypeId: j.jobType.id,
-			jobTypeName: j.jobType.name,
-			unitName: j.jobType.unitName,
-			ratePerUnit: j.rate,
-			amount: j.amount
-		});
+		return formJobs.map(
+			j =>
+				<JobSet>{
+					jobTypeId: j.jobType.id,
+					jobTypeName: j.jobType.name,
+					unitName: j.jobType.unitDescriptor.key,
+					ratePerUnit: j.rate,
+					amount: j.amount,
+				}
+		);
 	}
 
 	private addJobFormGroup(jobTypeId: string, amount?: number, rate?: number) {
-		const selJobType = this.jobTypes
-			.find(j => j.id === jobTypeId);
+		const selJobType = this.jobTypes.find(j => j.id === jobTypeId);
 		if (!selJobType) {
 			return;
 		}
 		this.formJobs.push(
 			this._formBuilder.group({
-				'jobType': [selJobType, Validators.required],
-				'rate': [rate || selJobType ? selJobType.rate : 0, Validators.required],
-				'amount': [amount || 1, Validators.required]
+				jobType: [selJobType, Validators.required],
+				rate: [rate || selJobType ? selJobType.rate : 0, Validators.required],
+				amount: [amount || 1, Validators.required],
 			})
 		);
 		this.form.markAsDirty();

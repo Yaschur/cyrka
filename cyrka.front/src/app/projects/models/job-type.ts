@@ -1,6 +1,6 @@
 export interface JobType {
 	id: string;
 	name: string;
-	unitName: string;
+	unit: string;
 	rate: number;
 }

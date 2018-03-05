@@ -45,12 +45,13 @@
 			<div *ngFor="let job of formJobs.controls; index as i" [formGroupName]="i">
 				<h6>{{job.value['jobType'].name}}</h6>
 				<div class="form-group">
-					<label for="rate" class="required">ставка за единицу</label>
+					<label for="rate" class="required">ставка за {{job.value['jobType'].unitDescriptor.short}}</label>
 					<input type="number" id="rate" formControlName="rate">
 				</div>
 				<div class="form-group">
 					<label for="amount" class="required">объем</label>
 					<input type="number" id="amount" formControlName="amount">
+					<span>{{job.value['jobType'].unitDescriptor.short}}</span>
 				</div>
 			</div>
 		</div>
