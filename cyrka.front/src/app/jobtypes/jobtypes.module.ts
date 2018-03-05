@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { SharedModule } from '../shared/shared.module';
 import { JobTypesRoutingModule } from './jobtypes-routing.module';
 
 import { JobTypesApiService } from './services/jobtypes-api.service';
@@ -13,13 +14,14 @@ import { JobTypesFormComponent } from './components/jobtypes-form.component';
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		JobTypesRoutingModule
+		SharedModule,
+		JobTypesRoutingModule,
 	],
 	declarations: [
 		JobTypesComponent,
 		JobTypesListComponent,
-		JobTypesFormComponent
+		JobTypesFormComponent,
 	],
-	providers: [JobTypesApiService]
+	providers: [JobTypesApiService],
 })
-export class JobTypesModule { }
+export class JobTypesModule {}

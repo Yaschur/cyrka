@@ -2,28 +2,32 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+
 import { JobTypePlain } from '../models/jobtype-plain';
 import { JobTypesApiService } from '../services/jobtypes-api.service';
-import { Observable } from 'rxjs/Observable';
+import { UnitService } from '../../shared/units/unit.service';
+import { UnitDescriptor } from '../../shared/units/unit-descriptor';
 
 @Component({
 	selector: 'app-jobtypes-form',
 	templateUrl: './jobtypes-form.component.html',
-	styleUrls: ['./jobtypes-form.component.scss']
+	styleUrls: ['./jobtypes-form.component.scss'],
 })
 export class JobTypesFormComponent implements OnInit {
-
 	constructor(
 		private _formBuilder: FormBuilder,
+		private _unitSrv: UnitService,
 		private _api: JobTypesApiService,
 		private _route: ActivatedRoute,
 		private _router: Router
 	) {
+		this.units = [];
 		this.form = this._formBuilder.group({
-			'name': ['', Validators.required],
-			'unit': '',
-			'rate': ['', Validators.required],
-			'description': ''
+			name: ['', Validators.required],
+			unit: '',
+			rate: ['', Validators.required],
+			description: '',
 		});
 	}
 
@@ -31,27 +35,28 @@ export class JobTypesFormComponent implements OnInit {
 	public formTitle: string;
 	public submitTitle: string;
 
-	public units: { key: string, value: string }[] = [
-		{ key: 'Undefined', value: 'Не определено' },
-		{ key: 'Piece', value: 'Штука/ единица' },
-		{ key: 'Minute', value: 'Минута' },
-		{ key: 'Character', value: 'Персонаж' },
-		{ key: 'Symbol', value: 'Символ (текста)' },
-		{ key: 'Gigabyte', value: 'Гигабайт' }
-	];
+	public units: UnitDescriptor[];
 
 	public ngOnInit() {
+		this._unitSrv.getAll().subscribe(units => (this.units = units));
 		this._route.params
-			.switchMap(p => p['jobTypeId'] ? this._api.getById(p['jobTypeId']) : Observable.of(<JobTypePlain>{}))
+			.switchMap(
+				p =>
+					p['jobTypeId']
+						? this._api.getById(p['jobTypeId'])
+						: Observable.of(<JobTypePlain>{})
+			)
 			.subscribe(jt => {
 				this.form.setValue({
-					'name': jt.name || '',
-					'unit': jt.unit || this.units[0].key,
-					'rate': jt.rate || 0.00,
-					'description': jt.description || ''
+					name: jt.name || '',
+					unit: jt.unit || this.units[0].key,
+					rate: jt.rate || 0.0,
+					description: jt.description || '',
 				});
 				this._id = jt.id;
-				this.formTitle = this._id ? 'изменение данных услуги' : 'добавление новой услуги';
+				this.formTitle = this._id
+					? 'изменение данных услуги'
+					: 'добавление новой услуги';
 				this.submitTitle = this._id ? 'изменить' : 'добавить';
 			});
 	}
@@ -61,8 +66,10 @@ export class JobTypesFormComponent implements OnInit {
 		if (this.form.invalid || this.form.pristine) {
 			return;
 		}
-		(this._id ? this._api.change(this._id, this.form.value) : this._api.register(this.form.value))
-			.subscribe(() => this.onCancel());
+		(this._id
+			? this._api.change(this._id, this.form.value)
+			: this._api.register(this.form.value)
+		).subscribe(() => this.onCancel());
 	}
 
 	public onCancel() {

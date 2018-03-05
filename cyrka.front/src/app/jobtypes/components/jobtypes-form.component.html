@@ -13,7 +13,7 @@
 			<label for="unit">измерение</label>
 			<div class="select">
 				<select id="unit" formControlName="unit">
-					<option *ngFor="let unit of units" value="{{unit.key}}">{{unit.value}}</option>
+					<option *ngFor="let unit of units" value="{{unit.key}}">{{unit.title}} ({{unit.short}})</option>
 				</select>
 			</div>
 		</div>
