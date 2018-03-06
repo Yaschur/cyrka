@@ -10,6 +10,7 @@ using cyrka.api.web.models.projects;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.changeJob;
+using cyrka.api.domain.projects.commands.setStatus;
 
 namespace cyrka.api.web.controllers
 {
@@ -105,6 +106,18 @@ namespace cyrka.api.web.controllers
 				body.RatePerUnit,
 				body.Amount
 			);
+			var result = await _projectService.Do(projectId, command);
+
+			if (result == null)
+				return NotFound();
+
+			return Ok(result);
+		}
+
+		[HttpPost("{projectId}/status")]
+		public async Task<IActionResult> SetStatus(string projectId, [FromBody] StatusInfo body)
+		{
+			var command = new SetStatus(body.Status);
 			var result = await _projectService.Do(projectId, command);
 
 			if (result == null)

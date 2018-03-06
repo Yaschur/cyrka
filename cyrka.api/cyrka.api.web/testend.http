@@ -41,6 +41,14 @@ Content-Type: application/json
 	"amount": 59
 }
 
+### set status
+POST http://localhost:5000/projects/SUBST-1802-2/status
+Content-Type: application/json
+
+{
+	"status": "cancelled"
+}
+
 #### Customers ####
 
 ### get all

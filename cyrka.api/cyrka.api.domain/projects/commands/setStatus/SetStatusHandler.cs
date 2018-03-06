@@ -9,7 +9,7 @@ namespace cyrka.api.domain.projects.commands.setStatus
 			_repository = repository;
 		}
 
-		public async Task<StatusSet> Handle(string projectId, StatusSet command)
+		public async Task<StatusSet> Handle(string projectId, SetStatus command)
 		{
 			var project = await _repository.GetById(projectId);
 			if (project == null)

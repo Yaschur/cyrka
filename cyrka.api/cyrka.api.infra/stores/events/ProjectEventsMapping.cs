@@ -3,6 +3,7 @@ using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
+using cyrka.api.domain.projects.commands.setStatus;
 using MongoDB.Bson.Serialization;
 
 namespace cyrka.api.infra.stores.events
@@ -67,6 +68,12 @@ namespace cyrka.api.infra.stores.events
 					cr.RatePerUnit,
 					cr.Amount
 				));
+			});
+
+			BsonClassMap.RegisterClassMap<StatusSet>(cm =>
+			{
+				cm.MapField(cr => cr.Status);
+				cm.MapCreator(cr => new StatusSet(cr.AggregateId, cr.Status));
 			});
 		}
 	}

@@ -5,6 +5,7 @@ using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setProduct;
+using cyrka.api.domain.projects.commands.setStatus;
 
 namespace cyrka.api.domain.projects
 {
@@ -32,6 +33,9 @@ namespace cyrka.api.domain.projects
 						break;
 					case JobChanged jobChanged:
 						ApplyEvent(jobChanged);
+						break;
+					case StatusSet statusSet:
+						ApplyEvent(statusSet);
 						break;
 				}
 			}
@@ -81,6 +85,11 @@ namespace cyrka.api.domain.projects
 				return;
 			job.Amount = jobChanged.Amount;
 			job.RatePerUnit = jobChanged.RatePerUnit;
+		}
+
+		private void ApplyEvent(StatusSet statusSet)
+		{
+			State.Status = statusSet.Status;
 		}
 	}
 }
