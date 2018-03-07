@@ -1,5 +1,6 @@
 export interface Project {
 	id: string;
+	status: string;
 	product: {
 		customerId: string;
 		customerName: string;

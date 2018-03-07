@@ -2,6 +2,7 @@
 	<thead>
 		<tr>
 			<th class="left">номер</th>
+			<th class="left">статус</th>
 			<th class="left">заказчик</th>
 			<th class="left">продукт (тайтл)</th>
 			<th class="left">эпизод</th>
@@ -13,6 +14,9 @@
 		<tr *ngFor="let proj of projects | async">
 			<td class="left">
 				<a routerLink="{{proj.id}}">{{proj.id}}</a>
+			</td>
+			<td class="left">
+				<span class="label label-info">{{proj.status}}</span>
 			</td>
 			<td class="left">{{proj.product?.customerName}}</td>
 			<td class="left">{{proj.product?.titleName}}</td>
