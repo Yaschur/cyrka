@@ -10,6 +10,6 @@ export interface JobTypeState extends JobType {
 	isNew: boolean;
 }
 
-export interface JobTypeList {
+export interface JobTypeListState {
 	jobTypes: JobType[];
 }
