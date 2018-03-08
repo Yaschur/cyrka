@@ -4,8 +4,8 @@ COPY package.json package-lock.json ./
 RUN npm install && mkdir /cyrka.front && cp -R ./node_modules ./cyrka.front
 WORKDIR /cyrka.front
 COPY . .
-RUN $(npm bin)/ng build -t development -e temp
-#RUN $(npm bin)/ng build --prod
+# RUN $(npm bin)/ng build -t development -e temp
+RUN $(npm bin)/ng build --prod
 
 ### Test stage
 
