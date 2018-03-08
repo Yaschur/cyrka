@@ -10,6 +10,8 @@ import { CustomerDefinition } from '../models/customer-definition';
 	templateUrl: './customers-register.component.html',
 })
 export class CustomersRegisterComponent {
+	public customer: CustomerDefinition;
+
 	constructor(
 		private _customerApi: CustomersApiService,
 		private _router: Router,
@@ -18,8 +20,6 @@ export class CustomersRegisterComponent {
 	) {
 		this.customer = <CustomerDefinition>{};
 	}
-
-	public customer: CustomerDefinition;
 
 	public onSubmit() {
 		this._customerApi.register(this.customer).subscribe(() => {

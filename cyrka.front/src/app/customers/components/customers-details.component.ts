@@ -8,12 +8,6 @@ import { CustomerDefinition } from '../models/customer-definition';
 })
 export class CustomersDetailsComponent {
 
-	constructor() {
-		this.close = new EventEmitter();
-		this.change = new EventEmitter();
-		this.delete = new EventEmitter();
-	}
-
 	@Input()
 	public customer: CustomerDefinition;
 
@@ -23,4 +17,10 @@ export class CustomersDetailsComponent {
 	public change: EventEmitter<void>;
 	@Output()
 	public delete: EventEmitter<void>;
+
+	constructor() {
+		this.close = new EventEmitter();
+		this.change = new EventEmitter();
+		this.delete = new EventEmitter();
+	}
 }

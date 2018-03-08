@@ -15,6 +15,12 @@ import { UnitDescriptor } from '../../shared/units/unit-descriptor';
 	styleUrls: ['./jobtypes-form.component.scss'],
 })
 export class JobTypesFormComponent implements OnInit {
+	public form: FormGroup;
+	public formTitle: string;
+	public submitTitle: string;
+
+	public units: UnitDescriptor[];
+
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _unitSrv: UnitService,
@@ -30,12 +36,6 @@ export class JobTypesFormComponent implements OnInit {
 			description: '',
 		});
 	}
-
-	public form: FormGroup;
-	public formTitle: string;
-	public submitTitle: string;
-
-	public units: UnitDescriptor[];
 
 	public ngOnInit() {
 		this._unitSrv.getAll().subscribe(units => (this.units = units));

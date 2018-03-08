@@ -17,6 +17,8 @@ interface JobTypeWithUnit extends JobTypePlain {
 	styleUrls: ['./jobtypes-list.component.scss'],
 })
 export class JobTypesListComponent {
+	public jobTypes: Observable<JobTypeWithUnit[]>;
+
 	constructor(
 		private _jobTypesApi: JobTypesApiService,
 		private _unitSrv: UnitService
@@ -31,6 +33,4 @@ export class JobTypesListComponent {
 				})
 			);
 	}
-
-	public jobTypes: Observable<JobTypeWithUnit[]>;
 }

@@ -7,39 +7,34 @@ import { TitlePlain } from '../models/title-plain';
 
 @Component({
 	selector: 'app-titles-form',
-	templateUrl: './titles-form.component.html'
+	templateUrl: './titles-form.component.html',
 })
 export class TitlesFormComponent implements OnInit {
+	@Input() public title: TitlePlain;
 
-	constructor(
-		private _formBuilder: FormBuilder
-	) {
-		this.close = new EventEmitter();
-		this.delete = new EventEmitter();
-		this.save = new EventEmitter();
-	}
-
-	@Input()
-	public title: TitlePlain;
-
-	@Output()
-	public save: EventEmitter<void>;
-	@Output()
-	public delete: EventEmitter<void>;
-	@Output()
-	public close: EventEmitter<void>;
+	@Output() public save: EventEmitter<void>;
+	@Output() public delete: EventEmitter<void>;
+	@Output() public close: EventEmitter<void>;
 
 	public form: FormGroup;
 	public formTitle: string;
 	public submitTitle: string;
 
+	constructor(private _formBuilder: FormBuilder) {
+		this.close = new EventEmitter();
+		this.delete = new EventEmitter();
+		this.save = new EventEmitter();
+	}
+
 	public ngOnInit() {
 		this.form = this._formBuilder.group({
-			'name': [this.title.name, Validators.required],
-			'numberOfSeries': this.title.numberOfSeries,
-			'description': this.title.description
+			name: [this.title.name, Validators.required],
+			numberOfSeries: this.title.numberOfSeries,
+			description: this.title.description,
 		});
-		this.formTitle = this.title.id ? 'изменение данных продукта' : 'добавление нового продукта';
+		this.formTitle = this.title.id
+			? 'изменение данных продукта'
+			: 'добавление нового продукта';
 		this.submitTitle = this.title.id ? 'изменить' : 'добавить';
 	}
 

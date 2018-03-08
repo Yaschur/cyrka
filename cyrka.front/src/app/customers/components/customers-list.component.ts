@@ -9,9 +9,10 @@ import { CustomerPlain } from '../models/customer-plain';
 
 @Component({
 	templateUrl: './customers-list.component.html',
-	styleUrls: ['./customers-list.component.scss']
+	styleUrls: ['./customers-list.component.scss'],
 })
 export class CustomersListComponent {
+	public customers: Observable<CustomerPlain[]>;
 
 	constructor(
 		private _customerApi: CustomersApiService,
@@ -19,8 +20,6 @@ export class CustomersListComponent {
 	) {
 		this.customers = _customerApi.getAll();
 	}
-
-	public customers: Observable<CustomerPlain[]>;
 
 	public details(id: string): void {
 		this._router.navigate(['customers', id, 'details']);

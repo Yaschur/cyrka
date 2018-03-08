@@ -22,10 +22,10 @@
 			true,
 			{
 				"order": [
+					"public-instance-field",
 					"public-constructor",
 					"protected-constructor",
 					"private-constructor",
-					"public-instance-field",
 					"public-instance-method",
 					"protected-instance-field",
 					"protected-instance-method",

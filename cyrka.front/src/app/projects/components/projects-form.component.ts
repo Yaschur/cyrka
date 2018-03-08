@@ -30,6 +30,16 @@ interface JobTypeWithUnit extends JobType {
 	styleUrls: ['./projects-form.component.scss'],
 })
 export class ProjectsFormComponent implements OnInit {
+	public form: FormGroup;
+	public formTitle: string;
+	public submitTitle: string;
+
+	public customers: Customer[];
+	public titles: Title[];
+	public jobTypes: JobTypeWithUnit[];
+	public units: UnitDescriptor[];
+	public noe: number;
+
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _projectApi: ProjectsApiService,
@@ -59,16 +69,6 @@ export class ProjectsFormComponent implements OnInit {
 			.get('product.title')
 			.valueChanges.subscribe(c => this.titleChanges(c));
 	}
-
-	public form: FormGroup;
-	public formTitle: string;
-	public submitTitle: string;
-
-	public customers: Customer[];
-	public titles: Title[];
-	public jobTypes: JobTypeWithUnit[];
-	public units: UnitDescriptor[];
-	public noe: number;
 
 	public get formJobs(): FormArray {
 		return this.form.get('jobs') as FormArray;

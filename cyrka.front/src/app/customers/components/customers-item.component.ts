@@ -13,27 +13,26 @@ import { TitlePlain } from '../models/title-plain';
 
 enum ItemMode {
 	Details = 'details',
-	Change = 'change'
+	Change = 'change',
 }
 
 @Component({
 	selector: 'app-customers-item',
 	templateUrl: './customers-item.component.html',
-	styleUrls: ['./customers-item.component.scss']
+	styleUrls: ['./customers-item.component.scss'],
 })
 export class CustomersItemComponent implements OnInit {
+	public mode: ItemMode;
+	public customerDefinition: CustomerDefinition;
+	public titles: TitlePlain[];
+	public titleToEdit: TitlePlain;
 
 	constructor(
 		private _location: Location,
 		private _router: Router,
 		private _route: ActivatedRoute,
 		private _customerApi: CustomersApiService
-	) { }
-
-	public mode: ItemMode;
-	public customerDefinition: CustomerDefinition;
-	public titles: TitlePlain[];
-	public titleToEdit: TitlePlain;
+	) {}
 
 	public get inDetailsMode(): boolean {
 		return this.mode === ItemMode.Details;
@@ -56,7 +55,11 @@ export class CustomersItemComponent implements OnInit {
 			.distinctUntilChanged()
 			.switchMap(id => this._customerApi.getById(id))
 			.subscribe(c => {
-				this.customerDefinition = <CustomerDefinition>{ id: c.id, name: c.name, description: c.description };
+				this.customerDefinition = <CustomerDefinition>{
+					id: c.id,
+					name: c.name,
+					description: c.description,
+				};
 				this.titles = c.titles;
 				console.log(`customer change subscription: ${c.id}`);
 			});
@@ -67,16 +70,20 @@ export class CustomersItemComponent implements OnInit {
 	}
 
 	public onChange() {
-		this._router.navigate([ItemMode.Change], { relativeTo: this._route.parent });
+		this._router.navigate([ItemMode.Change], {
+			relativeTo: this._route.parent,
+		});
 	}
 
 	public onSave() {
-		this._customerApi.change(this.customerDefinition.id, this.customerDefinition)
+		this._customerApi
+			.change(this.customerDefinition.id, this.customerDefinition)
 			.subscribe(() => this.onBack());
 	}
 
 	public onRetire() {
-		this._customerApi.retire(this.customerDefinition.id)
+		this._customerApi
+			.retire(this.customerDefinition.id)
 			.subscribe(() => this._router.navigate(['customers']));
 	}
 
@@ -93,8 +100,12 @@ export class CustomersItemComponent implements OnInit {
 	}
 
 	public onTitleFormSave() {
-		(this.titleToEdit.id ?
-			this._customerApi.changeTitle(this.customerDefinition.id, this.titleToEdit.id, this.titleToEdit)
+		(this.titleToEdit.id
+			? this._customerApi.changeTitle(
+					this.customerDefinition.id,
+					this.titleToEdit.id,
+					this.titleToEdit
+			  )
 			: this._customerApi.addTitle(this.customerDefinition.id, this.titleToEdit)
 		).subscribe(() => {
 			this.titleToEdit = null;
@@ -103,7 +114,8 @@ export class CustomersItemComponent implements OnInit {
 	}
 
 	public onTitleFormDelete() {
-		this._customerApi.removeTitle(this.customerDefinition.id, this.titleToEdit.id)
+		this._customerApi
+			.removeTitle(this.customerDefinition.id, this.titleToEdit.id)
 			.subscribe(() => {
 				this.titleToEdit = null;
 				this.reloadTitles();
@@ -111,7 +123,8 @@ export class CustomersItemComponent implements OnInit {
 	}
 
 	private reloadTitles() {
-		this._customerApi.getById(this.customerDefinition.id)
-			.subscribe(c => this.titles = c.titles);
+		this._customerApi
+			.getById(this.customerDefinition.id)
+			.subscribe(c => (this.titles = c.titles));
 	}
 }
