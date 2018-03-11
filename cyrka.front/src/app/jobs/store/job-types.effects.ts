@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { switchMap, map, catchError } from 'rxjs/operators';
-
 import { pipe } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import { Actions, Effect, ofType } from '@ngrx/effects';
