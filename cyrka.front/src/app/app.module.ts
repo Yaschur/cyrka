@@ -2,29 +2,33 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { ClarityModule } from '@clr/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CustomersModule } from './customers/customers.module';
-import { JobTypesModule } from './jobtypes/jobtypes.module';
+// import { JobTypesModule } from './jobtypes/jobtypes.module';
+import { JobsModule } from './jobs/jobs.module';
 import { ProjectsModule } from './projects/projects.module';
 
 import { AppComponent } from './app.component';
 
 @NgModule({
-	declarations: [
-		AppComponent
-	],
+	declarations: [AppComponent],
 	imports: [
 		BrowserModule,
 		HttpClientModule,
 		CustomersModule,
-		JobTypesModule,
+		// JobTypesModule,
+		JobsModule,
 		ProjectsModule,
+		StoreModule.forRoot({}),
+		EffectsModule.forRoot([]),
 		ClarityModule,
-		AppRoutingModule
+		AppRoutingModule,
 	],
 	providers: [],
-	bootstrap: [AppComponent]
+	bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

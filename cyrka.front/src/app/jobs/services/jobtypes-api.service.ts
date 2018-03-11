@@ -1,0 +1,51 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
+
+import { JobType } from '../models/job-type';
+
+@Injectable()
+export class JobTypesApiService {
+	constructor(private _httpClient: HttpClient) {}
+
+	public getById(id: string): Observable<JobType> {
+		return this._httpClient.get<JobType>(
+			`${environment.cyrkaApi.baseUrl}/jobs/types/${id}`
+		);
+	}
+
+	public fetchAll(): Observable<JobType[]> {
+		return this._httpClient.get<JobType[]>(
+			`${environment.cyrkaApi.baseUrl}/jobs/types`
+		);
+	}
+
+	public register(jobType: {
+		name: string;
+		unit: string;
+		rate: number;
+		description?: string;
+	}): Observable<Object> {
+		return this._httpClient.post(
+			`${environment.cyrkaApi.baseUrl}/jobs/types`,
+			jobType
+		);
+	}
+
+	public change(
+		jobTypeId: string,
+		jobType: {
+			name: string;
+			unit: string;
+			rate: number;
+			description?: string;
+		}
+	): Observable<Object> {
+		return this._httpClient.put(
+			`${environment.cyrkaApi.baseUrl}/jobs/types/${jobTypeId}`,
+			jobType
+		);
+	}
+}
