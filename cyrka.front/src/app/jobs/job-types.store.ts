@@ -1,8 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-	JobTypesState,
-	getJobTypeEntities as getJobTypeEntitiesF,
-} from './store/job-types.reducers';
+import { JobTypesState } from './store/job-types.reducers';
 
 export const getJobTypesFeatureState = createFeatureSelector<JobTypesState>(
 	'jobTypes'
@@ -10,5 +7,5 @@ export const getJobTypesFeatureState = createFeatureSelector<JobTypesState>(
 
 export const getJobTypeEntities = createSelector(
 	getJobTypesFeatureState,
-	getJobTypeEntitiesF
+	(state: JobTypesState) => state.jobTypes
 );

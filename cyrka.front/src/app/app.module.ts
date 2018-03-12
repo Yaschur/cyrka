@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { StoreModule } from '@ngrx/store';
+import { StoreRouterConnectingModule } from "@ngrx/router-store";
 import { EffectsModule } from '@ngrx/effects';
 import { ClarityModule } from '@clr/angular';
 
@@ -25,6 +26,7 @@ import { AppComponent } from './app.component';
 		ProjectsModule,
 		StoreModule.forRoot({}),
 		EffectsModule.forRoot([]),
+		StoreRouterConnectingModule,
 		ClarityModule,
 		AppRoutingModule,
 	],

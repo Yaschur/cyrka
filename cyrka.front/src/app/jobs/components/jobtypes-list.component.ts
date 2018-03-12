@@ -41,6 +41,6 @@ export class JobTypesListComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this._store.dispatch(new FindJobtypes());
+		// this._store.dispatch(new FindJobtypes());
 	}
 }

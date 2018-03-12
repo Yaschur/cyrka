@@ -27,5 +27,3 @@ export function jobTypesReducer(
 			return state;
 	}
 }
-
-export const getJobTypeEntities = (state: JobTypesState) => state.jobTypes;
