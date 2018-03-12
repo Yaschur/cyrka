@@ -1,6 +1,6 @@
 import { Units } from '../../shared/units/units';
 
-export interface JobType {
+export interface Jobtype {
 	id: string;
 	name: string;
 	unit: Units;

@@ -1,0 +1,25 @@
+<app-jobtype-menu></app-jobtype-menu>
+<div class="content-container">
+  <div class="content-area">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="left">название</th>
+          <th class="left">измерение</th>
+          <th class="left">ставка</th>
+          <th class="left">подробности</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let jt of jobtypes$ | async">
+          <td class="left">
+            <a routerLink="{{jt.id}}">{{jt.name}}</a>
+          </td>
+          <td class="left">{{jt.unitLabel}}</td>
+          <td class="left">{{jt.rate}}</td>
+          <td class="left">{{jt.description}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

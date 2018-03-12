@@ -4,20 +4,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 
-import { JobType } from '../models/job-type';
+import { Jobtype } from '../models/jobtype';
 
 @Injectable()
-export class JobTypesApiService {
+export class JobtypeApiService {
 	constructor(private _httpClient: HttpClient) {}
 
-	public getById(id: string): Observable<JobType> {
-		return this._httpClient.get<JobType>(
+	public getById(id: string): Observable<Jobtype> {
+		return this._httpClient.get<Jobtype>(
 			`${environment.cyrkaApi.baseUrl}/jobs/types/${id}`
 		);
 	}
 
-	public fetchAll(): Observable<JobType[]> {
-		return this._httpClient.get<JobType[]>(
+	public fetchAll(): Observable<Jobtype[]> {
+		return this._httpClient.get<Jobtype[]>(
 			`${environment.cyrkaApi.baseUrl}/jobs/types`
 		);
 	}
@@ -35,8 +35,8 @@ export class JobTypesApiService {
 	}
 
 	public change(
-		jobTypeId: string,
-		jobType: {
+		jobtypeId: string,
+		jobtype: {
 			name: string;
 			unit: string;
 			rate: number;
@@ -44,8 +44,8 @@ export class JobTypesApiService {
 		}
 	): Observable<Object> {
 		return this._httpClient.put(
-			`${environment.cyrkaApi.baseUrl}/jobs/types/${jobTypeId}`,
-			jobType
+			`${environment.cyrkaApi.baseUrl}/jobs/types/${jobtypeId}`,
+			jobtype
 		);
 	}
 }

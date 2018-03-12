@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { switchMap, map, catchError, tap, filter } from 'rxjs/operators';
-import { pipe } from 'rxjs/Rx';
+import { switchMap, map, catchError, filter } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 
-import { JobTypesApiService } from '../services/jobtypes-api.service';
+import { JobtypeApiService } from '../services/jobtype-api.service';
 import {
-	JobTypesActionTypes,
+	JobtypeActionTypes,
 	FindJobtypesSuccess,
 	FindJobtypesError,
 	FindJobtypes,
-} from './job-types.actions';
+} from './jobtype.actions';
 
 @Injectable()
-export class JobTypesEffects {
+export class JobtypeEffects {
 	@Effect()
 	navigateJobTypes$ = this.actions$.pipe(
 		ofType<RouterNavigationAction>(ROUTER_NAVIGATION),
@@ -28,14 +27,14 @@ export class JobTypesEffects {
 
 	@Effect()
 	fetchJobTypes$ = this.actions$.pipe(
-		ofType<FindJobtypes>(JobTypesActionTypes.FIND_JOBTYPES),
+		ofType<FindJobtypes>(JobtypeActionTypes.FIND_JOBTYPES),
 		switchMap(() => this.apiService.fetchAll()),
 		map(res => new FindJobtypesSuccess(res)),
 		catchError(() => of(new FindJobtypesError()))
 	);
-	
+
 	constructor(
 		private actions$: Actions,
-		private apiService: JobTypesApiService
+		private apiService: JobtypeApiService
 	) {}
 }

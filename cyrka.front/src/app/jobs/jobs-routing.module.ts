@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { JobTypesListComponent } from './components/jobtypes-list.component';
+import { JobtypeListComponent } from './components/jobtype-list/jobtype-list.component';
 
 const routes: Routes = [
 	{
 		path: 'jobtypes',
-		component: JobTypesListComponent,
+		component: JobtypeListComponent,
 		pathMatch: 'full',
 	},
 ];

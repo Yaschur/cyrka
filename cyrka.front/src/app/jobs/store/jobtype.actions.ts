@@ -1,27 +1,27 @@
 import { Action } from '@ngrx/store';
-import { JobType } from '../models/job-type';
+import { Jobtype } from '../models/jobtype';
 
-export enum JobTypesActionTypes {
+export enum JobtypeActionTypes {
 	FIND_JOBTYPES = '[JobTypes] FIND_JOBTYPES',
 	FIND_JOBTYPES_SUCCESS = '[JobTypes] FIND_JOBTYPES_SUCCESS',
 	FIND_JOBTYPES_ERROR = '[JobTypes] FIND_JOBTYPES_ERROR',
 }
 
 export class FindJobtypes implements Action {
-	readonly type = JobTypesActionTypes.FIND_JOBTYPES;
+	readonly type = JobtypeActionTypes.FIND_JOBTYPES;
 }
 
 export class FindJobtypesSuccess implements Action {
-	readonly type = JobTypesActionTypes.FIND_JOBTYPES_SUCCESS;
+	readonly type = JobtypeActionTypes.FIND_JOBTYPES_SUCCESS;
 
-	constructor(public jobTypes: JobType[]) {}
+	constructor(public jobtypes: Jobtype[]) {}
 }
 
 export class FindJobtypesError implements Action {
-	readonly type = JobTypesActionTypes.FIND_JOBTYPES_ERROR;
+	readonly type = JobtypeActionTypes.FIND_JOBTYPES_ERROR;
 }
 
-export type JobTypesActions =
+export type JobtypeActions =
 	| FindJobtypes
 	| FindJobtypesSuccess
 	| FindJobtypesError;
