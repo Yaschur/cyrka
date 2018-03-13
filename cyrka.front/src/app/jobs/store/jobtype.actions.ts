@@ -2,26 +2,36 @@ import { Action } from '@ngrx/store';
 import { Jobtype } from '../models/jobtype';
 
 export enum JobtypeActionTypes {
-	FIND_JOBTYPES = '[JobTypes] FIND_JOBTYPES',
-	FIND_JOBTYPES_SUCCESS = '[JobTypes] FIND_JOBTYPES_SUCCESS',
-	FIND_JOBTYPES_ERROR = '[JobTypes] FIND_JOBTYPES_ERROR',
+	FIND_JOBTYPES = '[jobtype] FIND_JOBTYPES',
+	UPDATE_JOBTYPES = '[jobtype] UPDATE_JOBTYPES',
+	GET_JOBTYPE = '[jobtype] GET_JOBTYPE',
+	UPDATE_JOBTYPE = '[jobtype] UPDATE_JOBTYPE',
 }
 
 export class FindJobtypes implements Action {
 	readonly type = JobtypeActionTypes.FIND_JOBTYPES;
 }
 
-export class FindJobtypesSuccess implements Action {
-	readonly type = JobtypeActionTypes.FIND_JOBTYPES_SUCCESS;
+export class UpdateJobtypes implements Action {
+	readonly type = JobtypeActionTypes.UPDATE_JOBTYPES;
 
 	constructor(public jobtypes: Jobtype[]) {}
 }
 
-export class FindJobtypesError implements Action {
-	readonly type = JobtypeActionTypes.FIND_JOBTYPES_ERROR;
+export class GetJobtype implements Action {
+	readonly type = JobtypeActionTypes.GET_JOBTYPE;
+
+	constructor(public jobtypeId: string) {}
+}
+
+export class UpdateJobtype implements Action {
+	readonly type = JobtypeActionTypes.UPDATE_JOBTYPE;
+
+	constructor(public jobtype: Jobtype) {}
 }
 
 export type JobtypeActions =
 	| FindJobtypes
-	| FindJobtypesSuccess
-	| FindJobtypesError;
+	| UpdateJobtypes
+	| GetJobtype
+	| UpdateJobtype;

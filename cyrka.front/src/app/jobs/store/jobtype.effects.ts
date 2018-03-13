@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
 import {
 	switchMap,
@@ -16,8 +17,7 @@ import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { JobtypeApiService } from '../services/jobtype-api.service';
 import {
 	JobtypeActionTypes,
-	FindJobtypesSuccess,
-	FindJobtypesError,
+	UpdateJobtypes,
 	FindJobtypes,
 } from './jobtype.actions';
 import { Jobtype } from '../models/jobtype';
@@ -27,14 +27,14 @@ import { JobtypeState } from './jobtype.reducers';
 export class JobtypeEffects {
 	@Effect()
 	navigateJobTypes$ = this._actions$.pipe(
-		ofType<RouterNavigationAction>(ROUTER_NAVIGATION),
-		filter(r =>
-			r.payload.routerState.root.firstChild.routeConfig.path.startsWith(
-				'jobtypes'
-			)
+		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
+		filter(
+			r =>
+				this.isOnJobTypes(r.payload.routerState.root.firstChild) &&
+				!this.isWithJobtypeId(r.payload.routerState.root.firstChild)
 		),
 		withLatestFrom(this._store$),
-		filter(s => !s[1].jobtype.loaded),
+		filter(s => !s[1].jobtype.listLoaded),
 		map(b => new FindJobtypes())
 	);
 
@@ -42,8 +42,11 @@ export class JobtypeEffects {
 	fetchJobTypes$ = this._actions$.pipe(
 		ofType<FindJobtypes>(JobtypeActionTypes.FIND_JOBTYPES),
 		switchMap(() => this._apiService.fetchAll()),
-		map(res => new FindJobtypesSuccess(res)),
-		catchError(() => of(new FindJobtypesError()))
+		map(res => new UpdateJobtypes(res)),
+		catchError(e => {
+			console.log('Network error', e);
+			return of();
+		})
 	);
 
 	constructor(
@@ -51,4 +54,11 @@ export class JobtypeEffects {
 		private _store$: Store<{ jobtype: JobtypeState }>,
 		private _apiService: JobtypeApiService
 	) {}
+
+	private isOnJobTypes(r: ActivatedRouteSnapshot): boolean {
+		return r.routeConfig.path.startsWith('jobtypes');
+	}
+	private isWithJobtypeId(r: ActivatedRouteSnapshot): boolean {
+		return r.paramMap.has('jobTypeId');
+	}
 }
