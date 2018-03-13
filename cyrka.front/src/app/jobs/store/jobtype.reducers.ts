@@ -4,12 +4,12 @@ import { JobtypeActions, JobtypeActionTypes } from './jobtype.actions';
 
 export interface JobtypeState {
 	jobtypes: Jobtype[];
-	loading: boolean;
+	loaded: boolean;
 }
 
 export const initialState: JobtypeState = {
 	jobtypes: [],
-	loading: false,
+	loaded: false,
 };
 
 export function jobtypeReducer(
@@ -18,10 +18,10 @@ export function jobtypeReducer(
 ): JobtypeState {
 	switch (action.type) {
 		case JobtypeActionTypes.FIND_JOBTYPES: {
-			return { ...state, loading: true };
+			return { ...state, jobtypes: [], loaded: false };
 		}
 		case JobtypeActionTypes.FIND_JOBTYPES_SUCCESS: {
-			return { ...state, jobtypes: action.jobtypes, loading: false };
+			return { ...state, jobtypes: action.jobtypes, loaded: true };
 		}
 		default:
 			return state;

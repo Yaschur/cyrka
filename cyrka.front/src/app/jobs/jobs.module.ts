@@ -10,6 +10,8 @@ import { jobtypeReducer } from './store/jobtype.reducers';
 import { JobtypeEffects } from './store/jobtype.effects';
 import { JobtypeListComponent } from './components/jobtype-list/jobtype-list.component';
 import { JobtypeMenuComponent } from './components/jobtype-menu/jobtype-menu.component';
+import { JobtypeComponent } from './components/jobtype/jobtype.component';
+import { JobtypeItemComponent } from './components/jobtype-item/jobtype-item.component';
 
 @NgModule({
 	imports: [
@@ -19,7 +21,7 @@ import { JobtypeMenuComponent } from './components/jobtype-menu/jobtype-menu.com
 		EffectsModule.forFeature([JobtypeEffects]),
 		JobsRoutingModule,
 	],
-	declarations: [JobtypeListComponent, JobtypeMenuComponent],
+	declarations: [JobtypeListComponent, JobtypeMenuComponent, JobtypeComponent, JobtypeItemComponent],
 	providers: [JobtypeApiService],
 })
 export class JobsModule {}
