@@ -25,7 +25,7 @@ interface JobtypeItem extends Jobtype {
 export class JobtypeListComponent implements OnInit {
 	public jobtypes$: Observable<JobtypeItem[]>;
 
-	constructor(private _store: Store<JobtypeState>) {
+	constructor(private _store: Store<{}>) {
 		this.jobtypes$ = _store.select(getJobtypeEntities).pipe(
 			map(jts =>
 				jts.map(

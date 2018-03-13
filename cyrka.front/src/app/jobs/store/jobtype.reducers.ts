@@ -17,9 +17,6 @@ export function jobtypeReducer(
 	action: JobtypeActions
 ): JobtypeState {
 	switch (action.type) {
-		case JobtypeActionTypes.FIND_JOBTYPES: {
-			return { ...state, jobtypes: [], listLoaded: false };
-		}
 		case JobtypeActionTypes.UPDATE_JOBTYPES: {
 			return { ...state, jobtypes: action.jobtypes, listLoaded: true };
 		}
@@ -36,6 +33,7 @@ export function jobtypeReducer(
 			};
 		}
 
+		case JobtypeActionTypes.FIND_JOBTYPES:
 		case JobtypeActionTypes.GET_JOBTYPE:
 		default:
 			return state;

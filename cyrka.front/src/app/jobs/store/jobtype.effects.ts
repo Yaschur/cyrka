@@ -19,6 +19,8 @@ import {
 	JobtypeActionTypes,
 	UpdateJobtypes,
 	FindJobtypes,
+	GetJobtype,
+	UpdateJobtype,
 } from './jobtype.actions';
 import { Jobtype } from '../models/jobtype';
 import { JobtypeState } from './jobtype.reducers';
@@ -26,7 +28,7 @@ import { JobtypeState } from './jobtype.reducers';
 @Injectable()
 export class JobtypeEffects {
 	@Effect()
-	navigateJobTypes$ = this._actions$.pipe(
+	navigateJobtypes$ = this._actions$.pipe(
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
 		filter(
 			r =>
@@ -35,14 +37,39 @@ export class JobtypeEffects {
 		),
 		withLatestFrom(this._store$),
 		filter(s => !s[1].jobtype.listLoaded),
-		map(b => new FindJobtypes())
+		switchMap(() => of(new FindJobtypes()))
 	);
 
 	@Effect()
-	fetchJobTypes$ = this._actions$.pipe(
+	navigateJobtype$ = this._actions$.pipe(
+		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
+		filter(
+			r =>
+				this.isOnJobTypes(r.payload.routerState.root.firstChild) &&
+				this.isWithJobtypeId(r.payload.routerState.root.firstChild)
+		),
+		map(r => r.payload.routerState.root.firstChild.paramMap.get('jobtypeId')),
+		withLatestFrom(this._store$),
+		filter(s => !s[1].jobtype.jobtypes.some(jt => jt.id === s[0])),
+		switchMap(s => of(new GetJobtype(s[0])))
+	);
+
+	@Effect()
+	fetchJobtypes$ = this._actions$.pipe(
 		ofType<FindJobtypes>(JobtypeActionTypes.FIND_JOBTYPES),
 		switchMap(() => this._apiService.fetchAll()),
 		map(res => new UpdateJobtypes(res)),
+		catchError(e => {
+			console.log('Network error', e);
+			return of();
+		})
+	);
+
+	@Effect()
+	fetchJobtype$ = this._actions$.pipe(
+		ofType<GetJobtype>(JobtypeActionTypes.GET_JOBTYPE),
+		switchMap(a => this._apiService.getById(a.jobtypeId)),
+		map(res => new UpdateJobtype(res)),
 		catchError(e => {
 			console.log('Network error', e);
 			return of();
@@ -59,6 +86,6 @@ export class JobtypeEffects {
 		return r.routeConfig.path.startsWith('jobtypes');
 	}
 	private isWithJobtypeId(r: ActivatedRouteSnapshot): boolean {
-		return r.paramMap.has('jobTypeId');
+		return r.paramMap.has('jobtypeId');
 	}
 }

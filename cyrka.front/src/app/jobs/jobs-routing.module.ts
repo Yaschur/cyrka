@@ -11,7 +11,7 @@ const routes: Routes = [
 		pathMatch: 'full',
 	},
 	{
-		path: 'jobtypes/:jobTypeId',
+		path: 'jobtypes/:jobtypeId',
 		component: JobtypeItemComponent,
 	},
 ];
