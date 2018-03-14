@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Jobtype } from '../../models/jobtype';
-import { withLatestFrom, switchMap, map } from 'rxjs/operators';
+import { withLatestFrom, switchMap, map, filter } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { getJobtypeEntities } from '../../jobtype.store';
@@ -29,7 +29,8 @@ export class JobtypeItemComponent {
 			.pipe(
 				withLatestFrom(route.paramMap),
 				switchMap(p => of(p[0].find(jt => jt.id === p[1].get('jobtypeId')))),
-				map(jt => <JobtypeItem>{...jt, unitLabels: Units.getTitle(jt.unit)})
+				filter(jt => jt != null),
+				map(jt => <JobtypeItem>{ ...jt, unitLabels: Units.getTitle(jt.unit) })
 			);
 	}
 }
