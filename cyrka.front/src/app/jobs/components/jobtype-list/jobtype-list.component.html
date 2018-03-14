@@ -1,5 +1,5 @@
-<app-jobtype>
-	<table class="table">
+<app-jobtype (jobTypeItems$)="selectJobtypes($event)">
+	<table class="table" *ngIf="jobtypes">
 		<thead>
 			<tr>
 				<th class="left">название</th>
@@ -9,7 +9,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let jt of jobtypes$ | async">
+			<tr *ngFor="let jt of jobtypes">
 				<td class="left">
 					<a routerLink="{{jt.id}}">{{jt.name}}</a>
 				</td>

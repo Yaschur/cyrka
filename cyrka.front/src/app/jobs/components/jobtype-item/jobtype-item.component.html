@@ -1,5 +1,16 @@
-<app-jobtype>
-	<section>
-		<h1>{{(jobtype$ | async)?.name}}</h1>
+<app-jobtype (jobTypeItem$)="selectJobtype($event)">
+	<h4>{{jobtype?.name}}</h4>
+	<section *ngIf="jobtype">
+		<ul class="list-unstyled">
+			<li>
+				<span class="p4">единица тарификации:</span>
+				<span>{{jobtype.unitLabels.title}}</span>
+			</li>
+			<li>
+				<span class="p4">стоимость:</span>
+				<span>{{jobtype.rate}} за 1 {{jobtype.unitLabels.abbrevation}}</span>
+			</li>
+		</ul>
+		<pre *ngIf="jobtype.description">{{jobtype.description}}</pre>
 	</section>
 </app-jobtype>

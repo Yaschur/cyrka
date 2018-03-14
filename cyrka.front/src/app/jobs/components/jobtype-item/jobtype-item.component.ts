@@ -21,16 +21,11 @@ interface JobtypeItem extends Jobtype {
 	styleUrls: ['./jobtype-item.component.scss'],
 })
 export class JobtypeItemComponent {
-	jobtype$: Observable<JobtypeItem>;
+	jobtype: JobtypeItem;
 
-	constructor(private route: ActivatedRoute, private store: Store<{}>) {
-		this.jobtype$ = store
-			.select(getJobtypeEntities)
-			.pipe(
-				withLatestFrom(route.paramMap),
-				switchMap(p => of(p[0].find(jt => jt.id === p[1].get('jobtypeId')))),
-				filter(jt => jt != null),
-				map(jt => <JobtypeItem>{ ...jt, unitLabels: Units.getTitle(jt.unit) })
-			);
+	constructor() {}
+
+	selectJobtype(jt: Jobtype) {
+		this.jobtype = <JobtypeItem>{ ...jt, unitLabels: Units.getTitle(jt.unit) };
 	}
 }

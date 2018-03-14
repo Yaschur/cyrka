@@ -23,19 +23,13 @@ interface JobtypeItem extends Jobtype {
 	styleUrls: ['./jobtype-list.component.scss'],
 })
 export class JobtypeListComponent {
-	public jobtypes$: Observable<JobtypeItem[]>;
+	public jobtypes: JobtypeItem[];
 
-	constructor(private _store: Store<{}>) {
-		this.jobtypes$ = _store.select(getJobtypeEntities).pipe(
-			map(jts =>
-				jts.map(
-					jt =>
-						<JobtypeItem>{
-							...jt,
-							unitLabel: Units.getTitle(jt.unit).title,
-						}
-				)
-			)
+	constructor() {}
+
+	selectJobtypes(jts: Jobtype[]) {
+		this.jobtypes = jts.map(
+			jt => <JobtypeItem>{ ...jt, unitLabel: Units.getTitle(jt.unit).title }
 		);
 	}
 }
