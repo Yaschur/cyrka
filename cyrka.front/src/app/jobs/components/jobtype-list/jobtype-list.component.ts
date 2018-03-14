@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
@@ -22,7 +22,7 @@ interface JobtypeItem extends Jobtype {
 	templateUrl: './jobtype-list.component.html',
 	styleUrls: ['./jobtype-list.component.scss'],
 })
-export class JobtypeListComponent implements OnInit {
+export class JobtypeListComponent {
 	public jobtypes$: Observable<JobtypeItem[]>;
 
 	constructor(private _store: Store<{}>) {
@@ -37,9 +37,5 @@ export class JobtypeListComponent implements OnInit {
 				)
 			)
 		);
-	}
-
-	ngOnInit() {
-		// this._store.dispatch(new FindJobtypes());
 	}
 }
