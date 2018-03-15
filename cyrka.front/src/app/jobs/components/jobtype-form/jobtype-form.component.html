@@ -1,0 +1,35 @@
+<form (ngSubmit)="save()" [formGroup]="form">
+  <section class="form-block">
+    <label>{{formTitle}}</label>
+    <div class="form-group">
+      <label for="name" class="required">название</label>
+      <label for="name" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm"
+        [class.invalid]="form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)">
+        <input autofocus="autofocus" type="text" id="name" formControlName="name" size="45">
+        <span class="tooltip-content">название для услуги обязательно</span>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="unit">измерение</label>
+      <div class="select">
+        <select id="unit" formControlName="unit">
+          <option *ngFor="let unit of units" value="{{unit.key}}">{{unit.title}} ({{unit.abbr}})</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="rate" class="required">ставка</label>
+      <label for="rate" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm"
+        [class.invalid]="form.get('rate').invalid && (form.get('rate').dirty || form.get('rate').touched)">
+        <input type="number" id="rate" formControlName="rate">
+        <span class="tooltip-content">размер ставки обязателен</span>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="description">подробности / пояснения / описание</label>
+      <textarea formControlName="description" id="description" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-sm btn-primary">{{submitTitle}}</button>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="cancel()">отмена</button>
+  </section>
+</form>

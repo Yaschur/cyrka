@@ -23,8 +23,11 @@ export class JobtypeComponent {
 			.select(getJobtypeEntities)
 			.pipe(
 				withLatestFrom(route.paramMap),
-				filter(p => p[1].has('jobtypeId')),
-				switchMap(p => of(p[0].find(jt => jt.id === p[1].get('jobtypeId')))),
+				switchMap(p =>
+					of((p[1].has('jobtypeId')
+						? p[0].find(jt => jt.id === p[1].get('jobtypeId')) || {}
+						: {}) as Jobtype)
+				),
 				filter(jt => jt != null)
 			);
 

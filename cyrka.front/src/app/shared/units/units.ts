@@ -26,4 +26,12 @@ export namespace Units {
 				return { title: 'Не определено', abbrevation: '?' };
 		}
 	};
+	export const all = [
+		Units.Undefined,
+		Units.Minute,
+		Units.Piece,
+		Units.Character,
+		Units.Symbol,
+		Units.Gigabyte,
+	];
 }
