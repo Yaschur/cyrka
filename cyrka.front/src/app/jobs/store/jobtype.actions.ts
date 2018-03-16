@@ -3,8 +3,9 @@ import { Jobtype } from '../models/jobtype';
 
 export enum JobtypeActionTypes {
 	FIND_JOBTYPES = '[jobtype] FIND_JOBTYPES',
-	UPDATE_JOBTYPES = '[jobtype] UPDATE_JOBTYPES',
+	JOBTYPES_RECEIVED = '[jobtype] JOBTYPES_RECEIVED',
 	GET_JOBTYPE = '[jobtype] GET_JOBTYPE',
+	JOBTYPE_RECEIVED = '[jobtype] JOBTYPE_RECEIVED',
 	UPDATE_JOBTYPE = '[jobtype] UPDATE_JOBTYPE',
 }
 
@@ -12,8 +13,8 @@ export class FindJobtypes implements Action {
 	readonly type = JobtypeActionTypes.FIND_JOBTYPES;
 }
 
-export class UpdateJobtypes implements Action {
-	readonly type = JobtypeActionTypes.UPDATE_JOBTYPES;
+export class JobtypesReceived implements Action {
+	readonly type = JobtypeActionTypes.JOBTYPES_RECEIVED;
 
 	constructor(public jobtypes: Jobtype[]) {}
 }
@@ -24,6 +25,12 @@ export class GetJobtype implements Action {
 	constructor(public jobtypeId: string) {}
 }
 
+export class JobtypeReceived implements Action {
+	readonly type = JobtypeActionTypes.JOBTYPE_RECEIVED;
+
+	constructor(public jobtype: Jobtype) {}
+}
+
 export class UpdateJobtype implements Action {
 	readonly type = JobtypeActionTypes.UPDATE_JOBTYPE;
 
@@ -32,6 +39,7 @@ export class UpdateJobtype implements Action {
 
 export type JobtypeActions =
 	| FindJobtypes
-	| UpdateJobtypes
+	| JobtypesReceived
 	| GetJobtype
+	| JobtypeReceived
 	| UpdateJobtype;

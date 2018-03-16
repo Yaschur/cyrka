@@ -17,9 +17,10 @@ import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { JobtypeApiService } from '../services/jobtype-api.service';
 import {
 	JobtypeActionTypes,
-	UpdateJobtypes,
+	JobtypesReceived,
 	FindJobtypes,
 	GetJobtype,
+	JobtypeReceived,
 	UpdateJobtype,
 } from './jobtype.actions';
 import { Jobtype } from '../models/jobtype';
@@ -58,7 +59,7 @@ export class JobtypeEffects {
 	fetchJobtypes$ = this._actions$.pipe(
 		ofType<FindJobtypes>(JobtypeActionTypes.FIND_JOBTYPES),
 		switchMap(() => this._apiService.fetchAll()),
-		map(res => new UpdateJobtypes(res)),
+		map(res => new JobtypesReceived(res)),
 		catchError(e => {
 			console.log('Network error', e);
 			return of();
@@ -69,12 +70,23 @@ export class JobtypeEffects {
 	fetchJobtype$ = this._actions$.pipe(
 		ofType<GetJobtype>(JobtypeActionTypes.GET_JOBTYPE),
 		switchMap(a => this._apiService.getById(a.jobtypeId)),
-		map(res => new UpdateJobtype(res)),
+		map(res => new JobtypeReceived(res)),
 		catchError(e => {
 			console.log('Network error', e);
 			return of();
 		})
 	);
+
+	@Effect()
+	updateJobtype$ = this._actions$.pipe(
+		ofType<UpdateJobtype>(JobtypeActionTypes.UPDATE_JOBTYPE),
+		switchMap(a => a.jobtype.id ? this._apiService.change(a.jobtype.id, a.jobtype) : this._apiService.register(a.jobtype)),
+		map(() => new FindJobtypes()),
+		catchError(e => {
+			console.log('Network error', e);
+			return of();
+		})
+	)
 
 	constructor(
 		private _actions$: Actions,

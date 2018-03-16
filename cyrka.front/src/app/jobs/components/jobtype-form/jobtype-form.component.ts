@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+
 import { Jobtype } from '../../models/jobtype';
 import { Units } from '../../../shared/units/units';
 
@@ -14,22 +18,11 @@ export class JobtypeFormComponent {
 	submitTitle: string;
 	units: { key: string; title: string; abbr: string }[];
 
-	@Input()
-	public set jobtype(jt: Jobtype) {
-		this.form.setValue({
-			name: jt.name || '',
-			unit: jt.unit || Units.Undefined,
-			rate: jt.rate || 0.0,
-			description: jt.description || '',
-		});
-		this.formTitle = jt.id
-			? 'изменение данных услуги'
-			: 'добавление новой услуги';
-		this.submitTitle = jt.id ? 'изменить' : 'добавить';
-	}
+	jtChanges$: Observable<Jobtype>;
 
 	constructor(private _formBuilder: FormBuilder) {
 		this.form = this._formBuilder.group({
+			id: '',
 			name: ['', Validators.required],
 			unit: '',
 			rate: ['', Validators.required],
@@ -41,6 +34,26 @@ export class JobtypeFormComponent {
 		});
 	}
 
-	save() {}
-	cancel() {}
+	selectJobtype(jt: Jobtype) {
+		this.form.setValue({
+			id: jt.id || '',
+			name: jt.name || '',
+			unit: jt.unit || Units.Undefined,
+			rate: jt.rate || 0.0,
+			description: jt.description || '',
+		});
+		this.formTitle = jt.id
+			? 'изменение данных услуги'
+			: 'добавление новой услуги';
+		this.submitTitle = jt.id ? 'изменить' : 'добавить';
+	}
+	save() {
+		if (this.form.invalid || this.form.pristine) {
+			return;
+		}
+		this.jtChanges$ = of(this.form.value);
+	}
+	cancel() {
+		this.jtChanges$ = of();
+	}
 }

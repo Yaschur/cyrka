@@ -17,10 +17,10 @@ export function jobtypeReducer(
 	action: JobtypeActions
 ): JobtypeState {
 	switch (action.type) {
-		case JobtypeActionTypes.UPDATE_JOBTYPES: {
+		case JobtypeActionTypes.JOBTYPES_RECEIVED: {
 			return { ...state, jobtypes: action.jobtypes, listLoaded: true };
 		}
-		case JobtypeActionTypes.UPDATE_JOBTYPE: {
+		case JobtypeActionTypes.JOBTYPE_RECEIVED: {
 			const exInd = state.jobtypes.findIndex(jt => jt.id === action.jobtype.id);
 			const newInd = exInd < 0 ? state.jobtypes.length : exInd;
 			return {
