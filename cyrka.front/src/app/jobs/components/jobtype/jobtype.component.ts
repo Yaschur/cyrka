@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { Jobtype } from '../../models/jobtype';
 import { getJobtypeEntities } from '../../jobtype.store';
-import { withLatestFrom, switchMap, filter, map } from 'rxjs/operators';
+import { withLatestFrom, switchMap, filter, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { UpdateJobtype } from '../../store/jobtype.actions';
 
@@ -31,6 +31,8 @@ export class JobtypeComponent {
 		});
 	}
 
+	selectedJobtype: Jobtype;
+
 	constructor(
 		private _route: ActivatedRoute,
 		private _router: Router,
@@ -45,7 +47,8 @@ export class JobtypeComponent {
 						? p[0].find(jt => jt.id === p[1].get('jobtypeId')) || {}
 						: {}) as Jobtype)
 				),
-				filter(jt => jt != null)
+				filter(jt => jt != null),
+				tap(jt => (this.selectedJobtype = jt))
 			);
 
 		this.jobTypeItems_read$ = _store.select(getJobtypeEntities);
