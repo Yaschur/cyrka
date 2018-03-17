@@ -14,6 +14,7 @@ import { TitlesFormComponent } from './components/titles-form.component';
 import { CustomersComponent } from './components/customers.component';
 import { CustomerFormComponent } from './components/customers-form.component';
 import { CustomersItemComponent } from './components/customers-item.component';
+import { CustomerApiService } from './services/customer-api.service';
 
 @NgModule({
 	declarations: [
@@ -23,16 +24,14 @@ import { CustomersItemComponent } from './components/customers-item.component';
 		CustomersItemComponent,
 		CustomersDetailsComponent,
 		TitlesFormComponent,
-		CustomersComponent
+		CustomersComponent,
 	],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
 		ClarityModule,
-		CustomersRoutingModule
+		CustomersRoutingModule,
 	],
-	providers: [
-		CustomersApiService
-	]
+	providers: [CustomersApiService, CustomerApiService],
 })
-export class CustomersModule { }
+export class CustomersModule {}
