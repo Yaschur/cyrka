@@ -16,11 +16,11 @@ import { UpdateJobtype } from '../../store/jobtype.actions';
 	styleUrls: ['./jobtype.component.scss'],
 })
 export class JobtypeComponent {
-	@Output() jobTypeItem_read$: Observable<Jobtype>;
-	@Output() jobTypeItems_read$: Observable<Jobtype[]>;
+	@Output() jobtypeItem_read$: Observable<Jobtype>;
+	@Output() jobtypeItems_read$: Observable<Jobtype[]>;
 
 	@Input()
-	set jobTypeItem_write$(jts: Observable<Jobtype>) {
+	set jobtypeItem_write$(jts: Observable<Jobtype>) {
 		if (!jts) {
 			return;
 		}
@@ -38,7 +38,7 @@ export class JobtypeComponent {
 		private _router: Router,
 		private _store: Store<{}>
 	) {
-		this.jobTypeItem_read$ = _store
+		this.jobtypeItem_read$ = _store
 			.select(getJobtypeEntities)
 			.pipe(
 				withLatestFrom(_route.paramMap),
@@ -51,6 +51,6 @@ export class JobtypeComponent {
 				tap(jt => (this.selectedJobtype = jt))
 			);
 
-		this.jobTypeItems_read$ = _store.select(getJobtypeEntities);
+		this.jobtypeItems_read$ = _store.select(getJobtypeEntities);
 	}
 }

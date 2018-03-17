@@ -20,6 +20,7 @@ import { CustomerApiService } from './services/customer-api.service';
 import { customerReducer } from './store/customer.reducers';
 import { CustomerEffects } from './store/customer.effects';
 import { CustomerMenuComponent } from './components/customer-menu/customer-menu.component';
+import { CustomerComponent } from './components/customer/customer.component';
 
 @NgModule({
 	declarations: [
@@ -31,6 +32,7 @@ import { CustomerMenuComponent } from './components/customer-menu/customer-menu.
 		TitlesFormComponent,
 		CustomersComponent,
 		CustomerMenuComponent,
+		CustomerComponent,
 	],
 	imports: [
 		CommonModule,

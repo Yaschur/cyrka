@@ -1,4 +1,4 @@
-<app-jobtype (jobTypeItem_read$)="selectJobtype($event)" [jobTypeItem_write$]="jtChanges$">
+<app-jobtype (jobtypeItem_read$)="selectJobtype($event)" [jobtypeItem_write$]="jtChanges$">
 	<h4>{{formTitle}}</h4>
 	<form (ngSubmit)="save()" [formGroup]="form">
 		<section class="form-block">
