@@ -16,7 +16,7 @@ export class CustomerApiService {
 		);
 	}
 
-	public getAll(): Observable<Customer[]> {
+	public fetchAll(): Observable<Customer[]> {
 		return this._httpClient.get<Customer[]>(
 			`${environment.cyrkaApi.baseUrl}/customers`
 		);

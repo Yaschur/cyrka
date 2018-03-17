@@ -33,7 +33,7 @@ export class JobtypeEffects {
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
 		filter(
 			r =>
-				this.isOnJobTypes(r.payload.routerState.root.firstChild) &&
+				this.isOnJobtypes(r.payload.routerState.root.firstChild) &&
 				!this.isWithJobtypeId(r.payload.routerState.root.firstChild)
 		),
 		withLatestFrom(this._store$),
@@ -46,7 +46,7 @@ export class JobtypeEffects {
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
 		filter(
 			r =>
-				this.isOnJobTypes(r.payload.routerState.root.firstChild) &&
+				this.isOnJobtypes(r.payload.routerState.root.firstChild) &&
 				this.isWithJobtypeId(r.payload.routerState.root.firstChild)
 		),
 		map(r => r.payload.routerState.root.firstChild.paramMap.get('jobtypeId')),
@@ -80,13 +80,18 @@ export class JobtypeEffects {
 	@Effect()
 	updateJobtype$ = this._actions$.pipe(
 		ofType<UpdateJobtype>(JobtypeActionTypes.UPDATE_JOBTYPE),
-		switchMap(a => a.jobtype.id ? this._apiService.change(a.jobtype.id, a.jobtype) : this._apiService.register(a.jobtype)),
+		switchMap(
+			a =>
+				a.jobtype.id
+					? this._apiService.change(a.jobtype.id, a.jobtype)
+					: this._apiService.register(a.jobtype)
+		),
 		map(() => new FindJobtypes()),
 		catchError(e => {
 			console.log('Network error', e);
 			return of();
 		})
-	)
+	);
 
 	constructor(
 		private _actions$: Actions,
@@ -94,7 +99,7 @@ export class JobtypeEffects {
 		private _apiService: JobtypeApiService
 	) {}
 
-	private isOnJobTypes(r: ActivatedRouteSnapshot): boolean {
+	private isOnJobtypes(r: ActivatedRouteSnapshot): boolean {
 		return r.routeConfig.path.startsWith('jobtypes');
 	}
 	private isWithJobtypeId(r: ActivatedRouteSnapshot): boolean {

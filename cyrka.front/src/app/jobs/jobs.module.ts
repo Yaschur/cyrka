@@ -19,7 +19,6 @@ import { JobtypeFormComponent } from './components/jobtype-form/jobtype-form.com
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		JobsRoutingModule,
 		StoreModule.forFeature('jobtype', jobtypeReducer),
 		EffectsModule.forFeature([JobtypeEffects]),
 		JobsRoutingModule,

@@ -37,7 +37,7 @@ export class UpdateCustomer implements Action {
 	constructor(public customer: Customer) {}
 }
 
-export type JobtypeActions =
+export type CustomerActions =
 	| FindCustomers
 	| CustomersReceived
 	| GetCustomer

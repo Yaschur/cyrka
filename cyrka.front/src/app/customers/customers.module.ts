@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ClarityModule } from '@clr/angular';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { CustomersRoutingModule } from './customers-routing.module';
 
@@ -15,6 +17,9 @@ import { CustomersComponent } from './components/customers.component';
 import { CustomerFormComponent } from './components/customers-form.component';
 import { CustomersItemComponent } from './components/customers-item.component';
 import { CustomerApiService } from './services/customer-api.service';
+import { customerReducer } from './store/customer.reducers';
+import { CustomerEffects } from './store/customer.effects';
+import { CustomerMenuComponent } from './components/customer-menu/customer-menu.component';
 
 @NgModule({
 	declarations: [
@@ -25,11 +30,14 @@ import { CustomerApiService } from './services/customer-api.service';
 		CustomersDetailsComponent,
 		TitlesFormComponent,
 		CustomersComponent,
+		CustomerMenuComponent,
 	],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
 		ClarityModule,
+		StoreModule.forFeature('customer', customerReducer),
+		EffectsModule.forFeature([CustomerEffects]),
 		CustomersRoutingModule,
 	],
 	providers: [CustomersApiService, CustomerApiService],
