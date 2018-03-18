@@ -22,6 +22,7 @@ import { CustomerEffects } from './store/customer.effects';
 import { CustomerMenuComponent } from './components/customer-menu/customer-menu.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
+import { CustomerItemComponent } from './components/customer-item/customer-item.component';
 
 @NgModule({
 	declarations: [
@@ -35,6 +36,7 @@ import { CustomerListComponent } from './components/customer-list/customer-list.
 		CustomerMenuComponent,
 		CustomerComponent,
 		CustomerListComponent,
+		CustomerItemComponent,
 	],
 	imports: [
 		CommonModule,
