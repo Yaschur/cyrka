@@ -1,3 +1,5 @@
 <app-customer (customerItem_read$)="selectCustomer($event)">
 	<h4>{{customer?.name}}</h4>
+	<pre *ngIf="customer && customer.description">{{customer.description}}</pre>
+	<hr>
 </app-customer>
