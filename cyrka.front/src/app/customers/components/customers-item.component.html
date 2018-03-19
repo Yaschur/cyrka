@@ -1,7 +1,5 @@
 <app-customers-details *ngIf="inDetailsMode" [customer]="customerDefinition" (close)="onBack()"
  (change)="onChange()" (delete)="onRetire()"></app-customers-details>
-<app-customers-form *ngIf="inChangeMode" [customer]="customerDefinition" (close)="onBack()"
- (save)="onSave()"></app-customers-form>
 
 <button *ngIf="!titleToEdit" (click)="onNewTitle()" class="btn btn-sm btn-success">добавить продукт</button>
 <app-titles-form *ngIf="titleToEdit && !titleToEdit.id" [title]="titleToEdit" (close)="onTitleFormClose()"
@@ -19,7 +17,8 @@
 		<tbody>
 			<tr *ngFor="let title of titles">
 				<td *ngIf="titleToEdit && title.id === titleToEdit.id; else viewTemplate" colspan="3" class="left">
-					<app-titles-form [title]="titleToEdit" (close)="onTitleFormClose()" (save)="onTitleFormSave()" (delete)="onTitleFormDelete()"></app-titles-form>
+					<app-titles-form [title]="titleToEdit" (close)="onTitleFormClose()" (save)="onTitleFormSave()"
+					 (delete)="onTitleFormDelete()"></app-titles-form>
 				</td>
 
 				<ng-template #viewTemplate>

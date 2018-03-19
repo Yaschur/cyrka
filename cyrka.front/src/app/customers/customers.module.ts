@@ -14,7 +14,7 @@ import { CustomersRegisterComponent } from './components/customers-register.comp
 import { CustomersDetailsComponent } from './components/customers-details.component';
 import { TitlesFormComponent } from './components/titles-form.component';
 import { CustomersComponent } from './components/customers.component';
-import { CustomerFormComponent } from './components/customers-form.component';
+import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 import { CustomersItemComponent } from './components/customers-item.component';
 import { CustomerApiService } from './services/customer-api.service';
 import { customerReducer } from './store/customer.reducers';
