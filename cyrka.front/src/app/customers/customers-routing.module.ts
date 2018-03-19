@@ -8,6 +8,7 @@ import { CustomersDetailsComponent } from './components/customers-details.compon
 import { CustomersItemComponent } from './components/customers-item.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
 import { CustomerItemComponent } from './components/customer-item/customer-item.component';
+import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 
 const customersRoutes: Routes = [
 	{
@@ -26,8 +27,18 @@ const customersRoutes: Routes = [
 		// ]
 	},
 	{
+		path: 'customers/register',
+		component: CustomerFormComponent,
+		pathMatch: 'full',
+	},
+	{
 		path: 'customers/:customerId',
 		component: CustomerItemComponent,
+		pathMatch: 'full',
+	},
+	{
+		path: 'customers/:customerId/edit',
+		component: CustomerFormComponent,
 		pathMatch: 'full',
 	},
 ];
