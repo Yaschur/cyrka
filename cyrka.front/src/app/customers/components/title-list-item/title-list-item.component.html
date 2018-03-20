@@ -1,0 +1,10 @@
+{{title?.name}}
+<ul class="list-unstyled">
+	<li>
+		<span class="p4">серий:</span>
+		<span>{{title?.numberOfSeries}}</span>
+	</li>
+	<li *ngIf="title && title.description">
+		<pre>{{title.description}}</pre>
+	</li>
+</ul>

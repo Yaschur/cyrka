@@ -23,6 +23,7 @@ import { CustomerMenuComponent } from './components/customer-menu/customer-menu.
 import { CustomerComponent } from './components/customer/customer.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
 import { CustomerItemComponent } from './components/customer-item/customer-item.component';
+import { TitleListItemComponent } from './components/title-list-item/title-list-item.component';
 
 @NgModule({
 	declarations: [
@@ -37,6 +38,7 @@ import { CustomerItemComponent } from './components/customer-item/customer-item.
 		CustomerComponent,
 		CustomerListComponent,
 		CustomerItemComponent,
+		TitleListItemComponent,
 	],
 	imports: [
 		CommonModule,

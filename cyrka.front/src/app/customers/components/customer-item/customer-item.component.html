@@ -5,16 +5,8 @@
 	<section *ngIf="customer && customer.titles && customer.titles.length != 0">
 		<h5>продукты (тайтлы)</h5>
 		<ul class="list">
-			<li *ngFor="let title of customer.titles">{{title.name}}
-				<ul class="list-unstyled">
-					<li>
-						<span class="p4">серий:</span>
-						<span>{{title.numberOfSeries}}</span>
-					</li>
-					<li *ngIf="title.description">
-						<pre>{{title.description}}</pre>
-					</li>
-				</ul>
+			<li *ngFor="let title of customer.titles">
+				<app-title-list-item [title]="title"></app-title-list-item>
 			</li>
 		</ul>
 	</section>
