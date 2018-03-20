@@ -24,6 +24,7 @@ import { CustomerComponent } from './components/customer/customer.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
 import { CustomerItemComponent } from './components/customer-item/customer-item.component';
 import { TitleListItemComponent } from './components/title-list-item/title-list-item.component';
+import { TitleListFormComponent } from './components/title-list-form/title-list-form.component';
 
 @NgModule({
 	declarations: [
@@ -39,6 +40,7 @@ import { TitleListItemComponent } from './components/title-list-item/title-list-
 		CustomerListComponent,
 		CustomerItemComponent,
 		TitleListItemComponent,
+		TitleListFormComponent,
 	],
 	imports: [
 		CommonModule,
