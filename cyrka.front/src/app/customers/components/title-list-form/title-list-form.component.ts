@@ -10,20 +10,10 @@ import { Title } from '../../models/title';
 export class TitleListFormComponent {
 	@Input()
 	set title(t: Title) {
-		this.form.setValue({
-			id: t.id || '',
-			name: t.name || '',
-			numberOfSeries: t.numberOfSeries || 1,
-			description: t.description || '',
-		});
-		this.formTitle = t.id
-			? 'изменение данных продукта'
-			: 'добавление нового продукта';
-		this.submitTitle = t.id ? 'изменить' : 'добавить';
+		this.setValue(t);
 	}
 
 	public form: FormGroup;
-	public formTitle: string;
 	public submitTitle: string;
 
 	constructor(private _formBuilder: FormBuilder) {
@@ -33,5 +23,20 @@ export class TitleListFormComponent {
 			numberOfSeries: 1,
 			description: '',
 		});
+		this.setValue(<Title>{});
+	}
+
+	save() {}
+	cancel() {}
+
+	private setValue(title: Title) {
+		const t = title || <Title>{};
+		this.form.setValue({
+			id: t.id || '',
+			name: t.name || '',
+			numberOfSeries: t.numberOfSeries || 1,
+			description: t.description || '',
+		});
+		this.submitTitle = t.id ? 'изменить' : 'добавить';
 	}
 }

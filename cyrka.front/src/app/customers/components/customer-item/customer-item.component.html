@@ -4,8 +4,10 @@
 	<hr>
 	<section>
 		<h5>продукты (тайтлы)</h5>
-		<a href="javascript://">Добавить продукт</a>
 		<ul class="list">
+			<li>
+				<app-title-list-item></app-title-list-item>
+			</li>
 			<li *ngFor="let title of customer.titles">
 				<app-title-list-item [title]="title"></app-title-list-item>
 			</li>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Title } from '../../models/title';
 
 @Component({
@@ -7,8 +7,22 @@ import { Title } from '../../models/title';
 	styleUrls: ['./title-list-item.component.scss'],
 })
 export class TitleListItemComponent {
-	@Input()
-	title: Title;
+	@Input() title: Title;
 
-	constructor() {}
+	@Output() select: EventEmitter<void>;
+
+	editMode: boolean;
+
+	constructor() {
+		this.select = new EventEmitter();
+		this.editMode = false;
+	}
+
+	setEditMode() {
+		this.editMode = true;
+	}
+
+	setSelection() {
+		this.select.emit();
+	}
 }

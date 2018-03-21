@@ -1,5 +1,5 @@
-<a href="javascript://">{{title?.name}}</a>
-<ul class="list-unstyled">
+<a href="javascript://" (click)="setEditMode()" *ngIf="!editMode; else editBlock">{{title?.name || '[ добавить новый тайтл ]'}}</a>
+<ul *ngIf="title && !editMode" class="list-unstyled">
 	<li>
 		<span class="p4">серий:</span>
 		<span>{{title?.numberOfSeries}}</span>
@@ -8,3 +8,6 @@
 		<pre>{{title.description}}</pre>
 	</li>
 </ul>
+<ng-template #editBlock>
+	<app-title-list-form [title]="title"></app-title-list-form>
+</ng-template>
