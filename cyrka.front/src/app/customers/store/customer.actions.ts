@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Customer } from '../models/customer';
+import { Title } from '../models/title';
 
 export enum CustomerActionTypes {
 	FIND_CUSTOMERS = '[customer] FIND_CUSTOMERS',
@@ -7,6 +8,7 @@ export enum CustomerActionTypes {
 	GET_CUSTOMER = '[customer] GET_CUSTOMER',
 	CUSTOMER_RECEIVED = '[customer] CUSTOMER_RECEIVED',
 	UPDATE_CUSTOMER = '[customer] UPDATE_CUSTOMER',
+	UPDATE_TITLE = '[customer] UPDATE_TITLE',
 }
 
 export class FindCustomers implements Action {
@@ -37,9 +39,16 @@ export class UpdateCustomer implements Action {
 	constructor(public customer: Customer) {}
 }
 
+export class UpdateTitle implements Action {
+	readonly type = CustomerActionTypes.UPDATE_TITLE;
+
+	constructor(public customerId: string, public title: Title) {}
+}
+
 export type CustomerActions =
 	| FindCustomers
 	| CustomersReceived
 	| GetCustomer
 	| CustomerReceived
-	| UpdateCustomer;
+	| UpdateCustomer
+	| UpdateTitle;

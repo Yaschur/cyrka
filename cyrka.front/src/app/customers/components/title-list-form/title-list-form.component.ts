@@ -13,6 +13,8 @@ export class TitleListFormComponent {
 		this.setValue(t);
 	}
 
+	
+
 	public form: FormGroup;
 	public submitTitle: string;
 

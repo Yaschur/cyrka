@@ -22,6 +22,7 @@ import {
 	CustomerReceived,
 	CustomersReceived,
 	UpdateCustomer,
+	UpdateTitle,
 } from './customer.actions';
 
 @Injectable()
@@ -54,7 +55,7 @@ export class CustomerEffects {
 	);
 
 	@Effect()
-	fetchJobtypes$ = this._actions$.pipe(
+	fetchCustomers$ = this._actions$.pipe(
 		ofType<FindCustomers>(CustomerActionTypes.FIND_CUSTOMERS),
 		switchMap(() => this._apiService.fetchAll()),
 		map(res => new CustomersReceived(res)),
@@ -65,7 +66,7 @@ export class CustomerEffects {
 	);
 
 	@Effect()
-	fetchJobtype$ = this._actions$.pipe(
+	fetchCustomer$ = this._actions$.pipe(
 		ofType<GetCustomer>(CustomerActionTypes.GET_CUSTOMER),
 		switchMap(a => this._apiService.getById(a.customerId)),
 		map(res => new CustomerReceived(res)),
@@ -76,13 +77,29 @@ export class CustomerEffects {
 	);
 
 	@Effect()
-	updateJobtype$ = this._actions$.pipe(
+	updateCustomer$ = this._actions$.pipe(
 		ofType<UpdateCustomer>(CustomerActionTypes.UPDATE_CUSTOMER),
 		switchMap(
 			a =>
 				a.customer.id
 					? this._apiService.change(a.customer.id, a.customer)
 					: this._apiService.register(a.customer)
+		),
+		map(() => new FindCustomers()),
+		catchError(e => {
+			console.log('Network error', e);
+			return of();
+		})
+	);
+
+	@Effect()
+	updateTitle$ = this._actions$.pipe(
+		ofType<UpdateTitle>(CustomerActionTypes.UPDATE_TITLE),
+		switchMap(
+			a =>
+				a.title.id
+					? this._apiService.changeTitle(a.customerId, a.title.id, a.title)
+					: this._apiService.addTitle(a.customerId, a.title)
 		),
 		map(() => new FindCustomers()),
 		catchError(e => {
