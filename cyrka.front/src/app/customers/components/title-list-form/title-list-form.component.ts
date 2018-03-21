@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Title } from '../../models/title.';
+import { Title } from '../../models/title';
 
 @Component({
 	selector: 'app-title-list-form',

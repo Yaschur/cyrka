@@ -2,8 +2,9 @@
 	<h4>{{customer?.name}}</h4>
 	<pre *ngIf="customer && customer.description">{{customer.description}}</pre>
 	<hr>
-	<section *ngIf="customer && customer.titles && customer.titles.length != 0">
+	<section>
 		<h5>продукты (тайтлы)</h5>
+		<a href="javascript://">Добавить продукт</a>
 		<ul class="list">
 			<li *ngFor="let title of customer.titles">
 				<app-title-list-item [title]="title"></app-title-list-item>

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Title } from '../../models/title.';
+import { Title } from '../../models/title';
 
 @Component({
 	selector: 'app-title-list-item',
