@@ -8,16 +8,8 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { CustomersRoutingModule } from './customers-routing.module';
 
-import { CustomersApiService } from './services/customers-api.service';
-import { CustomersListComponent } from './components/customers-list.component';
-import { CustomersRegisterComponent } from './components/customers-register.component';
-import { CustomersDetailsComponent } from './components/customers-details.component';
-import { TitlesFormComponent } from './components/titles-form.component';
-import { CustomersComponent } from './components/customers.component';
 import { CustomerFormComponent } from './components/customer-form/customer-form.component';
-import { CustomersItemComponent } from './components/customers-item.component';
 import { CustomerApiService } from './services/customer-api.service';
-import { customerReducer } from './store/customer.reducers';
 import { CustomerEffects } from './store/customer.effects';
 import { CustomerMenuComponent } from './components/customer-menu/customer-menu.component';
 import { CustomerComponent } from './components/customer/customer.component';
@@ -25,16 +17,11 @@ import { CustomerListComponent } from './components/customer-list/customer-list.
 import { CustomerItemComponent } from './components/customer-item/customer-item.component';
 import { TitleListItemComponent } from './components/title-list-item/title-list-item.component';
 import { TitleListFormComponent } from './components/title-list-form/title-list-form.component';
+import { customerReducer } from './store/customer.reducers';
 
 @NgModule({
 	declarations: [
-		CustomersListComponent,
-		CustomersRegisterComponent,
 		CustomerFormComponent,
-		CustomersItemComponent,
-		CustomersDetailsComponent,
-		TitlesFormComponent,
-		CustomersComponent,
 		CustomerMenuComponent,
 		CustomerComponent,
 		CustomerListComponent,
@@ -50,6 +37,6 @@ import { TitleListFormComponent } from './components/title-list-form/title-list-
 		EffectsModule.forFeature([CustomerEffects]),
 		CustomersRoutingModule,
 	],
-	providers: [CustomersApiService, CustomerApiService],
+	providers: [CustomerApiService],
 })
 export class CustomersModule {}

@@ -19,6 +19,7 @@ import { JobsApiService } from '../services/jobs-api.service';
 import { JobSet } from '../models/job-set';
 import { UnitDescriptor } from '../../shared/units/unit-descriptor';
 import { UnitService } from '../../shared/units/unit.service';
+import { of } from 'rxjs/observable/of';
 
 interface JobTypeWithUnit extends JobType {
 	unitDescriptor: UnitDescriptor;
@@ -88,7 +89,7 @@ export class ProjectsFormComponent implements OnInit {
 				p =>
 					p['projectId']
 						? this._projectApi.getById(p['projectId'])
-						: Observable.of(<Project>{ product: {}, jobs: [] })
+						: of(<Project>{ product: {}, jobs: [] })
 			)
 			.zip(
 				this._customerApi.getAll(),
@@ -116,7 +117,7 @@ export class ProjectsFormComponent implements OnInit {
 			return;
 		}
 		(this._id
-			? Observable.of<ApiAnswer>({ resourceId: this._id, resourceType: '' })
+			? of<ApiAnswer>({ resourceId: this._id, resourceType: '' })
 			: this._projectApi.register()
 		)
 			.flatMap(res =>

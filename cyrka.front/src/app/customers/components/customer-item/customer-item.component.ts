@@ -9,15 +9,10 @@ import { Title } from '../../models/title';
 })
 export class CustomerItemComponent {
 	customer: Customer;
-	selectedTitle: Title;
 
 	constructor() {}
 
 	selectCustomer(cst: Customer) {
 		this.customer = cst;
-	}
-
-	selectTitle(title: Title) {
-		this.selectedTitle = title || <Title>{};
 	}
 }

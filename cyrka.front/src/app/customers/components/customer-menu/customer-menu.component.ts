@@ -25,13 +25,9 @@ export class CustomerMenuComponent {
 			linkUrl:
 				cst && cst.id ? `/customers/${cst.id}/edit` : '/customers/register',
 		};
-		// this.addTitleMenu = true;
 	}
 
 	changeMenu: MenuLink;
-	// addTitleMenu: boolean;
 
-	constructor() {
-		// this.addTitleMenu = false;
-	}
+	constructor() {}
 }

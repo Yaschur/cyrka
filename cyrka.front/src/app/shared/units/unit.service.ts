@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { UnitDescriptor } from './unit-descriptor';
+import { of } from 'rxjs/observable/of';
 
 const UNITS: UnitDescriptor[] = [
 	{ key: 'Undefined', title: 'Не определено', short: '?' },
@@ -16,11 +17,11 @@ const UNITS: UnitDescriptor[] = [
 @Injectable()
 export class UnitService {
 	public getAll(): Observable<UnitDescriptor[]> {
-		return Observable.of(UNITS);
+		return of(UNITS);
 	}
 
 	public getByName(unitName: string): Observable<UnitDescriptor> {
 		const res = UNITS.find(u => u.key === unitName);
-		return Observable.of(res || UNITS[0]);
+		return of(res || UNITS[0]);
 	}
 }
