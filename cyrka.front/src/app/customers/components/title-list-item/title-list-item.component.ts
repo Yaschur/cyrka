@@ -1,5 +1,9 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+
 import { Title } from '../../models/title';
+import { UpdateTitle } from '../../store/customer.actions';
 
 @Component({
 	selector: 'app-title-list-item',
@@ -8,21 +12,29 @@ import { Title } from '../../models/title';
 })
 export class TitleListItemComponent {
 	@Input() title: Title;
+	@Input() customerId: string;
 
 	@Output() select: EventEmitter<void>;
 
 	editMode: boolean;
 
-	constructor() {
+	constructor(
+		private _store: Store<{}>
+	) {
 		this.select = new EventEmitter();
-		this.editMode = false;
+		this.setEditMode(false);
 	}
 
-	setEditMode() {
-		this.editMode = true;
+	setEditMode(flag: boolean) {
+		this.editMode = flag;
 	}
 
 	setSelection() {
 		this.select.emit();
+	}
+
+	getChanged(title: Title) {
+		this._store.dispatch(new UpdateTitle(this.customerId, title));
+		this.setEditMode(false);
 	}
 }

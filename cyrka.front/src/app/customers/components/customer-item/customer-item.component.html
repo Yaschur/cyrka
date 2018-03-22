@@ -6,10 +6,10 @@
 		<h5>продукты (тайтлы)</h5>
 		<ul class="list">
 			<li>
-				<app-title-list-item></app-title-list-item>
+				<app-title-list-item [customerId]="customer?.id"></app-title-list-item>
 			</li>
 			<li *ngFor="let title of customer.titles">
-				<app-title-list-item [title]="title"></app-title-list-item>
+				<app-title-list-item [title]="title" [customerId]="customer?.id"></app-title-list-item>
 			</li>
 		</ul>
 	</section>

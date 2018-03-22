@@ -1,5 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+
 import { Title } from '../../models/title';
 
 @Component({
@@ -13,7 +17,8 @@ export class TitleListFormComponent {
 		this.setValue(t);
 	}
 
-	
+	@Output() titleChanged: EventEmitter<Title>;
+	@Output() editCancelled: EventEmitter<void>;
 
 	public form: FormGroup;
 	public submitTitle: string;
@@ -26,10 +31,19 @@ export class TitleListFormComponent {
 			description: '',
 		});
 		this.setValue(<Title>{});
+		this.titleChanged = new EventEmitter();
+		this.editCancelled = new EventEmitter();
 	}
 
-	save() {}
-	cancel() {}
+	save() {
+		if (this.form.invalid || this.form.pristine) {
+			return;
+		}
+		this.titleChanged.emit(this.form.value);
+	}
+	cancel() {
+		this.editCancelled.emit();
+	}
 
 	private setValue(title: Title) {
 		const t = title || <Title>{};
