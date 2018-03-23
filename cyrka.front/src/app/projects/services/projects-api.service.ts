@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
 import { Project } from '../models/project';
-import { ApiAnswer } from '../models/api-answer';
+import { ApiAnswer } from '../../shared/api/api-answer';
 import { ProductSet } from '../models/product-set';
 import { JobSet } from '../models/job-set';
 import { JobChange } from '../models/job-change';
