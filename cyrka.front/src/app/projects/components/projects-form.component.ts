@@ -7,7 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/zip';
 
-import { Project } from '../models/project';
+import { ProjectPlain } from '../models/project-plain';
 import { CustomersApiService } from '../services/customers-api.service';
 import { ProjectsApiService } from '../services/projects-api.service';
 import { Customer } from '../models/customer';
@@ -89,14 +89,14 @@ export class ProjectsFormComponent implements OnInit {
 				p =>
 					p['projectId']
 						? this._projectApi.getById(p['projectId'])
-						: of(<Project>{ product: {}, jobs: [] })
+						: of(<ProjectPlain>{ product: {}, jobs: [] })
 			)
 			.zip(
 				this._customerApi.getAll(),
 				this._jobApi.getAll(),
 				this._unitSrv.getAll(),
 				(
-					project: Project,
+					project: ProjectPlain,
 					customers: Customer[],
 					jobTypes: JobType[],
 					units: UnitDescriptor[]
@@ -140,7 +140,7 @@ export class ProjectsFormComponent implements OnInit {
 	private _id: string;
 
 	private initItAll(
-		project: Project,
+		project: ProjectPlain,
 		customers: Customer[],
 		jobTypes: JobType[],
 		units: UnitDescriptor[]

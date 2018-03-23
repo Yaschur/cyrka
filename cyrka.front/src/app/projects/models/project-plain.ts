@@ -1,4 +1,4 @@
-export interface Project {
+export interface ProjectPlain {
 	id: string;
 	status: string;
 	product: {

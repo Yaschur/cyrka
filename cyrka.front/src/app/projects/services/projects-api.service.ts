@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
-import { Project } from '../models/project';
+import { ProjectPlain } from '../models/project-plain';
 import { ApiAnswer } from '../../shared/api/api-answer';
 import { ProductSet } from '../models/product-set';
 import { JobSet } from '../models/job-set';
@@ -14,12 +14,12 @@ import { JobChange } from '../models/job-change';
 export class ProjectsApiService {
 	constructor(private _httpClient: HttpClient) { }
 
-	public getAll(): Observable<Project[]> {
-		return this._httpClient.get<Project[]>(`${environment.cyrkaApi.baseUrl}/projects`);
+	public getAll(): Observable<ProjectPlain[]> {
+		return this._httpClient.get<ProjectPlain[]>(`${environment.cyrkaApi.baseUrl}/projects`);
 	}
 
-	public getById(id: string): Observable<Project> {
-		return this._httpClient.get<Project>(`${environment.cyrkaApi.baseUrl}/projects/${id}`);
+	public getById(id: string): Observable<ProjectPlain> {
+		return this._httpClient.get<ProjectPlain>(`${environment.cyrkaApi.baseUrl}/projects/${id}`);
 	}
 
 	public register(): Observable<ApiAnswer> {
