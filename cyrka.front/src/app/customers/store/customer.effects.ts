@@ -10,6 +10,7 @@ import {
 	switchMap,
 	map,
 	catchError,
+	take,
 } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
@@ -30,25 +31,18 @@ export class CustomerEffects {
 	@Effect()
 	navigateCustomers$ = this._actions$.pipe(
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
-		filter(
-			r =>
-				this.isOnCustomers(r.payload.routerState.root.firstChild) &&
-				!this.isWithCustomerId(r.payload.routerState.root.firstChild)
-		),
-		withLatestFrom(this._store$),
-		filter(s => !s[1].customer.listLoaded),
-		switchMap(() => of(new FindCustomers()))
+		map(r => r.payload.routerState.root.firstChild),
+		filter(r => this.isOnCustomers(r) && !this.isWithCustomerId(r)),
+		take(1),
+		map(() => new FindCustomers())
 	);
 
 	@Effect()
 	navigateCustomer$ = this._actions$.pipe(
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
-		filter(
-			r =>
-				this.isOnCustomers(r.payload.routerState.root.firstChild) &&
-				this.isWithCustomerId(r.payload.routerState.root.firstChild)
-		),
-		map(r => r.payload.routerState.root.firstChild.paramMap.get('customerId')),
+		map(r => r.payload.routerState.root.firstChild),
+		filter(r => this.isOnCustomers(r) && this.isWithCustomerId(r)),
+		map(r => r.paramMap.get('customerId')),
 		withLatestFrom(this._store$),
 		filter(s => !s[1].customer.customers.some(jt => jt.id === s[0])),
 		switchMap(s => of(new GetCustomer(s[0])))

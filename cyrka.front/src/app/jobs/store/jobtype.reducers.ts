@@ -4,12 +4,10 @@ import { JobtypeActions, JobtypeActionTypes } from './jobtype.actions';
 
 export interface JobtypeState {
 	jobtypes: Jobtype[];
-	listLoaded: boolean;
 }
 
 export const initialState: JobtypeState = {
 	jobtypes: [],
-	listLoaded: false,
 };
 
 export function jobtypeReducer(
@@ -18,7 +16,7 @@ export function jobtypeReducer(
 ): JobtypeState {
 	switch (action.type) {
 		case JobtypeActionTypes.JOBTYPES_RECEIVED: {
-			return { ...state, jobtypes: action.jobtypes, listLoaded: true };
+			return { ...state, jobtypes: action.jobtypes };
 		}
 		case JobtypeActionTypes.JOBTYPE_RECEIVED: {
 			const exInd = state.jobtypes.findIndex(jt => jt.id === action.jobtype.id);

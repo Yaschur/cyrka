@@ -3,12 +3,10 @@ import { CustomerActions, CustomerActionTypes } from './customer.actions';
 
 export interface CustomerState {
 	customers: Customer[];
-	listLoaded: boolean;
 }
 
 export const inititalState: CustomerState = {
 	customers: [],
-	listLoaded: false,
 };
 
 export function customerReducer(
@@ -17,7 +15,7 @@ export function customerReducer(
 ) {
 	switch (action.type) {
 		case CustomerActionTypes.CUSTOMERS_RECEIVED: {
-			return { ...state, customers: action.customers, listLoaded: true };
+			return { ...state, customers: action.customers };
 		}
 		case CustomerActionTypes.CUSTOMER_RECEIVED: {
 			const exInd = state.customers.findIndex(c => c.id === action.customer.id);

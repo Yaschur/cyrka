@@ -8,6 +8,7 @@ import {
 	catchError,
 	filter,
 	withLatestFrom,
+	take,
 } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
@@ -31,25 +32,18 @@ export class JobtypeEffects {
 	@Effect()
 	navigateJobtypes$ = this._actions$.pipe(
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
-		filter(
-			r =>
-				this.isOnJobtypes(r.payload.routerState.root.firstChild) &&
-				!this.isWithJobtypeId(r.payload.routerState.root.firstChild)
-		),
-		withLatestFrom(this._store$),
-		filter(s => !s[1].jobtype.listLoaded),
-		switchMap(() => of(new FindJobtypes()))
+		map(r => r.payload.routerState.root.firstChild),
+		filter(r => this.isOnJobtypes(r) && !this.isWithJobtypeId(r)),
+		take(1),
+		map(() => new FindJobtypes())
 	);
 
 	@Effect()
 	navigateJobtype$ = this._actions$.pipe(
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
-		filter(
-			r =>
-				this.isOnJobtypes(r.payload.routerState.root.firstChild) &&
-				this.isWithJobtypeId(r.payload.routerState.root.firstChild)
-		),
-		map(r => r.payload.routerState.root.firstChild.paramMap.get('jobtypeId')),
+		map(r => r.payload.routerState.root.firstChild),
+		filter(r => this.isOnJobtypes(r) && this.isWithJobtypeId(r)),
+		map(r => r.paramMap.get('jobtypeId')),
 		withLatestFrom(this._store$),
 		filter(s => !s[1].jobtype.jobtypes.some(jt => jt.id === s[0])),
 		switchMap(s => of(new GetJobtype(s[0])))
