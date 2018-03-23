@@ -216,8 +216,8 @@ export class ProjectsFormComponent implements OnInit {
 		return formJobs.map(
 			j =>
 				<JobSet>{
-					jobTypeId: j.jobType.id,
-					jobTypeName: j.jobType.name,
+					jobtypeId: j.jobType.id,
+					jobtypeName: j.jobType.name,
 					unitName: j.jobType.unitDescriptor.key,
 					ratePerUnit: j.rate,
 					amount: j.amount,
