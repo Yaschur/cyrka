@@ -15,20 +15,22 @@ import { CustomersApiService } from './services/customers-api.service';
 import { ProjectsApiService } from './services/projects-api.service';
 import { ProjectApiService } from './services/project-api.service';
 import { ProjectsListComponent } from './components/projects-list.component';
-import { ProjectMenuComponent } from './components/project-menu/project-menu.component';
+import { projectReducer } from './store/project.reducers';
+import { ProjectEffects } from './store/project.effects';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
 		SharedModule,
+		StoreModule.forFeature('project', projectReducer),
+		EffectsModule.forFeature([ProjectEffects]),
 		ProjectsRoutingModule,
 	],
 	declarations: [
 		ProjectsComponent,
 		ProjectsFormComponent,
 		ProjectsListComponent,
-		ProjectMenuComponent,
 	],
 	providers: [
 		JobsApiService,
