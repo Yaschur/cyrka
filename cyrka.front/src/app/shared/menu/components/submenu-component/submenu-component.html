@@ -1,0 +1,8 @@
+<nav class="subnav" *ngIf="items && items.length != 0">
+	<ul class="nav">
+		<li class="nav-item" *ngFor="let item of items">
+			<a class="nav-link" [title]="item.linkTitle" [routerLink]="item.linkUrl" routerLinkActive="active"
+			 [routerLinkActiveOptions]="{exact: true}">{{item.linkText}}</a>
+		</li>
+	</ul>
+</nav>

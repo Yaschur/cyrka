@@ -14,11 +14,13 @@ import { JobtypeMenuComponent } from './components/jobtype-menu/jobtype-menu.com
 import { JobtypeComponent } from './components/jobtype/jobtype.component';
 import { JobtypeItemComponent } from './components/jobtype-item/jobtype-item.component';
 import { JobtypeFormComponent } from './components/jobtype-form/jobtype-form.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
+		SharedModule,
 		StoreModule.forFeature('jobtype', jobtypeReducer),
 		EffectsModule.forFeature([JobtypeEffects]),
 		JobsRoutingModule,

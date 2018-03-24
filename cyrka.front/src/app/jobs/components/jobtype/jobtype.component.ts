@@ -9,6 +9,7 @@ import { getJobtypeEntities } from '../../jobtype.store';
 import { withLatestFrom, switchMap, filter, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { UpdateJobtype } from '../../store/jobtype.actions';
+import { MenuLink } from '../../../shared/menu/menu-link';
 
 @Component({
 	selector: 'app-jobtype',
@@ -31,7 +32,18 @@ export class JobtypeComponent {
 		});
 	}
 
-	selectedJobtype: Jobtype;
+	menuItems: MenuLink[] = [
+		{
+			linkUrl: '/jobtypes',
+			linkText: 'Список',
+			linkTitle: 'список услуг',
+		},
+		{
+			linkUrl: '/jobtypes/register',
+			linkText: 'Добавить',
+			linkTitle: 'зарегистрировать новую услугу',
+		},
+	];
 
 	constructor(
 		private _route: ActivatedRoute,
@@ -48,7 +60,16 @@ export class JobtypeComponent {
 						: {}) as Jobtype)
 				),
 				filter(jt => jt != null),
-				tap(jt => (this.selectedJobtype = jt))
+				tap(jt => {
+					this.menuItems = [
+						...this.menuItems.slice(0, 1),
+						{
+							linkText: 'Изменить',
+							linkTitle: 'изменить данные услуги',
+							linkUrl: `/jobtypes/${jt.id}/edit`,
+						},
+					];
+				})
 			);
 
 		this.jobtypeItems_read$ = _store.select(getJobtypeEntities);

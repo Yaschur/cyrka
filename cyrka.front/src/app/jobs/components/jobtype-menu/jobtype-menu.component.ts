@@ -1,11 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Jobtype } from '../../models/jobtype';
 
-interface MenuLink {
-	linkTitle: string;
-	linkText: string;
-	linkUrl: string;
-}
+import { Jobtype } from '../../models/jobtype';
+import { MenuLink } from '../../../shared/menu/menu-link';
 
 @Component({
 	selector: 'app-jobtype-menu',
