@@ -4,19 +4,23 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectsComponent } from './components/projects.component';
 import { ProjectsFormComponent } from './components/projects-form.component';
 import { ProjectsListComponent } from './components/projects-list.component';
+import { ProjectListComponent } from './components/project-list/project-list.component';
 
 const projectRoutes: Routes = [
+	{ path: 'projects', component: ProjectListComponent, pathMatch: 'full' },
 	{
-		path: 'projects', component: ProjectsComponent, children: [
+		path: 'projects',
+		component: ProjectsComponent,
+		children: [
 			{ path: '', component: ProjectsListComponent, pathMatch: 'full' },
 			{ path: 'register', component: ProjectsFormComponent },
-			{ path: ':projectId', component: ProjectsFormComponent }
-		]
-	}
+			{ path: ':projectId', component: ProjectsFormComponent },
+		],
+	},
 ];
 
 @NgModule({
 	imports: [RouterModule.forChild(projectRoutes)],
-	exports: [RouterModule]
+	exports: [RouterModule],
 })
-export class ProjectsRoutingModule { }
+export class ProjectsRoutingModule {}

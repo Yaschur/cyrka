@@ -6,7 +6,7 @@ export const getProjectFeatureState = createFeatureSelector<ProjectState>(
 	'project'
 );
 
-export const getCustomerEntities = createSelector(
+export const getProjectEntities = createSelector(
 	getProjectFeatureState,
 	(state: ProjectState) => state.projects
 );

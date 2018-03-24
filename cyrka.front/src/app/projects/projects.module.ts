@@ -17,6 +17,7 @@ import { ProjectApiService } from './services/project-api.service';
 import { ProjectsListComponent } from './components/projects-list.component';
 import { projectReducer } from './store/project.reducers';
 import { ProjectEffects } from './store/project.effects';
+import { ProjectListComponent } from './components/project-list/project-list.component';
 
 @NgModule({
 	imports: [
@@ -31,6 +32,7 @@ import { ProjectEffects } from './store/project.effects';
 		ProjectsComponent,
 		ProjectsFormComponent,
 		ProjectsListComponent,
+		ProjectListComponent,
 	],
 	providers: [
 		JobsApiService,
