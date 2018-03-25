@@ -4,6 +4,8 @@ import { Project } from '../models/project';
 export enum ProjectActionTypes {
 	FIND_PROJECTS = '[project] FIND_PROJECTS',
 	LOAD_PROJECTS = '[project] LOAD_PROJECTS',
+	GET_PROJECT = '[project] GET_PROJECT',
+	LOAD_PROJECT = '[project] LOAD_PROJECT',
 	// FIND_CUSTOMERS = '[customer] FIND_CUSTOMERS',
 	// CUSTOMERS_RECEIVED = '[customer] CUSTOMERS_RECEIVED',
 	// GET_CUSTOMER = '[customer] GET_CUSTOMER',
@@ -22,4 +24,20 @@ export class LoadProjects implements Action {
 	constructor(public payload: Project[]) {}
 }
 
-export type ProjectActions = FindProjects | LoadProjects;
+export class GetProject implements Action {
+	readonly type = ProjectActionTypes.GET_PROJECT;
+
+	constructor(public payload: string) {}
+}
+
+export class LoadProject implements Action {
+	readonly type = ProjectActionTypes.LOAD_PROJECT;
+
+	constructor(public payload: Project) {}
+}
+
+export type ProjectActions =
+	| FindProjects
+	| LoadProjects
+	| GetProject
+	| LoadProject;
