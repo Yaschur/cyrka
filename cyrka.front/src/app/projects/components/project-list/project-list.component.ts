@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 
 import { Project } from '../../models/project';
 import { getProjectEntities } from '../../project.store';
+import { take } from 'rxjs/operators';
+import { FindProjects } from '../../store/project.actions';
 
 @Component({
 	selector: 'app-project-list',
@@ -30,5 +32,11 @@ export class ProjectListComponent {
 
 	constructor(private _store: Store<{}>) {
 		this.projects = this._store.select(getProjectEntities);
+
+		this.projects.pipe(take(1)).subscribe(prjs => {
+			if (prjs.length == 0) {
+				_store.dispatch(new FindProjects());
+			}
+		});
 	}
 }

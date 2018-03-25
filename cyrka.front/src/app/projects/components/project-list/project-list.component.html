@@ -1,1 +1,21 @@
 <app-submenu [items]="menuItems"></app-submenu>
+<div class="content-container">
+	<div class="content-area">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="left">номер</th>
+					<th class="left">статус</th>
+					<th class="left">заказчик</th>
+					<th class="left">продукт (тайтл)</th>
+					<th class="left">эпизод</th>
+					<th class="left">хронометраж, мин.</th>
+					<th class="left">работы</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr app-project-list-item *ngFor="let project of projects | async" [project]="project"></tr>
+			</tbody>
+		</table>
+	</div>
+</div>

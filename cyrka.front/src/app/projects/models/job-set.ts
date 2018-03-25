@@ -1,6 +1,6 @@
 export interface JobSet {
 	jobtypeId: string;
-	jobtypeName: string;
+	jobTypeName: string;
 	unitName: string;
 	ratePerUnit: number;
 	amount: number;

@@ -217,7 +217,7 @@ export class ProjectsFormComponent implements OnInit {
 			j =>
 				<JobSet>{
 					jobtypeId: j.jobType.id,
-					jobtypeName: j.jobType.name,
+					jobTypeName: j.jobType.name,
 					unitName: j.jobType.unitDescriptor.key,
 					ratePerUnit: j.rate,
 					amount: j.amount,

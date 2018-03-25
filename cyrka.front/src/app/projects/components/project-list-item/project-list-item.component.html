@@ -1,0 +1,15 @@
+<td class="left">
+	<a routerLink="{{project.id}}">{{project.id}}</a>
+</td>
+<td class="left">
+	<span class="label label-info">{{project.status}}</span>
+</td>
+<td class="left">{{project.product?.customerName}}</td>
+<td class="left">{{project.product?.titleName}}</td>
+<td class="left">{{project.product?.episodeNumber}} (из {{project.product?.totalEpisodes}})</td>
+<td class="left">{{project.product?.episodeDuration}}</td>
+<td class="left">
+	<ul class="list compact">
+		<li *ngFor="let job of project.jobs">{{job.jobTypeName}}</li>
+	</ul>
+</td>
