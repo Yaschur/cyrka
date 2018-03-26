@@ -10,6 +10,11 @@ import { ProjectFormComponent } from './components/project-form/project-form.com
 const projectRoutes: Routes = [
 	{ path: 'projects', component: ProjectListComponent, pathMatch: 'full' },
 	{
+		path: 'projects/register',
+		component: ProjectFormComponent,
+		pathMatch: 'full',
+	},
+	{
 		path: 'projects/:projectId',
 		component: ProjectFormComponent,
 		pathMatch: 'full',

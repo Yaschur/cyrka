@@ -5,6 +5,7 @@ export enum ProjectActionTypes {
 	FIND_PROJECTS = '[project] FIND_PROJECTS',
 	LOAD_PROJECTS = '[project] LOAD_PROJECTS',
 	GET_PROJECT = '[project] GET_PROJECT',
+	NEW_PROJECT = '[project] NEW_PROJECT',
 	LOAD_PROJECT = '[project] LOAD_PROJECT',
 	// FIND_CUSTOMERS = '[customer] FIND_CUSTOMERS',
 	// CUSTOMERS_RECEIVED = '[customer] CUSTOMERS_RECEIVED',
@@ -30,6 +31,10 @@ export class GetProject implements Action {
 	constructor(public payload: string) {}
 }
 
+export class NewProject implements Action {
+	readonly type = ProjectActionTypes.NEW_PROJECT;
+}
+
 export class LoadProject implements Action {
 	readonly type = ProjectActionTypes.LOAD_PROJECT;
 
@@ -40,4 +45,5 @@ export type ProjectActions =
 	| FindProjects
 	| LoadProjects
 	| GetProject
+	| NewProject
 	| LoadProject;

@@ -9,7 +9,7 @@ import { of } from 'rxjs/observable/of';
 import { MenuLink } from '../../../shared/menu/menu-link';
 import { Project } from '../../models/project';
 import { getProjectEntity } from '../../project.store';
-import { GetProject } from '../../store/project.actions';
+import { GetProject, NewProject } from '../../store/project.actions';
 
 @Component({
 	selector: 'app-project-item',
@@ -33,9 +33,10 @@ export class ProjectItemComponent {
 	];
 
 	constructor(private _route: ActivatedRoute, private _store: Store<{}>) {
-		this._store.dispatch(
-			new GetProject(this._route.snapshot.paramMap.get('projectId'))
-		);
+		const action = this._route.snapshot.paramMap.has('projectId')
+			? new GetProject(this._route.snapshot.paramMap.get('projectId'))
+			: new NewProject();
+		this._store.dispatch(action);
 		this.project_read$ = this._store.select(getProjectEntity);
 		// const project$ = _route.paramMap.pipe(
 		// 	switchMap(params => params.get('projectId')),

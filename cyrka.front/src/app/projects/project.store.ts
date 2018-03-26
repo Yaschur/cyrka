@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { ProjectState } from './store/project.reducers';
+import { Project } from './models/project';
 
 export const getProjectFeatureState = createFeatureSelector<ProjectState>(
 	'project'
@@ -13,5 +14,8 @@ export const getProjectEntities = createSelector(
 
 export const getProjectEntity = createSelector(
 	getProjectFeatureState,
-	(state: ProjectState) => state.projects.find(p => p.id === state.projectId)
+	(state: ProjectState) =>
+		state.projectId
+			? state.projects.find(p => p.id === state.projectId)
+			: <Project>{}
 );

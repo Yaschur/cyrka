@@ -31,12 +31,7 @@ export class ProjectListComponent {
 	];
 
 	constructor(private _store: Store<{}>) {
+		this._store.dispatch(new FindProjects());
 		this.projects = this._store.select(getProjectEntities);
-
-		this.projects.pipe(take(1)).subscribe(prjs => {
-			if (prjs.length == 0) {
-				_store.dispatch(new FindProjects());
-			}
-		});
 	}
 }

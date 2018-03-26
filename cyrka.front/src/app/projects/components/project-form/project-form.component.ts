@@ -22,6 +22,6 @@ export class ProjectFormComponent {
 	}
 
 	getProject(project: Project) {
-		this.form.setValue({ id: project.id });
+		this.form.setValue({ id: project.id || '' });
 	}
 }
