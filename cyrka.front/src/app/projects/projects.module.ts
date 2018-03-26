@@ -20,6 +20,7 @@ import { ProjectEffects } from './store/project.effects';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
+import { ProjectFormComponent } from './components/project-form/project-form.component';
 
 @NgModule({
 	imports: [
@@ -37,6 +38,7 @@ import { ProjectItemComponent } from './components/project-item/project-item.com
 		ProjectListComponent,
 		ProjectListItemComponent,
 		ProjectItemComponent,
+		ProjectFormComponent,
 	],
 	providers: [
 		JobsApiService,
