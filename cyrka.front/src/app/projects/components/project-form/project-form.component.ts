@@ -16,6 +16,12 @@ export class ProjectFormComponent {
 	prjChanges$: Observable<Project>;
 
 	constructor(private _formBuilder: FormBuilder) {
-		
+		this.form = this._formBuilder.group({
+			id: '',
+		});
+	}
+
+	getProject(project: Project) {
+		this.form.setValue({ id: project.id });
 	}
 }

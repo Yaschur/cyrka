@@ -33,18 +33,19 @@ export class ProjectEffects {
 		withLatestFrom(this._store$.select(getProjectEntity)),
 		switchMap(pair => {
 			if (pair[1]) {
-				return of(null);
+				return of();
 			}
-			return this._apiService.getById(pair[0].payload);
-		}),
-		map(p => {
-			if (p) {
-				return new LoadProject(p);
-			}
-		}),
-		catchError(e => {
-			console.log('Network error', e);
-			return of();
+			return this._apiService.getById(pair[0].payload).pipe(
+				map(p => {
+					if (p) {
+						return new LoadProject(p);
+					}
+				}),
+				catchError(e => {
+					console.log('Network error', e);
+					return of();
+				})
+			);
 		})
 	);
 

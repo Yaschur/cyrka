@@ -1,3 +1,7 @@
-<p>
-	project-form works!
-</p>
+<app-project-item (project_read$)="getProject($event)">
+	<div class="content-container">
+		<div class="content-area">
+			<h4>{{form.get('id').value}}</h4>
+		</div>
+	</div>
+</app-project-item>

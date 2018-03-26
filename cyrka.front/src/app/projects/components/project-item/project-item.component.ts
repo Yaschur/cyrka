@@ -36,11 +36,7 @@ export class ProjectItemComponent {
 		this._store.dispatch(
 			new GetProject(this._route.snapshot.paramMap.get('projectId'))
 		);
-		this.project_read$ = this._store
-			.select(getProjectEntity)
-			.pipe(
-				
-			);
+		this.project_read$ = this._store.select(getProjectEntity);
 		// const project$ = _route.paramMap.pipe(
 		// 	switchMap(params => params.get('projectId')),
 		// 	withLatestFrom(_store.select(getProjectEntities)),
