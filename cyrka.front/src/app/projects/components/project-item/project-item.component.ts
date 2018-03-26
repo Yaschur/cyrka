@@ -1,13 +1,15 @@
 import { Component, Output } from '@angular/core';
-
-import { MenuLink } from '../../../shared/menu/menu-link';
-import { Observable } from 'rxjs/Observable';
-import { Project } from '../../models/project';
 import { ActivatedRoute } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { switchMap, withLatestFrom, map, filter, take } from 'rxjs/operators';
-import { getProjectEntities } from '../../project.store';
 import { of } from 'rxjs/observable/of';
+
+import { MenuLink } from '../../../shared/menu/menu-link';
+import { Project } from '../../models/project';
+import { getProjectEntity } from '../../project.store';
+import { GetProject } from '../../store/project.actions';
 
 @Component({
 	selector: 'app-project-item',
@@ -31,17 +33,25 @@ export class ProjectItemComponent {
 	];
 
 	constructor(private _route: ActivatedRoute, private _store: Store<{}>) {
-		const project$ = _route.paramMap.pipe(
-			switchMap(params => params.get('projectId')),
-			withLatestFrom(_store.select(getProjectEntities)),
-			map(x => x[1].find(p => p.id === x[0]))
+		this._store.dispatch(
+			new GetProject(this._route.snapshot.paramMap.get('projectId'))
 		);
-		project$.pipe(
-			take(1)
-		).subscribe(p => {
-			if (!p) {
+		this.project_read$ = this._store
+			.select(getProjectEntity)
+			.pipe(
 				
-			}
-		})
+			);
+		// const project$ = _route.paramMap.pipe(
+		// 	switchMap(params => params.get('projectId')),
+		// 	withLatestFrom(_store.select(getProjectEntities)),
+		// 	map(x => x[1].find(p => p.id === x[0]))
+		// );
+		// project$.pipe(
+		// 	take(1)
+		// ).subscribe(p => {
+		// 	if (!p) {
+
+		// 	}
+		// })
 	}
 }

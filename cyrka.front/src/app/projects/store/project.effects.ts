@@ -6,9 +6,13 @@ import {
 	FindProjects,
 	ProjectActionTypes,
 	LoadProjects,
+	GetProject,
+	LoadProject,
 } from './project.actions';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { ProjectState } from './project.reducers';
+import { getProjectEntity } from '../project.store';
 
 @Injectable()
 export class ProjectEffects {
@@ -23,9 +27,30 @@ export class ProjectEffects {
 		})
 	);
 
+	@Effect()
+	getProject$ = this._actions$.pipe(
+		ofType<GetProject>(ProjectActionTypes.GET_PROJECT),
+		withLatestFrom(this._store$.select(getProjectEntity)),
+		switchMap(pair => {
+			if (pair[1]) {
+				return of(null);
+			}
+			return this._apiService.getById(pair[0].payload);
+		}),
+		map(p => {
+			if (p) {
+				return new LoadProject(p);
+			}
+		}),
+		catchError(e => {
+			console.log('Network error', e);
+			return of();
+		})
+	);
+
 	constructor(
 		private _actions$: Actions,
-		// private _store$: Store<{ project: CustomerState }>,
+		private _store$: Store<{}>,
 		private _apiService: ProjectApiService
 	) {}
 }

@@ -10,3 +10,8 @@ export const getProjectEntities = createSelector(
 	getProjectFeatureState,
 	(state: ProjectState) => state.projects
 );
+
+export const getProjectEntity = createSelector(
+	getProjectFeatureState,
+	(state: ProjectState) => state.projects.find(p => p.id === state.projectId)
+);
