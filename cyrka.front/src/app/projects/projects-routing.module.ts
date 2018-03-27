@@ -7,6 +7,7 @@ import { ProjectsListComponent } from './components/projects-list.component';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { ProjectComponent } from './components/project/project.component';
+import { ProjectItemComponent } from './components/project-item/project-item.component';
 
 const projectRoutes: Routes = [
 	// { path: 'projects', component: ProjectListComponent, pathMatch: 'full' },
@@ -25,8 +26,8 @@ const projectRoutes: Routes = [
 		component: ProjectComponent,
 		children: [
 			{ path: '', component: ProjectListComponent, pathMatch: 'full' },
-			{ path: 'register', component: ProjectFormComponent },
-			{ path: ':projectId', component: ProjectFormComponent },
+			{ path: 'register', component: ProjectItemComponent },
+			{ path: ':projectId', component: ProjectItemComponent },
 		],
 	},
 ];

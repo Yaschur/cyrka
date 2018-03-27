@@ -15,7 +15,7 @@ import { GetProject } from '../../store/project.actions';
 	styleUrls: ['./project-item.component.scss'],
 })
 export class ProjectItemComponent {
-	@Output() project_read$: Observable<Project>;
+	@Output() project$: Observable<Project>;
 
 	constructor(private _route: ActivatedRoute, private _store: Store<{}>) {
 		if (this._route.snapshot.paramMap.has('projectId')) {
@@ -23,9 +23,7 @@ export class ProjectItemComponent {
 				new GetProject(this._route.snapshot.paramMap.get('projectId'))
 			);
 		}
-		
-		this.project_read$ = this._store
-			.select(getProjectEntity)
-			.pipe(filter(p => !!p));
+
+		this.project$ = this._store.select(getProjectEntity).pipe(filter(p => !!p));
 	}
 }

@@ -1,1 +1,12 @@
-<ng-content></ng-content>
+<div class="content-container">
+	<div class="content-area">
+		<div class="row">
+			<div class="col-lg-5 col-md-8 col-sm-12 col-xs-12">
+				<div class="card">
+					<div class="card-header">продукт / тайтл</div>
+					<app-project-product *ngIf="(project$ | async)?.product" [productSet]="(project$ | async).product"></app-project-product>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

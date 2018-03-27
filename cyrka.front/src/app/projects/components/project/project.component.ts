@@ -32,7 +32,7 @@ export class ProjectComponent {
 							linkTitle: 'список проектов',
 						},
 						{
-							linkText: p && p.id ? 'Изменить' : 'Создать',
+							linkText: p && p.id ? p.id : 'Создать',
 							linkTitle:
 								p && p.id ? 'изменить данные проекта' : 'создать новый проект',
 							linkUrl: p && p.id ? `/projects/${p.id}` : '/projects/register',
