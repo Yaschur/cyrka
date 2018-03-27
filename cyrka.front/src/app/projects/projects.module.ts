@@ -23,6 +23,7 @@ import { ProjectItemComponent } from './components/project-item/project-item.com
 import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectProductComponent } from './components/project-product/project-product.component';
+import { ProjectProductFormComponent } from './components/project-product-form/project-product-form.component';
 
 @NgModule({
 	imports: [
@@ -43,6 +44,7 @@ import { ProjectProductComponent } from './components/project-product/project-pr
 		ProjectFormComponent,
 		ProjectComponent,
 		ProjectProductComponent,
+		ProjectProductFormComponent,
 	],
 	providers: [
 		JobsApiService,

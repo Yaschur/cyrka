@@ -1,11 +1,11 @@
 <div class="card-block">
-	<div class="card-title">{{productSet.customerName}}</div>
+	<div class="card-title">{{productSet?.customerName}}</div>
 	<div class="card-text">
-		<p>продукт: {{productSet.titleName}}</p>
-		<span class="p6">всего эпизодов: {{productSet.totalEpisodes}}</span>
-		<p>эпизод: {{productSet.episodeNumber}}, длительность: {{productSet.episodeDuration}} мин.</p>
+		<p>продукт: {{productSet?.titleName}}</p>
+		<span class="p6">всего эпизодов: {{productSet?.totalEpisodes}}</span>
+		<p>эпизод: {{productSet?.episodeNumber}}, длительность: {{productSet?.episodeDuration}} мин.</p>
 	</div>
 </div>
 <div class="card-footer">
-	<button class="btn btn-sm btn-link">изменить продукт</button>
+	<button class="btn btn-sm btn-link" (click)="setEdit()">изменить продукт</button>
 </div>

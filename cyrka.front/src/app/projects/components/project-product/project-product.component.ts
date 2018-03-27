@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ProductSet } from '../../models/product-set';
 
@@ -9,6 +9,13 @@ import { ProductSet } from '../../models/product-set';
 })
 export class ProjectProductComponent {
 	@Input() productSet: ProductSet;
+	@Output() changeProduct: EventEmitter<void>;
 
-	constructor() {}
+	constructor() {
+		this.changeProduct = new EventEmitter();
+	}
+
+	setEdit() {
+		this.changeProduct.emit();
+	}
 }
