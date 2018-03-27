@@ -2,10 +2,13 @@ import { Action } from '@ngrx/store';
 import { Project } from '../models/project';
 
 export enum ProjectActionTypes {
+	// fetch projects from data service
 	FIND_PROJECTS = '[project] FIND_PROJECTS',
+	// update state with projects payload
 	LOAD_PROJECTS = '[project] LOAD_PROJECTS',
+	LIST_PROJECTS = '[project] LIST_PROJECTS',
+	// update state with project selected
 	GET_PROJECT = '[project] GET_PROJECT',
-	NEW_PROJECT = '[project] NEW_PROJECT',
 	LOAD_PROJECT = '[project] LOAD_PROJECT',
 	// FIND_CUSTOMERS = '[customer] FIND_CUSTOMERS',
 	// CUSTOMERS_RECEIVED = '[customer] CUSTOMERS_RECEIVED',
@@ -31,8 +34,8 @@ export class GetProject implements Action {
 	constructor(public payload: string) {}
 }
 
-export class NewProject implements Action {
-	readonly type = ProjectActionTypes.NEW_PROJECT;
+export class ListProjects implements Action {
+	readonly type = ProjectActionTypes.LIST_PROJECTS;
 }
 
 export class LoadProject implements Action {
@@ -45,5 +48,5 @@ export type ProjectActions =
 	| FindProjects
 	| LoadProjects
 	| GetProject
-	| NewProject
+	| ListProjects
 	| LoadProject;

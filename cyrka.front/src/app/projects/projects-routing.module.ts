@@ -6,26 +6,27 @@ import { ProjectsFormComponent } from './components/projects-form.component';
 import { ProjectsListComponent } from './components/projects-list.component';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
+import { ProjectComponent } from './components/project/project.component';
 
 const projectRoutes: Routes = [
-	{ path: 'projects', component: ProjectListComponent, pathMatch: 'full' },
-	{
-		path: 'projects/register',
-		component: ProjectFormComponent,
-		pathMatch: 'full',
-	},
-	{
-		path: 'projects/:projectId',
-		component: ProjectFormComponent,
-		pathMatch: 'full',
-	},
+	// { path: 'projects', component: ProjectListComponent, pathMatch: 'full' },
+	// {
+	// 	path: 'projects/register',
+	// 	component: ProjectFormComponent,
+	// 	pathMatch: 'full',
+	// },
+	// {
+	// 	path: 'projects/:projectId',
+	// 	component: ProjectFormComponent,
+	// 	pathMatch: 'full',
+	// },
 	{
 		path: 'projects',
-		component: ProjectsComponent,
+		component: ProjectComponent,
 		children: [
-			{ path: '', component: ProjectsListComponent, pathMatch: 'full' },
-			{ path: 'register', component: ProjectsFormComponent },
-			{ path: ':projectId', component: ProjectsFormComponent },
+			{ path: '', component: ProjectListComponent, pathMatch: 'full' },
+			{ path: 'register', component: ProjectFormComponent },
+			{ path: ':projectId', component: ProjectFormComponent },
 		],
 	},
 ];

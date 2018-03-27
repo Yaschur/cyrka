@@ -32,7 +32,7 @@ export function projectReducer(
 		}
 		case ProjectActionTypes.GET_PROJECT:
 			return { ...state, projectId: action.payload };
-		case ProjectActionTypes.NEW_PROJECT:
+		case ProjectActionTypes.LIST_PROJECTS:
 			return { ...state, projectId: '' };
 		default:
 			return state;

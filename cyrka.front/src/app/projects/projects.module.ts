@@ -21,6 +21,7 @@ import { ProjectListComponent } from './components/project-list/project-list.com
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
+import { ProjectComponent } from './components/project/project.component';
 
 @NgModule({
 	imports: [
@@ -39,6 +40,7 @@ import { ProjectFormComponent } from './components/project-form/project-form.com
 		ProjectListItemComponent,
 		ProjectItemComponent,
 		ProjectFormComponent,
+		ProjectComponent,
 	],
 	providers: [
 		JobsApiService,
