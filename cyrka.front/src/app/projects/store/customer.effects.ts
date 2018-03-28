@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { CustomerApiService } from '../services/customer-api.service';
-import { FindCustomers, ProjectActionTypes, LoadCustomers } from './project.actions';
+import {
+	FindCustomers,
+	ProjectActionTypes,
+	LoadCustomers,
+} from './project.actions';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
@@ -20,7 +24,6 @@ export class CustomerEffects {
 
 	constructor(
 		private _actions$: Actions,
-		// private _store$: Store<{}>,
 		private _apiService: CustomerApiService
 	) {}
 }

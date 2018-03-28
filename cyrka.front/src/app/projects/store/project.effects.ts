@@ -8,8 +8,16 @@ import {
 	LoadProjects,
 	GetProject,
 	LoadProject,
+	SetProduct,
 } from './project.actions';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import {
+	switchMap,
+	map,
+	catchError,
+	withLatestFrom,
+	mapTo,
+	mergeMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { ProjectState } from './project.reducers';
 import { getProjectEntity } from '../project.store';
@@ -47,6 +55,21 @@ export class ProjectEffects {
 				})
 			);
 		})
+	);
+
+	@Effect()
+	setProduct$ = this._actions$.pipe(
+		ofType<SetProduct>(ProjectActionTypes.SET_PRODUCT),
+		withLatestFrom(this._store$.select(getProjectEntity)),
+		mergeMap(p =>
+			this._apiService.setProduct(p[1].id, p[0].payload).pipe(
+				mapTo({ type: 'NO_ACTION' }),
+				catchError(e => {
+					console.log('Network error', e);
+					return of();
+				})
+			)
+		)
 	);
 
 	constructor(

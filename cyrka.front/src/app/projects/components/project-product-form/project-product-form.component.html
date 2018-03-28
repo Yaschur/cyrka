@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (submit)="save()">
 	<div class="card-block">
 		<div class="form-group">
 			<label for="customer" class="required">заказчик</label>
@@ -20,7 +20,8 @@
 		</div>
 		<div class="form-group">
 			<label for="episodeNumber" class="required">номер эпизода</label>
-			<input type="number" id="episodeNumber" formControlName="episodeNumber"><span *ngIf="numberOfSeries"> (всего эпизодов: {{numberOfSeries}})</span>
+			<input type="number" id="episodeNumber" formControlName="episodeNumber">
+			<span *ngIf="numberOfSeries"> (всего эпизодов: {{numberOfSeries}})</span>
 		</div>
 		<div class="form-group">
 			<label for="episodeDuration" class="required">хронометраж</label>
@@ -28,7 +29,7 @@
 		</div>
 	</div>
 	<div class="card-footer">
-		<button type="submit" [disabled]="!form.valid" class="btn btn-sm btn-primary">сохранить</button>
-		<button type="button" class="btn btn-sm btn-secondary">отмена</button>
+		<button type="submit" [disabled]="!form.valid || form.pristine" class="btn btn-sm btn-primary">сохранить</button>
+		<button type="button" class="btn btn-sm btn-secondary" (click)="cancel()">отмена</button>
 	</div>
 </form>

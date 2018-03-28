@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -9,7 +9,7 @@ import { ProductSet } from '../../models/product-set';
 import { Customer } from '../../models/customer';
 import { Title } from '../../models/title';
 import { getCustomerEntities } from '../../project.store';
-import { FindCustomers } from '../../store/project.actions';
+import { FindCustomers, SetProduct } from '../../store/project.actions';
 import {
 	filter,
 	switchMap,
@@ -27,6 +27,8 @@ import {
 export class ProjectProductFormComponent {
 	@Input() productSet: ProductSet;
 
+	@Output() close: EventEmitter<any>;
+
 	get numberOfSeries() {
 		if (this.form && this.form.get('title').value) {
 			return (<Title>this.form.get('title').value).numberOfSeries;
@@ -38,6 +40,7 @@ export class ProjectProductFormComponent {
 	titles$: Observable<Title[]>;
 
 	constructor(private _formBuilder: FormBuilder, private _store: Store<{}>) {
+		this.close = new EventEmitter();
 		// Ask for customers in state
 		this._store.dispatch(new FindCustomers());
 		// Observe all customers
@@ -75,5 +78,29 @@ export class ProjectProductFormComponent {
 			this.form.patchValue(patch);
 		});
 		this.titles$.subscribe(t => this.form.patchValue({ title: null }));
+	}
+
+	save() {
+		if (this.form.invalid) {
+			return;
+		}
+		if (this.form.dirty) {
+			const cust = <Customer>this.form.get('customer').value;
+			const title = <Title>this.form.get('title').value;
+			const productSet = <ProductSet>{
+				customerId: cust.id,
+				customerName: cust.name,
+				titleId: title.id,
+				titleName: title.name,
+				episodeNumber: this.form.get('episodeNumber').value,
+				episodeDuration: this.form.get('episodeDuration').value,
+				totalEpisodes: title.numberOfSeries,
+			};
+			this._store.dispatch(new SetProduct(productSet));
+		}
+		this.close.emit();
+	}
+	cancel() {
+		this.close.emit();
 	}
 }

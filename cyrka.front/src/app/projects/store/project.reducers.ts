@@ -39,6 +39,20 @@ export function projectReducer(
 			return { ...state, projectId: '' };
 		case ProjectActionTypes.LOAD_CUSTOMERS:
 			return { ...state, customers: action.payload };
+		case ProjectActionTypes.SET_PRODUCT: {
+			const projInd = state.projects.findIndex(p => p.id === state.projectId);
+			if (projInd < 0) {
+				return state;
+			}
+			return {
+				...state,
+				projects: [
+					...state.projects.slice(0, projInd),
+					{ ...state.projects[projInd], product: action.payload },
+					...state.projects.slice(projInd + 1),
+				],
+			};
+		}
 		default:
 			return state;
 	}
