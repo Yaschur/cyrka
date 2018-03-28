@@ -1,14 +1,17 @@
 import { Project } from '../models/project';
 import { ProjectActions, ProjectActionTypes } from './project.actions';
+import { Customer } from '../models/customer';
 
 export interface ProjectState {
 	projects: Project[];
 	projectId: string;
+	customers: Customer[];
 }
 
 export const initialState: ProjectState = {
 	projects: [],
 	projectId: '',
+	customers: [],
 };
 
 export function projectReducer(
@@ -34,6 +37,8 @@ export function projectReducer(
 			return { ...state, projectId: action.payload };
 		case ProjectActionTypes.LIST_PROJECTS:
 			return { ...state, projectId: '' };
+		case ProjectActionTypes.LOAD_CUSTOMERS:
+			return { ...state, customers: action.payload };
 		default:
 			return state;
 	}

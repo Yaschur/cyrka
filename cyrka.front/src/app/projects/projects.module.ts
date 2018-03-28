@@ -17,6 +17,7 @@ import { ProjectApiService } from './services/project-api.service';
 import { ProjectsListComponent } from './components/projects-list.component';
 import { projectReducer } from './store/project.reducers';
 import { ProjectEffects } from './store/project.effects';
+import { CustomerEffects } from './store/customer.effects';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
@@ -24,6 +25,7 @@ import { ProjectFormComponent } from './components/project-form/project-form.com
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectProductComponent } from './components/project-product/project-product.component';
 import { ProjectProductFormComponent } from './components/project-product-form/project-product-form.component';
+import { CustomerApiService } from './services/customer-api.service';
 
 @NgModule({
 	imports: [
@@ -31,7 +33,7 @@ import { ProjectProductFormComponent } from './components/project-product-form/p
 		ReactiveFormsModule,
 		SharedModule,
 		StoreModule.forFeature('project', projectReducer),
-		EffectsModule.forFeature([ProjectEffects]),
+		EffectsModule.forFeature([ProjectEffects, CustomerEffects]),
 		ProjectsRoutingModule,
 	],
 	declarations: [
@@ -51,6 +53,7 @@ import { ProjectProductFormComponent } from './components/project-product-form/p
 		CustomersApiService,
 		ProjectsApiService,
 		ProjectApiService,
+		CustomerApiService,
 	],
 })
 export class ProjectsModule {}

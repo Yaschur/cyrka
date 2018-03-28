@@ -19,3 +19,8 @@ export const getProjectEntity = createSelector(
 			? state.projects.find(p => p.id === state.projectId)
 			: <Project>{}
 );
+
+export const getCustomerEntities = createSelector(
+	getProjectFeatureState,
+	(state: ProjectState) => state.customers
+);

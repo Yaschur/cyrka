@@ -20,7 +20,7 @@
 		</div>
 		<div class="form-group">
 			<label for="episodeNumber" class="required">номер эпизода</label>
-			<input type="number" id="episodeNumber" formControlName="episodeNumber"> (всего эпизодов: )
+			<input type="number" id="episodeNumber" formControlName="episodeNumber"><span *ngIf="numberOfSeries"> (всего эпизодов: {{numberOfSeries}})</span>
 		</div>
 		<div class="form-group">
 			<label for="episodeDuration" class="required">хронометраж</label>
