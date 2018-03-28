@@ -56,12 +56,21 @@ export class ProjectProductFormComponent {
 
 		// Set form values
 		this.customers$.subscribe(csts => {
-			const patch = { customer: <Customer>null, title: <Title>null };
+			const patch = {
+				customer: <Customer>null,
+				title: <Title>null,
+				episodeNumber: null,
+				episodeDuration: null,
+			};
 			if (this.productSet && this.productSet.customerId) {
 				patch.customer = csts.find(c => c.id === this.productSet.customerId);
 				patch.title = this.productSet.titleId
 					? patch.customer.titles.find(t => t.id === this.productSet.titleId)
 					: null;
+			}
+			if (this.productSet) {
+				patch.episodeNumber = this.productSet.episodeNumber || null;
+				patch.episodeDuration = this.productSet.episodeDuration || null;
 			}
 			this.form.patchValue(patch);
 		});

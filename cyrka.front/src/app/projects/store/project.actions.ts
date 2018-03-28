@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Project } from '../models/project';
 import { Customer } from '../models/customer';
+import { ProductSet } from '../models/product-set';
 
 export enum ProjectActionTypes {
 	// fetch projects from data service
@@ -11,6 +12,7 @@ export enum ProjectActionTypes {
 	// update state with project selected
 	GET_PROJECT = '[project] GET_PROJECT',
 	LOAD_PROJECT = '[project] LOAD_PROJECT',
+	SET_PRODUCT = '[project] SET_PRODUCT',
 	// FIND_CUSTOMERS = '[customer] FIND_CUSTOMERS',
 	// CUSTOMERS_RECEIVED = '[customer] CUSTOMERS_RECEIVED',
 	// GET_CUSTOMER = '[customer] GET_CUSTOMER',
@@ -47,6 +49,12 @@ export class LoadProject implements Action {
 	constructor(public payload: Project) {}
 }
 
+export class SetProduct implements Action {
+	readonly type = ProjectActionTypes.SET_PRODUCT;
+
+	constructor(public payload: ProductSet) {}
+}
+
 export class FindCustomers implements Action {
 	readonly type = ProjectActionTypes.FIND_CUSTOMERS;
 }
@@ -63,5 +71,6 @@ export type ProjectActions =
 	| GetProject
 	| ListProjects
 	| LoadProject
+	| SetProduct
 	| FindCustomers
 	| LoadCustomers;
