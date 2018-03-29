@@ -26,6 +26,8 @@ import { ProjectComponent } from './components/project/project.component';
 import { ProjectProductComponent } from './components/project-product/project-product.component';
 import { ProjectProductFormComponent } from './components/project-product-form/project-product-form.component';
 import { CustomerApiService } from './services/customer-api.service';
+import { ProjectJobComponent } from './components/project-job/project-job.component';
+import { ProjectJobListComponent } from './components/project-job-list/project-job-list.component';
 
 @NgModule({
 	imports: [
@@ -47,6 +49,8 @@ import { CustomerApiService } from './services/customer-api.service';
 		ProjectComponent,
 		ProjectProductComponent,
 		ProjectProductFormComponent,
+		ProjectJobComponent,
+		ProjectJobListComponent,
 	],
 	providers: [
 		JobsApiService,

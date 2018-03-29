@@ -1,0 +1,7 @@
+<div class="card-title">{{job.jobTypeName}}</div>
+<div class="card-text">
+	<a href="javascript://" title="изменить параметры" class="text-muted" (click)="edit.emit()">{{job.amount}}
+		<abbr [title]="job.unitDef.title">{{job.unitDef.abbrevation}}</abbr>, по ставке {{job.ratePerUnit}} за 1
+		<abbr [title]="job.unitDef.title">{{job.unitDef.abbrevation}}</abbr>
+	</a>
+</div>

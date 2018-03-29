@@ -1,7 +1,9 @@
+import { Units } from '../../shared/units/units';
+
 export interface JobSet {
-	jobtypeId: string;
+	jobTypeId: string;
 	jobTypeName: string;
-	unitName: string;
+	unitName: Units;
 	ratePerUnit: number;
 	amount: number;
 }

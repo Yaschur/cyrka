@@ -1,0 +1,7 @@
+<div class="card-header">работы</div>
+<ng-template ngFor let-job [ngForOf]="jobs">
+	<div app-project-job *ngIf="editId !== job.jobTypeId" class="card-block" [job]="job" (edit)="setEditModeTo(job.jobTypeId)"></div>
+</ng-template>
+<div class="card-footer">
+	<button class="btn btn-sm btn-link">добавить работу</button>
+</div>
