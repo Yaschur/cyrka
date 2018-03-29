@@ -8,8 +8,12 @@ import { Store } from '@ngrx/store';
 import { ProductSet } from '../../models/product-set';
 import { Customer } from '../../models/customer';
 import { Title } from '../../models/title';
-import { getCustomerEntities } from '../../project.store';
-import { FindCustomers, SetProduct } from '../../store/project.actions';
+import { getCustomerEntities, getProjectEntity } from '../../project.store';
+import {
+	FindCustomers,
+	SetProduct,
+	CreateProject,
+} from '../../store/project.actions';
 import {
 	filter,
 	switchMap,
@@ -17,6 +21,8 @@ import {
 	map,
 	switchMapTo,
 	mergeMap,
+	take,
+	concatMap,
 } from 'rxjs/operators';
 
 @Component({
@@ -96,7 +102,31 @@ export class ProjectProductFormComponent {
 				episodeDuration: this.form.get('episodeDuration').value,
 				totalEpisodes: title.numberOfSeries,
 			};
-			this._store.dispatch(new SetProduct(productSet));
+			this._store
+				.select(getProjectEntity)
+				.pipe(
+					concatMap(p => {
+						if (p && p.id) {
+							return of(p);
+						} else {
+							this._store.dispatch(new CreateProject());
+							return this._store.select(getProjectEntity);
+						}
+					}),
+					filter(p => p && !!p.id),
+					take(1)
+				)
+				.subscribe(() => this._store.dispatch(new SetProduct(productSet)));
+
+			// if (!this.productSet) {
+			// 	this._store.dispatch(new CreateProject());
+			// 	this._store
+			// 		.select(getProjectEntity)
+			// 		.pipe(filter(p => p && !!p.id), take(1))
+			// 		.subscribe(() => this._store.dispatch(new SetProduct(productSet)));
+			// } else {
+			// 	this._store.dispatch(new SetProduct(productSet));
+			// }
 		}
 		this.close.emit();
 	}

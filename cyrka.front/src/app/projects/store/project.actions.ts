@@ -12,6 +12,7 @@ export enum ProjectActionTypes {
 	// update state with project selected
 	GET_PROJECT = '[project] GET_PROJECT',
 	LOAD_PROJECT = '[project] LOAD_PROJECT',
+	CREATE_PROJECT = '[project] CREATE_PROJECT',
 	SET_PRODUCT = '[project] SET_PRODUCT',
 	// FIND_CUSTOMERS = '[customer] FIND_CUSTOMERS',
 	// CUSTOMERS_RECEIVED = '[customer] CUSTOMERS_RECEIVED',
@@ -49,6 +50,10 @@ export class LoadProject implements Action {
 	constructor(public payload: Project) {}
 }
 
+export class CreateProject implements Action {
+	readonly type = ProjectActionTypes.CREATE_PROJECT;
+}
+
 export class SetProduct implements Action {
 	readonly type = ProjectActionTypes.SET_PRODUCT;
 
@@ -71,6 +76,7 @@ export type ProjectActions =
 	| GetProject
 	| ListProjects
 	| LoadProject
+	| CreateProject
 	| SetProduct
 	| FindCustomers
 	| LoadCustomers;

@@ -9,6 +9,7 @@ import {
 	GetProject,
 	LoadProject,
 	SetProduct,
+	CreateProject,
 } from './project.actions';
 import {
 	switchMap,
@@ -55,6 +56,22 @@ export class ProjectEffects {
 				})
 			);
 		})
+	);
+
+	@Effect()
+	createProject$ = this._actions$.pipe(
+		ofType<CreateProject>(ProjectActionTypes.CREATE_PROJECT),
+		mergeMap(() =>
+			this._apiService.register().pipe(
+				map(r => {
+					return new GetProject(r.resourceId);
+				}),
+				catchError(e => {
+					console.log('Network error', e);
+					return of();
+				})
+			)
+		)
 	);
 
 	@Effect()
