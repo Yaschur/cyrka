@@ -22,11 +22,11 @@ export class ProjectJobComponent {
 		return this._job;
 	}
 
-	@Output() edit: EventEmitter<void>;
+	@Output() editJob: EventEmitter<void>;
 
 	private _job: JobItem;
 
 	constructor() {
-		this.edit = new EventEmitter();
+		this.editJob = new EventEmitter();
 	}
 }

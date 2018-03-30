@@ -6,7 +6,7 @@
 					<div class="card-header">продукт / тайтл</div>
 					<app-project-product *ngIf="!productEditMode" [productSet]="(project$ | async)?.product" (changeProduct)="setProductEdit(true)"></app-project-product>
 					<app-project-product-form *ngIf="productEditMode" [productSet]="(project$ | async)?.product"
-					 (close)="setProductEdit(false)"></app-project-product-form>
+					 (closeProductForm)="setProductEdit(false)"></app-project-product-form>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-6 col-sm-12">

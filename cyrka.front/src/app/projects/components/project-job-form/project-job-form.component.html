@@ -1,0 +1,21 @@
+<div class="card-title">{{job.jobTypeName}}</div>
+<div class="card-text">
+	<form [formGroup]="form" class="form-inline" (submit)="save()">
+		<div class="form-group">
+			<label for="amount" class="required">объем</label>
+			<input type="number" id="amount" formControlName="amount">
+			<span>
+				<abbr [title]="job.unitDef.title">{{job.unitDef.abbrevation}}</abbr>
+			</span>
+		</div>
+		<div class="form-group">
+			<label for="ratePerUnit" class="required">ставка</label>
+			<input type="number" id="ratePerUnit" formControlName="ratePerUnit">
+			<span>за 1
+				<abbr [title]="job.unitDef.title">{{job.unitDef.abbrevation}}</abbr>
+			</span>
+		</div>
+		<button type="submit" [disabled]="form.invalid || form.pristine" class="btn btn-sm btn-primary">сохранить</button>
+		<button type="button" class="btn btn-sm btn-secondary" (click)="closeJobForm.emit()">отмена</button>
+	</form>
+</div>

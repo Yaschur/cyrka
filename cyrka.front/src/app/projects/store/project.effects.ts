@@ -10,6 +10,7 @@ import {
 	LoadProject,
 	SetProduct,
 	CreateProject,
+	ChangeJob,
 } from './project.actions';
 import {
 	switchMap,
@@ -86,6 +87,23 @@ export class ProjectEffects {
 					return of();
 				})
 			)
+		)
+	);
+
+	@Effect()
+	changeJob$ = this._actions$.pipe(
+		ofType<ChangeJob>(ProjectActionTypes.CHANGE_JOB),
+		withLatestFrom(this._store$.select(getProjectEntity)),
+		mergeMap(p =>
+			this._apiService
+				.changeJob(p[1].id, p[0].payload.jobTypeId, p[0].payload)
+				.pipe(
+					mapTo({ type: 'NO_ACTION' }),
+					catchError(e => {
+						console.log('Network error', e);
+						return of();
+					})
+				)
 		)
 	);
 

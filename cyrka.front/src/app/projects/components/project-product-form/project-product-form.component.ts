@@ -33,7 +33,7 @@ import {
 export class ProjectProductFormComponent {
 	@Input() productSet: ProductSet;
 
-	@Output() close: EventEmitter<any>;
+	@Output() closeProductForm: EventEmitter<any>;
 
 	get numberOfSeries() {
 		if (this.form && this.form.get('title').value) {
@@ -46,7 +46,7 @@ export class ProjectProductFormComponent {
 	titles$: Observable<Title[]>;
 
 	constructor(private _formBuilder: FormBuilder, private _store: Store<{}>) {
-		this.close = new EventEmitter();
+		this.closeProductForm = new EventEmitter();
 		// Ask for customers in state
 		this._store.dispatch(new FindCustomers());
 		// Observe all customers
@@ -128,9 +128,9 @@ export class ProjectProductFormComponent {
 			// 	this._store.dispatch(new SetProduct(productSet));
 			// }
 		}
-		this.close.emit();
+		this.closeProductForm.emit();
 	}
 	cancel() {
-		this.close.emit();
+		this.closeProductForm.emit();
 	}
 }

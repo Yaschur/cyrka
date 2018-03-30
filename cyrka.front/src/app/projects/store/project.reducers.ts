@@ -53,6 +53,33 @@ export function projectReducer(
 				],
 			};
 		}
+		case ProjectActionTypes.CHANGE_JOB: {
+			const projInd = state.projects.findIndex(p => p.id === state.projectId);
+			if (projInd < 0) {
+				return state;
+			}
+			const jobInd = state.projects[projInd].jobs.findIndex(
+				j => j.jobTypeId === action.payload.jobTypeId
+			);
+			if (jobInd < 0) {
+				return state;
+			}
+			return {
+				...state,
+				projects: [
+					...state.projects.slice(0, projInd),
+					{
+						...state.projects[projInd],
+						jobs: [
+							...state.projects[projInd].jobs.slice(0, jobInd),
+							{ ...action.payload },
+							...state.projects[projInd].jobs.slice(jobInd + 1),
+						],
+					},
+					...state.projects.slice(projInd + 1),
+				],
+			};
+		}
 		default:
 			return state;
 	}

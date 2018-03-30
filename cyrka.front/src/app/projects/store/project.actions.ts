@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Project } from '../models/project';
 import { Customer } from '../models/customer';
 import { ProductSet } from '../models/product-set';
+import { JobSet } from '../models/job-set';
 
 export enum ProjectActionTypes {
 	// fetch projects from data service
@@ -14,12 +15,7 @@ export enum ProjectActionTypes {
 	LOAD_PROJECT = '[project] LOAD_PROJECT',
 	CREATE_PROJECT = '[project] CREATE_PROJECT',
 	SET_PRODUCT = '[project] SET_PRODUCT',
-	// FIND_CUSTOMERS = '[customer] FIND_CUSTOMERS',
-	// CUSTOMERS_RECEIVED = '[customer] CUSTOMERS_RECEIVED',
-	// GET_CUSTOMER = '[customer] GET_CUSTOMER',
-	// CUSTOMER_RECEIVED = '[customer] CUSTOMER_RECEIVED',
-	// UPDATE_CUSTOMER = '[customer] UPDATE_CUSTOMER',
-	// UPDATE_TITLE = '[customer] UPDATE_TITLE',
+	CHANGE_JOB = '[project] CHANGE_JOB',
 	FIND_CUSTOMERS = '[project] FIND_CUSTOMERS',
 	LOAD_CUSTOMERS = '[project] LOAD_CUSTOMERS',
 }
@@ -60,6 +56,12 @@ export class SetProduct implements Action {
 	constructor(public payload: ProductSet) {}
 }
 
+export class ChangeJob implements Action {
+	readonly type = ProjectActionTypes.CHANGE_JOB;
+
+	constructor(public payload: JobSet) {}
+}
+
 export class FindCustomers implements Action {
 	readonly type = ProjectActionTypes.FIND_CUSTOMERS;
 }
@@ -78,5 +80,6 @@ export type ProjectActions =
 	| LoadProject
 	| CreateProject
 	| SetProduct
+	| ChangeJob
 	| FindCustomers
 	| LoadCustomers;
