@@ -1,17 +1,20 @@
 import { Project } from '../models/project';
 import { ProjectActions, ProjectActionTypes } from './project.actions';
 import { Customer } from '../models/customer';
+import { Jobtype } from '../../jobs/models/jobtype';
 
 export interface ProjectState {
 	projects: Project[];
 	projectId: string;
 	customers: Customer[];
+	jobtypes: Jobtype[];
 }
 
 export const initialState: ProjectState = {
 	projects: [],
 	projectId: '',
 	customers: [],
+	jobtypes: [],
 };
 
 export function projectReducer(
@@ -39,6 +42,8 @@ export function projectReducer(
 			return { ...state, projectId: '' };
 		case ProjectActionTypes.LOAD_CUSTOMERS:
 			return { ...state, customers: action.payload };
+		case ProjectActionTypes.LOAD_JOBTYPES:
+			return { ...state, jobtypes: action.payload };
 		case ProjectActionTypes.SET_PRODUCT: {
 			const projInd = state.projects.findIndex(p => p.id === state.projectId);
 			if (projInd < 0) {

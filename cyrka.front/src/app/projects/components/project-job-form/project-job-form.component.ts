@@ -6,6 +6,8 @@ import { TitleAbbr } from '../../../shared/units/title-abbr';
 import { Units } from '../../../shared/units/units';
 import { Store } from '@ngrx/store';
 import { ChangeJob } from '../../store/project.actions';
+import { Observable } from 'rxjs/Observable';
+import { Jobtype } from '../../models/job-type';
 
 interface JobItem extends JobSet {
 	unitDef: TitleAbbr;
@@ -34,6 +36,7 @@ export class ProjectJobFormComponent {
 	@Output() closeJobForm: EventEmitter<void>;
 
 	form: FormGroup;
+	jobtypes$: Observable<Jobtype>;
 
 	private _job: JobItem;
 

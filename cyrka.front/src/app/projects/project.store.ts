@@ -24,3 +24,8 @@ export const getCustomerEntities = createSelector(
 	getProjectFeatureState,
 	(state: ProjectState) => state.customers
 );
+
+export const getJobtypeEntities = createSelector(
+	getProjectFeatureState,
+	(state: ProjectState) => state.jobtypes
+);

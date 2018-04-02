@@ -7,11 +7,12 @@ import { environment } from '../../../environments/environment';
 import { Jobtype } from '../models/job-type';
 
 @Injectable()
-export class JobsApiService {
+export class JobApiService {
+	constructor(private _httpClient: HttpClient) {}
 
-	constructor(private _httpClient: HttpClient) { }
-
-	public getAll(): Observable<Jobtype[]> {
-		return this._httpClient.get<Jobtype[]>(`${environment.cyrkaApi.baseUrl}/jobs/types`);
+	public fetchAll(): Observable<Jobtype[]> {
+		return this._httpClient.get<Jobtype[]>(
+			`${environment.cyrkaApi.baseUrl}/jobs/types`
+		);
 	}
 }

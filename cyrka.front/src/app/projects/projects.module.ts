@@ -11,6 +11,7 @@ import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsComponent } from './components/projects.component';
 import { ProjectsFormComponent } from './components/projects-form.component';
 import { JobsApiService } from './services/jobs-api.service';
+import { JobApiService } from './services/job-api.service';
 import { CustomersApiService } from './services/customers-api.service';
 import { ProjectsApiService } from './services/projects-api.service';
 import { ProjectApiService } from './services/project-api.service';
@@ -29,6 +30,7 @@ import { CustomerApiService } from './services/customer-api.service';
 import { ProjectJobComponent } from './components/project-job/project-job.component';
 import { ProjectJobListComponent } from './components/project-job-list/project-job-list.component';
 import { ProjectJobFormComponent } from './components/project-job-form/project-job-form.component';
+import { JobtypeEffects } from './store/jobtype.effects';
 
 @NgModule({
 	imports: [
@@ -36,7 +38,7 @@ import { ProjectJobFormComponent } from './components/project-job-form/project-j
 		ReactiveFormsModule,
 		SharedModule,
 		StoreModule.forFeature('project', projectReducer),
-		EffectsModule.forFeature([ProjectEffects, CustomerEffects]),
+		EffectsModule.forFeature([ProjectEffects, CustomerEffects, JobtypeEffects]),
 		ProjectsRoutingModule,
 	],
 	declarations: [
@@ -56,6 +58,7 @@ import { ProjectJobFormComponent } from './components/project-job-form/project-j
 	],
 	providers: [
 		JobsApiService,
+		JobApiService,
 		CustomersApiService,
 		ProjectsApiService,
 		ProjectApiService,

@@ -13,7 +13,7 @@ import { ProjectsApiService } from '../services/projects-api.service';
 import { Customer } from '../models/customer';
 import { Title } from '../models/title';
 import { ProductSet } from '../models/product-set';
-import { JobType } from '../models/job-type';
+import { Jobtype } from '../models/job-type';
 import { JobsApiService } from '../services/jobs-api.service';
 import { JobSet } from '../models/job-set';
 import { UnitDescriptor } from '../../shared/units/unit-descriptor';
@@ -21,7 +21,7 @@ import { UnitService } from '../../shared/units/unit.service';
 import { of } from 'rxjs/observable/of';
 import { ApiAnswer } from '../../shared/api/api-answer';
 
-interface JobTypeWithUnit extends JobType {
+interface JobTypeWithUnit extends Jobtype {
 	unitDescriptor: UnitDescriptor;
 }
 
@@ -98,7 +98,7 @@ export class ProjectsFormComponent implements OnInit {
 				(
 					project: ProjectPlain,
 					customers: Customer[],
-					jobTypes: JobType[],
+					jobTypes: Jobtype[],
 					units: UnitDescriptor[]
 				) => ({ project, customers, jobTypes, units })
 			)
@@ -142,7 +142,7 @@ export class ProjectsFormComponent implements OnInit {
 	private initItAll(
 		project: ProjectPlain,
 		customers: Customer[],
-		jobTypes: JobType[],
+		jobTypes: Jobtype[],
 		units: UnitDescriptor[]
 	) {
 		this._id = project.id;

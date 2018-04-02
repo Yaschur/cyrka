@@ -3,6 +3,7 @@ import { Project } from '../models/project';
 import { Customer } from '../models/customer';
 import { ProductSet } from '../models/product-set';
 import { JobSet } from '../models/job-set';
+import { Jobtype } from '../models/job-type';
 
 export enum ProjectActionTypes {
 	// fetch projects from data service
@@ -18,6 +19,8 @@ export enum ProjectActionTypes {
 	CHANGE_JOB = '[project] CHANGE_JOB',
 	FIND_CUSTOMERS = '[project] FIND_CUSTOMERS',
 	LOAD_CUSTOMERS = '[project] LOAD_CUSTOMERS',
+	FIND_JOBTYPES = '[project] FIND_JOBTYPES',
+	LOAD_JOBTYPES = '[project] LOAD_JOBTYPES',
 }
 
 export class FindProjects implements Action {
@@ -72,6 +75,16 @@ export class LoadCustomers implements Action {
 	constructor(public payload: Customer[]) {}
 }
 
+export class FindJobtypes implements Action {
+	readonly type = ProjectActionTypes.FIND_JOBTYPES;
+}
+
+export class LoadJobtypes implements Action {
+	readonly type = ProjectActionTypes.LOAD_JOBTYPES;
+
+	constructor(public payload: Jobtype[]) {}
+}
+
 export type ProjectActions =
 	| FindProjects
 	| LoadProjects
@@ -82,4 +95,6 @@ export type ProjectActions =
 	| SetProduct
 	| ChangeJob
 	| FindCustomers
-	| LoadCustomers;
+	| LoadCustomers
+	| FindJobtypes
+	| LoadJobtypes;
