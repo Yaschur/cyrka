@@ -16,6 +16,7 @@ export enum ProjectActionTypes {
 	LOAD_PROJECT = '[project] LOAD_PROJECT',
 	CREATE_PROJECT = '[project] CREATE_PROJECT',
 	SET_PRODUCT = '[project] SET_PRODUCT',
+	SET_JOB = '[project] SET_JOB',
 	CHANGE_JOB = '[project] CHANGE_JOB',
 	FIND_CUSTOMERS = '[project] FIND_CUSTOMERS',
 	LOAD_CUSTOMERS = '[project] LOAD_CUSTOMERS',
@@ -59,6 +60,12 @@ export class SetProduct implements Action {
 	constructor(public payload: ProductSet) {}
 }
 
+export class SetJob implements Action {
+	readonly type = ProjectActionTypes.SET_JOB;
+
+	constructor(public payload: JobSet) {}
+}
+
 export class ChangeJob implements Action {
 	readonly type = ProjectActionTypes.CHANGE_JOB;
 
@@ -93,6 +100,7 @@ export type ProjectActions =
 	| LoadProject
 	| CreateProject
 	| SetProduct
+	| SetJob
 	| ChangeJob
 	| FindCustomers
 	| LoadCustomers

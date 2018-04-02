@@ -11,6 +11,7 @@ import {
 	SetProduct,
 	CreateProject,
 	ChangeJob,
+	SetJob,
 } from './project.actions';
 import {
 	switchMap,
@@ -81,6 +82,21 @@ export class ProjectEffects {
 		withLatestFrom(this._store$.select(getProjectEntity)),
 		mergeMap(p =>
 			this._apiService.setProduct(p[1].id, p[0].payload).pipe(
+				mapTo({ type: 'NO_ACTION' }),
+				catchError(e => {
+					console.log('Network error', e);
+					return of();
+				})
+			)
+		)
+	);
+
+	@Effect()
+	setJob$ = this._actions$.pipe(
+		ofType<SetJob>(ProjectActionTypes.SET_JOB),
+		withLatestFrom(this._store$.select(getProjectEntity)),
+		mergeMap(p =>
+			this._apiService.setJob(p[1].id, p[0].payload).pipe(
 				mapTo({ type: 'NO_ACTION' }),
 				catchError(e => {
 					console.log('Network error', e);

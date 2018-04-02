@@ -5,7 +5,7 @@ import { JobSet } from '../../models/job-set';
 import { TitleAbbr } from '../../../shared/units/title-abbr';
 import { Units } from '../../../shared/units/units';
 import { Store } from '@ngrx/store';
-import { ChangeJob } from '../../store/project.actions';
+import { ChangeJob, SetJob } from '../../store/project.actions';
 import { Observable } from 'rxjs/Observable';
 import { Jobtype } from '../../models/job-type';
 
@@ -21,11 +21,27 @@ interface JobItem extends JobSet {
 export class ProjectJobFormComponent {
 	@Input()
 	set job(j: JobItem) {
-		if (j) {
-			this._job = <JobItem>{ ...j, unitDef: Units.getTitle(j.unitName) };
-			this.form.setValue({
-				amount: j.amount,
-				ratePerUnit: j.ratePerUnit,
+		if (!j) {
+			return;
+		}
+		this.newJobMode = this.newJobMode || !j.jobTypeId;
+		this._job = <JobItem>{ ...j, unitDef: Units.getTitle(j.unitName) };
+		this.form.patchValue({
+			amount: j.amount || null,
+			ratePerUnit: j.ratePerUnit || null,
+		});
+		if (this.newJobMode && !this.form.get('jobtype')) {
+			this.form.addControl(
+				'jobtype',
+				this._formBuilder.control(null, Validators.required)
+			);
+			this.form.get('jobtype').valueChanges.subscribe((jt: Jobtype) => {
+				this.job = <JobItem>{
+					jobTypeId: jt ? jt.id : null,
+					jobTypeName: jt ? jt.name : null,
+					unitName: jt.unit,
+					ratePerUnit: jt.rate,
+				};
 			});
 		}
 	}
@@ -33,14 +49,17 @@ export class ProjectJobFormComponent {
 		return this._job;
 	}
 
+	@Input() jobTypes$: Observable<Jobtype[]>;
+
 	@Output() closeJobForm: EventEmitter<void>;
 
 	form: FormGroup;
-	jobtypes$: Observable<Jobtype>;
+	newJobMode: boolean;
 
 	private _job: JobItem;
 
 	constructor(private _formBuilder: FormBuilder, private _store: Store<{}>) {
+		this.newJobMode = false;
 		this.closeJobForm = new EventEmitter();
 		this.form = this._formBuilder.group({
 			amount: [null, Validators.required],
@@ -53,13 +72,21 @@ export class ProjectJobFormComponent {
 			return;
 		}
 		this._store.dispatch(
-			new ChangeJob({
-				amount: this.form.get('amount').value,
-				jobTypeId: this._job.jobTypeId,
-				jobTypeName: this._job.jobTypeName,
-				ratePerUnit: this.form.get('ratePerUnit').value,
-				unitName: this._job.unitName,
-			})
+			this.newJobMode
+				? new SetJob({
+						amount: this.form.get('amount').value,
+						jobTypeId: this._job.jobTypeId,
+						jobTypeName: this._job.jobTypeName,
+						ratePerUnit: this.form.get('ratePerUnit').value,
+						unitName: this._job.unitName,
+				  })
+				: new ChangeJob({
+						amount: this.form.get('amount').value,
+						jobTypeId: this._job.jobTypeId,
+						jobTypeName: this._job.jobTypeName,
+						ratePerUnit: this.form.get('ratePerUnit').value,
+						unitName: this._job.unitName,
+				  })
 		);
 		this.closeJobForm.emit();
 	}

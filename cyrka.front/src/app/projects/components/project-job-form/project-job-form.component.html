@@ -1,6 +1,15 @@
-<div class="card-title">{{job.jobTypeName}}</div>
+<div *ngIf="!newJobMode" class="card-title">{{job.jobTypeName}}</div>
 <div class="card-text">
 	<form [formGroup]="form" class="form-inline" (submit)="save()">
+		<div *ngIf="newJobMode" class="form-group">
+			<label for="jobtype" class="required">тип работы</label>
+			<div class="select">
+				<select id="jobtype" formControlName="jobtype">
+					<option [ngValue]="null">Выберите тип работы</option>
+					<option *ngFor="let jt of jobTypes$ | async" [ngValue]="jt">{{ jt.name }}</option>
+				</select>
+			</div>
+		</div>
 		<div class="form-group">
 			<label for="amount" class="required">объем</label>
 			<input type="number" id="amount" formControlName="amount">

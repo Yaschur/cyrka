@@ -3,6 +3,8 @@
 	<div app-project-job *ngIf="editId !== job.jobTypeId" class="card-block" [job]="job" (editJob)="setEditModeTo(job.jobTypeId)"></div>
 	<div app-project-job-form *ngIf="editId === job.jobTypeId" class="card-block" [job]="job" (closeJobForm)="clearEditMode()"></div>
 </ng-template>
+<div app-project-job-form *ngIf="editId === NEW_JOB_ID" class="card-block" [job]="{}" [jobTypes$]="availableJobtypes$"
+ (closeJobForm)="clearEditMode()"></div>
 <div class="card-footer">
-	<button class="btn btn-sm btn-link">добавить работу</button>
+	<button [disabled]="editId === NEW_JOB_ID" class="btn btn-sm btn-link" (click)="setEditModeTo(NEW_JOB_ID)">добавить работу</button>
 </div>
