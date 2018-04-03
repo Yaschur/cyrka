@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+
 import {
 	ProjectActionTypes,
 	FindJobtypes,
 	LoadJobtypes,
 } from './project.actions';
-import { switchMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { JobApiService } from '../services/job-api.service';
 
 @Injectable()

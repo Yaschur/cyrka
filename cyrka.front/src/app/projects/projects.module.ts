@@ -8,21 +8,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from '../shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
 
-import { ProjectsComponent } from './components/projects.component';
-import { ProjectsFormComponent } from './components/projects-form.component';
-import { JobsApiService } from './services/jobs-api.service';
 import { JobApiService } from './services/job-api.service';
-import { CustomersApiService } from './services/customers-api.service';
-import { ProjectsApiService } from './services/projects-api.service';
 import { ProjectApiService } from './services/project-api.service';
-import { ProjectsListComponent } from './components/projects-list.component';
 import { projectReducer } from './store/project.reducers';
 import { ProjectEffects } from './store/project.effects';
 import { CustomerEffects } from './store/customer.effects';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
-import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectProductComponent } from './components/project-product/project-product.component';
 import { ProjectProductFormComponent } from './components/project-product-form/project-product-form.component';
@@ -42,13 +35,9 @@ import { JobtypeEffects } from './store/jobtype.effects';
 		ProjectsRoutingModule,
 	],
 	declarations: [
-		ProjectsComponent,
-		ProjectsFormComponent,
-		ProjectsListComponent,
 		ProjectListComponent,
 		ProjectListItemComponent,
 		ProjectItemComponent,
-		ProjectFormComponent,
 		ProjectComponent,
 		ProjectProductComponent,
 		ProjectProductFormComponent,
@@ -56,13 +45,6 @@ import { JobtypeEffects } from './store/jobtype.effects';
 		ProjectJobListComponent,
 		ProjectJobFormComponent,
 	],
-	providers: [
-		JobsApiService,
-		JobApiService,
-		CustomersApiService,
-		ProjectsApiService,
-		ProjectApiService,
-		CustomerApiService,
-	],
+	providers: [JobApiService, ProjectApiService, CustomerApiService],
 })
 export class ProjectsModule {}

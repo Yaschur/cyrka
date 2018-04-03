@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+
 import { JobSet } from '../../models/job-set';
 import { TitleAbbr } from '../../../shared/units/title-abbr';
 import { Units } from '../../../shared/units/units';
-import { Store } from '@ngrx/store';
 import { ChangeJob, SetJob } from '../../store/project.actions';
-import { Observable } from 'rxjs/Observable';
 import { Jobtype } from '../../models/job-type';
 
 interface JobItem extends JobSet {

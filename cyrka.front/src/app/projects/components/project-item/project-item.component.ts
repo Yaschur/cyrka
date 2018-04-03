@@ -2,7 +2,7 @@ import { Component, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { Project } from '../../models/project';

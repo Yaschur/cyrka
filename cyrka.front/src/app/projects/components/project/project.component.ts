@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { switchMap, map, filter, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { MenuLink } from '../../../shared/menu/menu-link';
 import { FindProjects } from '../../store/project.actions';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 import { getProjectEntity } from '../../project.store';
 
 @Component({

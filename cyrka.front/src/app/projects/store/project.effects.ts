@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { of } from 'rxjs/observable/of';
+import {
+	switchMap,
+	map,
+	catchError,
+	withLatestFrom,
+	mapTo,
+	mergeMap,
+} from 'rxjs/operators';
+
 import { ProjectApiService } from '../services/project-api.service';
 import {
 	FindProjects,
@@ -13,15 +24,6 @@ import {
 	ChangeJob,
 	SetJob,
 } from './project.actions';
-import {
-	switchMap,
-	map,
-	catchError,
-	withLatestFrom,
-	mapTo,
-	mergeMap,
-} from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { ProjectState } from './project.reducers';
 import { getProjectEntity } from '../project.store';
 

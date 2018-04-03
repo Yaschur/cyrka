@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { JobSet } from '../../models/job-set';
 import { Jobtype } from '../../models/job-type';
-import { Store } from '@ngrx/store';
 import { getJobtypeEntities } from '../../project.store';
 import { FindJobtypes } from '../../store/project.actions';
 

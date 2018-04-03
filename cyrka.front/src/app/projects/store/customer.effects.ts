@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+
 import { CustomerApiService } from '../services/customer-api.service';
 import {
 	FindCustomers,
 	ProjectActionTypes,
 	LoadCustomers,
 } from './project.actions';
-import { switchMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class CustomerEffects {

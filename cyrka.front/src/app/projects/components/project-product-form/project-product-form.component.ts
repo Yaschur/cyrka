@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
+import { filter, map, take, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
 
@@ -14,16 +15,6 @@ import {
 	SetProduct,
 	CreateProject,
 } from '../../store/project.actions';
-import {
-	filter,
-	switchMap,
-	merge,
-	map,
-	switchMapTo,
-	mergeMap,
-	take,
-	concatMap,
-} from 'rxjs/operators';
 
 @Component({
 	selector: 'app-project-product-form',
