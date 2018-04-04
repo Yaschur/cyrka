@@ -75,28 +75,28 @@ namespace cyrka.api.web.controllers
 			return Ok(result);
 		}
 
-		[HttpPost("{projectId}/jobs")]
-		public async Task<IActionResult> SetJobs(string projectId, [FromBody] JobInfo[] bodies)
-		{
-			var results = new List<WebAnswerBody>();
-			foreach (var body in bodies)
-			{
-				var command = new SetJob(
-					body.JobTypeId,
-					body.JobTypeName,
-					body.UnitName,
-					body.RatePerUnit,
-					body.Amount
-				);
-				var result = await _projectService.Do(projectId, command);
-				results.Add(result);
-			}
+		// [HttpPost("{projectId}/jobs")]
+		// public async Task<IActionResult> SetJobs(string projectId, [FromBody] JobInfo[] bodies)
+		// {
+		// 	var results = new List<WebAnswerBody>();
+		// 	foreach (var body in bodies)
+		// 	{
+		// 		var command = new SetJob(
+		// 			body.JobTypeId,
+		// 			body.JobTypeName,
+		// 			body.UnitName,
+		// 			body.RatePerUnit,
+		// 			body.Amount
+		// 		);
+		// 		var result = await _projectService.Do(projectId, command);
+		// 		results.Add(result);
+		// 	}
 
-			if (results.All(r => r == null))
-				return NotFound();
+		// 	if (results.All(r => r == null))
+		// 		return NotFound();
 
-			return Ok(results.First(r => r != null));
-		}
+		// 	return Ok(results.First(r => r != null));
+		// }
 
 		[HttpPut("{projectId}/jobs/{jobTypeId}")]
 		public async Task<IActionResult> ChangeJob(string projectId, string jobTypeId, [FromBody] JobVolumeInfo body)

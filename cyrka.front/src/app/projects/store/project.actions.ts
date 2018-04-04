@@ -5,6 +5,7 @@ import { Customer } from '../models/customer';
 import { ProductSet } from '../models/product-set';
 import { JobSet } from '../models/job-set';
 import { Jobtype } from '../models/job-type';
+import { ProjectStatuses } from '../../shared/projectStatuses/projectStatuses';
 
 export enum ProjectActionTypes {
 	// fetch projects from data service
@@ -18,6 +19,7 @@ export enum ProjectActionTypes {
 	CREATE_PROJECT = '[project] CREATE_PROJECT',
 	SET_PRODUCT = '[project] SET_PRODUCT',
 	SET_JOB = '[project] SET_JOB',
+	SET_STATUS = '[project] SET_STATUS',
 	CHANGE_JOB = '[project] CHANGE_JOB',
 	FIND_CUSTOMERS = '[project] FIND_CUSTOMERS',
 	LOAD_CUSTOMERS = '[project] LOAD_CUSTOMERS',
@@ -67,6 +69,12 @@ export class SetJob implements Action {
 	constructor(public payload: JobSet) {}
 }
 
+export class SetStatus implements Action {
+	readonly type = ProjectActionTypes.SET_STATUS;
+
+	constructor(public payload: ProjectStatuses) {}
+}
+
 export class ChangeJob implements Action {
 	readonly type = ProjectActionTypes.CHANGE_JOB;
 
@@ -102,6 +110,7 @@ export type ProjectActions =
 	| CreateProject
 	| SetProduct
 	| SetJob
+	| SetStatus
 	| ChangeJob
 	| FindCustomers
 	| LoadCustomers

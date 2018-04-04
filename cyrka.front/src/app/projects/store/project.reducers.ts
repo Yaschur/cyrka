@@ -75,6 +75,23 @@ export function projectReducer(
 				],
 			};
 		}
+		case ProjectActionTypes.SET_STATUS: {
+			const projInd = state.projects.findIndex(p => p.id === state.projectId);
+			if (projInd < 0) {
+				return state;
+			}
+			return {
+				...state,
+				projects: [
+					...state.projects.slice(0, projInd),
+					{
+						...state.projects[projInd],
+						status: action.payload,
+					},
+					...state.projects.slice(projInd + 1),
+				],
+			};
+		}
 		case ProjectActionTypes.CHANGE_JOB: {
 			const projInd = state.projects.findIndex(p => p.id === state.projectId);
 			if (projInd < 0) {

@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
 import { ProjectStatuses } from '../../../shared/projectStatuses/projectStatuses';
+import { SetStatus } from '../../store/project.actions';
 
 @Component({
 	selector: 'div[app-project-status]',
@@ -19,11 +22,11 @@ export class ProjectStatusComponent {
 	availableActions;
 	statusName;
 
-	constructor() {
+	constructor(private _store: Store<{}>) {
 		this.availableActions = [];
 	}
 
 	setStatus(stat: ProjectStatuses) {
-		this.status = stat;
+		this._store.dispatch(new SetStatus(stat));
 	}
 }

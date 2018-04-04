@@ -23,6 +23,7 @@ import {
 	CreateProject,
 	ChangeJob,
 	SetJob,
+	SetStatus,
 } from './project.actions';
 import { ProjectState } from './project.reducers';
 import { getProjectEntity } from '../project.store';
@@ -99,6 +100,21 @@ export class ProjectEffects {
 		withLatestFrom(this._store$.select(getProjectEntity)),
 		mergeMap(p =>
 			this._apiService.setJob(p[1].id, p[0].payload).pipe(
+				mapTo({ type: 'NO_ACTION' }),
+				catchError(e => {
+					console.log('Network error', e);
+					return of();
+				})
+			)
+		)
+	);
+
+	@Effect()
+	setStatus$ = this._actions$.pipe(
+		ofType<SetStatus>(ProjectActionTypes.SET_STATUS),
+		withLatestFrom(this._store$.select(getProjectEntity)),
+		mergeMap(p =>
+			this._apiService.setStatus(p[1].id, p[0].payload).pipe(
 				mapTo({ type: 'NO_ACTION' }),
 				catchError(e => {
 					console.log('Network error', e);

@@ -15,4 +15,17 @@ export class ProjectListItemComponent {
 	getStatusName(stat: ProjectStatuses): string {
 		return ProjectStatuses.allStatuses.get(stat);
 	}
+
+	getLabelClassPostfix(stat: ProjectStatuses): string {
+		switch (stat) {
+			case ProjectStatuses.Draft:
+				return '-info';
+			case ProjectStatuses.InProgress:
+				return '-warning';
+			case ProjectStatuses.Closed:
+				return '-success';
+			default:
+				return '';
+		}
+	}
 }

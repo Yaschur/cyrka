@@ -9,6 +9,7 @@ import { ApiAnswer } from '../../shared/api/api-answer';
 import { ProductSet } from '../models/product-set';
 import { JobSet } from '../models/job-set';
 import { JobChange } from '../models/job-change';
+import { ProjectStatuses } from '../../shared/projectStatuses/projectStatuses';
 
 @Injectable()
 export class ProjectApiService {
@@ -47,12 +48,12 @@ export class ProjectApiService {
 		);
 	}
 
-	// public setJobs(id: string, jobSet: JobSet[]): Observable<ApiAnswer> {
-	// 	return this._httpClient.post<ApiAnswer>(
-	// 		`${environment.cyrkaApi.baseUrl}/projects/${id}/jobs`,
-	// 		jobSet
-	// 	);
-	// }
+	public setStatus(id: string, status: ProjectStatuses): Observable<ApiAnswer> {
+		return this._httpClient.post<ApiAnswer>(
+			`${environment.cyrkaApi.baseUrl}/projects/${id}/status`,
+			{ status: status }
+		);
+	}
 
 	public changeJob(
 		id: string,
