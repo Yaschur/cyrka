@@ -6,6 +6,7 @@ using cyrka.api.domain.projects.commands;
 using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
+using cyrka.api.domain.projects.commands.setPayments;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setStatus;
 
@@ -20,6 +21,7 @@ namespace cyrka.api.domain.projects.queries
 			processor.RegisterEventProcessing<JobSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<JobChanged, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<StatusSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
+			processor.RegisterEventProcessing<PaymentsSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 		}
 
 		public Expression<Func<ProjectPlain, bool>> IdFilterByEventData(ProjectEventData eventData)
@@ -50,7 +52,9 @@ namespace cyrka.api.domain.projects.queries
 					EpisodeNumber = eventData.EpisodeNumber,
 					EpisodeDuration = eventData.EpisodeDuration,
 				},
-				Jobs = source.Jobs
+				Jobs = source.Jobs,
+				Status = source.Status,
+				Payments = source.Payments,
 			};
 		}
 
@@ -76,6 +80,8 @@ namespace cyrka.api.domain.projects.queries
 				Id = source.Id,
 				Product = source.Product,
 				Jobs = jobs,
+				Status = source.Status,
+				Payments = source.Payments,
 			};
 		}
 
@@ -105,6 +111,8 @@ namespace cyrka.api.domain.projects.queries
 				Id = source.Id,
 				Product = source.Product,
 				Jobs = jobs,
+				Status = source.Status,
+				Payments = source.Payments,
 			};
 		}
 
@@ -116,6 +124,23 @@ namespace cyrka.api.domain.projects.queries
 				Product = source.Product,
 				Jobs = source.Jobs,
 				Status = eventData.Status,
+				Payments = source.Payments,
+			};
+		}
+
+		public ProjectPlain UpdateByEventData(PaymentsSet eventData, ProjectPlain source)
+		{
+			return new ProjectPlain
+			{
+				Id = source.Id,
+				Product = source.Product,
+				Jobs = source.Jobs,
+				Status = source.Status,
+				Payments = new PaymentsState
+				{
+					EditorPayment = eventData.EditorPayment,
+					TranslatorPayment = eventData.TranslatorPayment
+				}
 			};
 		}
 	}

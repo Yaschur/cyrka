@@ -11,5 +11,7 @@ namespace cyrka.api.domain.projects.queries
 		public ProductState Product { get; set; }
 
 		public List<JobState> Jobs { get; set; } = new List<JobState>();
+
+		public PaymentsState Payments { get; set; }
 	}
 }
