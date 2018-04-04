@@ -2,7 +2,7 @@
 	<a routerLink="{{project.id}}">{{project.id}}</a>
 </td>
 <td class="left">
-	<span class="label label-info">{{project.status}}</span>
+	<span class="label label-info">{{getStatusName(project.status)}}</span>
 </td>
 <td class="left">{{project.product?.customerName}}</td>
 <td class="left">{{project.product?.titleName}}</td>

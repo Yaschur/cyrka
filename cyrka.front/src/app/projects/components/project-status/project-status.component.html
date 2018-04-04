@@ -1,0 +1,8 @@
+<div class="card-block">
+	<div class="card-title">статус проекта</div>
+	<div class="card-text">{{statusName}}</div>
+</div>
+<div class="card-footer">
+	<button *ngFor="let action of availableActions" class="btn btn-sm btn-link" [disabled]="action.isCurrent"
+	 title="Перевести проект в статус {{action.statusName}}" (click)="setStatus(action.statusValue)">{{action.actionName}}</button>
+</div>

@@ -24,6 +24,7 @@ import { ProjectJobComponent } from './components/project-job/project-job.compon
 import { ProjectJobListComponent } from './components/project-job-list/project-job-list.component';
 import { ProjectJobFormComponent } from './components/project-job-form/project-job-form.component';
 import { JobtypeEffects } from './store/jobtype.effects';
+import { ProjectStatusComponent } from './components/project-status/project-status.component';
 
 @NgModule({
 	imports: [
@@ -44,6 +45,7 @@ import { JobtypeEffects } from './store/jobtype.effects';
 		ProjectJobComponent,
 		ProjectJobListComponent,
 		ProjectJobFormComponent,
+		ProjectStatusComponent,
 	],
 	providers: [JobApiService, ProjectApiService, CustomerApiService],
 })

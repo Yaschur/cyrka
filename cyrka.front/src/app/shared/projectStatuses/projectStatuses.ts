@@ -6,13 +6,12 @@ export enum ProjectStatuses {
 }
 
 export namespace ProjectStatuses {
-	const allStatuses: Map<ProjectStatuses, string> = new Map([
+	export const allStatuses: Map<ProjectStatuses, string> = new Map([
 		[ProjectStatuses.Draft, 'Планирование'],
 		[ProjectStatuses.InProgress, 'В работе'],
 		[ProjectStatuses.Closed, 'Завершен'],
 		[ProjectStatuses.Cancelled, 'Отменен'],
 	]);
-
 	const allActions: Map<string, ProjectStatuses> = new Map([
 		['Планировать', ProjectStatuses.Draft],
 		['В работу', ProjectStatuses.InProgress],
@@ -20,5 +19,28 @@ export namespace ProjectStatuses {
 		['Отменить', ProjectStatuses.Cancelled],
 	]);
 
-	// export const allActions = (): [{actionName: string, status: }]
+	export const getActions = (
+		status: ProjectStatuses
+	): {
+		actionName: string;
+		statusValue: ProjectStatuses;
+		statusName: string;
+		isCurrent: boolean;
+	}[] => {
+		const res: {
+			actionName: string;
+			statusValue: ProjectStatuses;
+			statusName: string;
+			isCurrent: boolean;
+		}[] = [];
+		allActions.forEach((val, key) => {
+			res.push({
+				actionName: key,
+				statusValue: val,
+				statusName: allStatuses.get(val),
+				isCurrent: val === status,
+			});
+		});
+		return res;
+	};
 }

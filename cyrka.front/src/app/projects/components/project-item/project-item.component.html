@@ -2,17 +2,7 @@
 	<div class="content-area">
 		<div class="card-columns">
 
-			<div class="card" *ngIf="(project$ | async)?.status">
-				<div class="card-block">
-					<div class="card-title">статус проекта</div>
-					<div class="card-text">{{(project$ | async)?.status}}</div>
-				</div>
-				<div class="card-footer">
-					<button class="btn btn-sm btn-link">в работу</button>
-					<button class="btn btn-sm btn-link">закрыть</button>
-					<button class="btn btn-sm btn-link">отменить</button>
-				</div>
-			</div>
+			<div app-project-status class="card" *ngIf="(project$ | async)?.status" [status]="(project$ | async)?.status"></div>
 
 			<div class="card">
 				<div class="card-header">продукт / тайтл</div>
