@@ -4,6 +4,7 @@ using cyrka.api.common.events;
 using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
+using cyrka.api.domain.projects.commands.setPayments;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setStatus;
 
@@ -36,6 +37,9 @@ namespace cyrka.api.domain.projects
 						break;
 					case StatusSet statusSet:
 						ApplyEvent(statusSet);
+						break;
+					case PaymentsSet paymentsSet:
+						ApplyEvent(paymentsSet);
 						break;
 				}
 			}
@@ -90,6 +94,15 @@ namespace cyrka.api.domain.projects
 		private void ApplyEvent(StatusSet statusSet)
 		{
 			State.Status = statusSet.Status;
+		}
+
+		private void ApplyEvent(PaymentsSet paymentsSet)
+		{
+			State.Payments = new PaymentsState
+			{
+				TranslatorPayment = paymentsSet.TranslatorPayment,
+				EditorPayment = paymentsSet.EditorPayment
+			};
 		}
 	}
 }
