@@ -1,30 +1,27 @@
 <div class="content-container">
 	<div class="content-area">
-		<div class="row">
-			<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<div class="card">
-					<div class="card-header">продукт / тайтл</div>
-					<app-project-product *ngIf="!productEditMode" [productSet]="(project$ | async)?.product" (changeProduct)="setProductEdit(true)"></app-project-product>
-					<app-project-product-form *ngIf="productEditMode" [productSet]="(project$ | async)?.product"
-					 (closeProductForm)="setProductEdit(false)"></app-project-product-form>
+		<div class="card-columns">
+
+			<div class="card" *ngIf="(project$ | async)?.status">
+				<div class="card-block">
+					<div class="card-title">статус проекта</div>
+					<div class="card-text">{{(project$ | async)?.status}}</div>
 				</div>
-			</div>
-			<div class="col-lg-4 col-md-6 col-sm-12">
-				<div app-project-job-list class="card" *ngIf="(project$ | async)?.jobs" [jobs]="(project$ | async)?.jobs"></div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 col-sm-12">
-				<div class="card">
-					<div class="card-header">статус проекта</div>
-					<div class="card-block">
-
-					</div>
-					<div class="card-footer">
-
-					</div>
+				<div class="card-footer">
+					<button class="btn btn-sm btn-link">в работу</button>
+					<button class="btn btn-sm btn-link">закрыть</button>
+					<button class="btn btn-sm btn-link">отменить</button>
 				</div>
 			</div>
 
+			<div class="card">
+				<div class="card-header">продукт / тайтл</div>
+				<app-project-product *ngIf="!productEditMode" [productSet]="(project$ | async)?.product" (changeProduct)="setProductEdit(true)"></app-project-product>
+				<app-project-product-form *ngIf="productEditMode" [productSet]="(project$ | async)?.product"
+				 (closeProductForm)="setProductEdit(false)"></app-project-product-form>
+			</div>
+
+			<div app-project-job-list class="card" *ngIf="(project$ | async)?.jobs" [jobs]="(project$ | async)?.jobs"></div>
 		</div>
 	</div>
 </div>

@@ -6,5 +6,6 @@
 <div app-project-job-form *ngIf="editId === NEW_JOB_ID" class="card-block" [job]="{}" [jobTypes$]="availableJobtypes$"
  (closeJobForm)="clearEditMode()"></div>
 <div class="card-footer">
-	<button [disabled]="editId === NEW_JOB_ID" class="btn btn-sm btn-link" (click)="setEditModeTo(NEW_JOB_ID)">добавить работу</button>
+	<button [disabled]="editId === NEW_JOB_ID || (availableJobtypes$ | async)?.length === 0" class="btn btn-sm btn-link"
+	 (click)="setEditModeTo(NEW_JOB_ID)">добавить работу</button>
 </div>

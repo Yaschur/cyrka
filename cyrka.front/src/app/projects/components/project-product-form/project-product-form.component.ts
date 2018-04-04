@@ -77,7 +77,7 @@ export class ProjectProductFormComponent {
 		this.titles$.subscribe(t => this.form.patchValue({ title: null }));
 	}
 
-	save() {
+	saveProduct() {
 		if (this.form.invalid) {
 			return;
 		}
@@ -108,16 +108,6 @@ export class ProjectProductFormComponent {
 					take(1)
 				)
 				.subscribe(() => this._store.dispatch(new SetProduct(productSet)));
-
-			// if (!this.productSet) {
-			// 	this._store.dispatch(new CreateProject());
-			// 	this._store
-			// 		.select(getProjectEntity)
-			// 		.pipe(filter(p => p && !!p.id), take(1))
-			// 		.subscribe(() => this._store.dispatch(new SetProduct(productSet)));
-			// } else {
-			// 	this._store.dispatch(new SetProduct(productSet));
-			// }
 		}
 		this.closeProductForm.emit();
 	}
