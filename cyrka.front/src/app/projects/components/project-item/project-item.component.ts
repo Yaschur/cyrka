@@ -1,5 +1,5 @@
 import { Component, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { filter } from 'rxjs/operators';
@@ -20,7 +20,11 @@ export class ProjectItemComponent {
 	productEditMode: boolean;
 	newProjectFlag: boolean;
 
-	constructor(private _route: ActivatedRoute, private _store: Store<{}>) {
+	constructor(
+		private _route: ActivatedRoute,
+		private _store: Store<{}>,
+		private _router: Router
+	) {
 		this.productEditMode = false;
 		if (this._route.snapshot.paramMap.has('projectId')) {
 			this._store.dispatch(
@@ -37,5 +41,8 @@ export class ProjectItemComponent {
 
 	setProductEdit(mode: boolean) {
 		this.productEditMode = mode;
+		if (!mode && this.newProjectFlag) {
+			this._router.navigate(['projects']);
+		}
 	}
 }
