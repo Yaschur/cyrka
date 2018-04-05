@@ -18,7 +18,6 @@ export class ProjectItemComponent {
 	project$: Observable<Project>;
 
 	productEditMode: boolean;
-	newProjectFlag: boolean;
 
 	constructor(
 		private _route: ActivatedRoute,
@@ -33,16 +32,10 @@ export class ProjectItemComponent {
 		}
 
 		this.project$ = this._store.select(getProjectEntity).pipe(filter(p => !!p));
-		this.project$.subscribe(p => {
-			this.newProjectFlag = !p.product;
-			this.setProductEdit(this.newProjectFlag);
-		});
+		this.project$.subscribe(p => this.setProductEdit(!p.product));
 	}
 
 	setProductEdit(mode: boolean) {
 		this.productEditMode = mode;
-		if (!mode && this.newProjectFlag) {
-			this._router.navigate(['projects']);
-		}
 	}
 }

@@ -12,6 +12,41 @@
 			</div>
 
 			<div app-project-job-list class="card" *ngIf="(project$ | async)?.jobs" [jobs]="(project$ | async)?.jobs"></div>
+
+			<div class="card" *ngIf="(project$ | async)?.income || (project$ | async)?.expenses">
+				<div class="card-header">выручка и выплаты</div>
+				<div class="card-block">
+					<div class="card-text">
+						<div class="row">
+							<div class="col-xs">выручка по работам:</div>
+							<div class="col-xs text-success">{{(project$ | async).income}}</div>
+						</div>
+						<div class="row">
+							<div class="col-xs">выплаты исполнителям:</div>
+							<div class="col-xs text-danger">{{(project$ | async).expenses}}</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-block">
+					<div class="card-title">выплаты</div>
+					<a href="javascript://" class="clickable">
+						<div class="card-text">
+							<div class="row">
+								<div class="col-xs">выплата редактору:</div>
+								<div class="col-xs">{{(project$ | async).payments?.editorPayment || 0}}</div>
+							</div>
+							<div class="row">
+								<div class="col-xs">выплата переводчику:</div>
+								<div class="col-xs">{{(project$ | async).payments?.translatorPayment || 0}}</div>
+							</div>
+
+						</div>
+					</a>
+				</div>
+
+			</div>
+
 		</div>
 	</div>
 </div>

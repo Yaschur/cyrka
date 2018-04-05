@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import { Observable } from 'rxjs/Observable';
 import { filter, map, take, concatMap } from 'rxjs/operators';
@@ -36,7 +37,11 @@ export class ProjectProductFormComponent {
 	customers$: Observable<Customer[]>;
 	titles$: Observable<Title[]>;
 
-	constructor(private _formBuilder: FormBuilder, private _store: Store<{}>) {
+	constructor(
+		private _formBuilder: FormBuilder,
+		private _store: Store<{}>,
+		private _location: Location
+	) {
 		this.closeProductForm = new EventEmitter();
 		// Ask for customers in state
 		this._store.dispatch(new FindCustomers());
@@ -112,6 +117,10 @@ export class ProjectProductFormComponent {
 		this.closeProductForm.emit();
 	}
 	cancel() {
+		if (!this.productSet) {
+			this._location.back();
+			return;
+		}
 		this.closeProductForm.emit();
 	}
 }
