@@ -15,9 +15,10 @@ import { GetProject } from '../../store/project.actions';
 	styleUrls: ['./project-item.component.scss'],
 })
 export class ProjectItemComponent {
-	@Output() project$: Observable<Project>;
+	project$: Observable<Project>;
 
 	productEditMode: boolean;
+	newProjectFlag: boolean;
 
 	constructor(private _route: ActivatedRoute, private _store: Store<{}>) {
 		this.productEditMode = false;
@@ -28,7 +29,10 @@ export class ProjectItemComponent {
 		}
 
 		this.project$ = this._store.select(getProjectEntity).pipe(filter(p => !!p));
-		this.project$.subscribe(p => this.setProductEdit(!p.product));
+		this.project$.subscribe(p => {
+			this.newProjectFlag = !p.product;
+			this.setProductEdit(this.newProjectFlag);
+		});
 	}
 
 	setProductEdit(mode: boolean) {

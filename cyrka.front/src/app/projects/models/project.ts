@@ -7,4 +7,6 @@ export interface Project {
 	status: ProjectStatuses;
 	product: ProductSet;
 	jobs: JobSet[];
+	income: number;
+	expenses: number;
 }
