@@ -11,6 +11,7 @@ using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.setStatus;
+using cyrka.api.domain.projects.commands.setPayments;
 
 namespace cyrka.api.web.controllers
 {
@@ -75,29 +76,6 @@ namespace cyrka.api.web.controllers
 			return Ok(result);
 		}
 
-		// [HttpPost("{projectId}/jobs")]
-		// public async Task<IActionResult> SetJobs(string projectId, [FromBody] JobInfo[] bodies)
-		// {
-		// 	var results = new List<WebAnswerBody>();
-		// 	foreach (var body in bodies)
-		// 	{
-		// 		var command = new SetJob(
-		// 			body.JobTypeId,
-		// 			body.JobTypeName,
-		// 			body.UnitName,
-		// 			body.RatePerUnit,
-		// 			body.Amount
-		// 		);
-		// 		var result = await _projectService.Do(projectId, command);
-		// 		results.Add(result);
-		// 	}
-
-		// 	if (results.All(r => r == null))
-		// 		return NotFound();
-
-		// 	return Ok(results.First(r => r != null));
-		// }
-
 		[HttpPut("{projectId}/jobs/{jobTypeId}")]
 		public async Task<IActionResult> ChangeJob(string projectId, string jobTypeId, [FromBody] JobVolumeInfo body)
 		{
@@ -118,6 +96,18 @@ namespace cyrka.api.web.controllers
 		public async Task<IActionResult> SetStatus(string projectId, [FromBody] StatusInfo body)
 		{
 			var command = new SetStatus(body.Status);
+			var result = await _projectService.Do(projectId, command);
+
+			if (result == null)
+				return NotFound();
+
+			return Ok(result);
+		}
+
+		[HttpPost("{projectId}/payments")]
+		public async Task<IActionResult> SetPayments(string projectId, [FromBody] PaymentsInfo body)
+		{
+			var command = new SetPayments(body.TranslatorPayment, body.EditorPayment);
 			var result = await _projectService.Do(projectId, command);
 
 			if (result == null)

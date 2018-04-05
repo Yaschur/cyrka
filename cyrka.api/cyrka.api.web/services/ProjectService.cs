@@ -6,6 +6,7 @@ using cyrka.api.domain.projects;
 using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.register;
 using cyrka.api.domain.projects.commands.setJob;
+using cyrka.api.domain.projects.commands.setPayments;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setStatus;
 
@@ -88,6 +89,21 @@ namespace cyrka.api.web.services
 		public async Task<WebAnswerBody> Do(string projectId, SetStatus command)
 		{
 			var handler = new SetStatusHandler(_projectRepository);
+			var eventData = await handler.Handle(projectId, command);
+			if (eventData == null)
+				return null;
+			await HandleEventData(eventData);
+
+			return new WebAnswerBody
+			{
+				ResourceId = eventData.AggregateId,
+				ResourceType = ProjectResourceKey
+			};
+		}
+
+		public async Task<WebAnswerBody> Do(string projectId, SetPayments command)
+		{
+			var handler = new SetPaymentsHandler(_projectRepository);
 			var eventData = await handler.Handle(projectId, command);
 			if (eventData == null)
 				return null;

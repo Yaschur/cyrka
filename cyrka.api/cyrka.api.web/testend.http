@@ -42,11 +42,20 @@ Content-Type: application/json
 }
 
 ### set status
-POST http://localhost:5000/projects/SUBST-1802-2/status
+POST http://localhost:5000/projects/SUBST-1802-1/status
 Content-Type: application/json
 
 {
-	"status": "cancelled"
+	"status": "inprogress"
+}
+
+### set payments
+POST http://localhost:5000/projects/SUBST-1802-1/payments
+Content-Type: application/json
+
+{
+	"editorpayment": 937.10,
+	"translatorpayment": 320
 }
 
 #### Customers ####

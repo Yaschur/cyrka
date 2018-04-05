@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace cyrka.api.domain.projects.queries
 {
@@ -13,5 +14,21 @@ namespace cyrka.api.domain.projects.queries
 		public List<JobState> Jobs { get; set; } = new List<JobState>();
 
 		public PaymentsState Payments { get; set; }
+
+		public decimal Income
+		{
+			get
+			{
+				return Jobs.Sum(j => j.Amount * j.RatePerUnit);
+			}
+		}
+
+		public decimal Expenses
+		{
+			get
+			{
+				return Payments?.EditorPayment ?? 0 + Payments?.TranslatorPayment ?? 0;
+			}
+		}
 	}
 }
