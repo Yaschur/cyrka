@@ -10,6 +10,7 @@ import { ProductSet } from '../models/product-set';
 import { JobSet } from '../models/job-set';
 import { JobChange } from '../models/job-change';
 import { ProjectStatuses } from '../../shared/projectStatuses/projectStatuses';
+import { Payments } from '../models/payments';
 
 @Injectable()
 export class ProjectApiService {
@@ -63,6 +64,13 @@ export class ProjectApiService {
 		return this._httpClient.put<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/projects/${id}/jobs/${jobId}`,
 			jobChange
+		);
+	}
+
+	public setPayments(id: string, payments: Payments): Observable<ApiAnswer> {
+		return this._httpClient.post<ApiAnswer>(
+			`${environment.cyrkaApi.baseUrl}/projects/${id}/payments`,
+			payments
 		);
 	}
 }

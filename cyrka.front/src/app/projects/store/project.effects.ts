@@ -24,6 +24,7 @@ import {
 	ChangeJob,
 	SetJob,
 	SetStatus,
+	SetPayments,
 } from './project.actions';
 import { ProjectState } from './project.reducers';
 import { getProjectEntity } from '../project.store';
@@ -138,6 +139,21 @@ export class ProjectEffects {
 						return of();
 					})
 				)
+		)
+	);
+
+	@Effect()
+	setPayments$ = this._actions$.pipe(
+		ofType<SetPayments>(ProjectActionTypes.SET_PAYMENTS),
+		withLatestFrom(this._store$.select(getProjectEntity)),
+		mergeMap(p =>
+			this._apiService.setPayments(p[1].id, p[0].payload).pipe(
+				mapTo({ type: 'NO_ACTION' }),
+				catchError(e => {
+					console.log('Network error', e);
+					return of();
+				})
+			)
 		)
 	);
 

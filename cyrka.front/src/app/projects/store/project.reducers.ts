@@ -119,6 +119,26 @@ export function projectReducer(
 				],
 			};
 		}
+		case ProjectActionTypes.SET_PAYMENTS: {
+			const projInd = state.projects.findIndex(p => p.id === state.projectId);
+			if (projInd < 0) {
+				return state;
+			}
+			return {
+				...state,
+				projects: [
+					...state.projects.slice(0, projInd),
+					{
+						...state.projects[projInd],
+						payments: action.payload,
+						// TODO: review and remove hack
+						expenses:
+							action.payload.editorPayment + action.payload.translatorPayment,
+					},
+					...state.projects.slice(projInd + 1),
+				],
+			};
+		}
 		default:
 			return state;
 	}
