@@ -1,5 +1,6 @@
 ### Build stage
 FROM microsoft/aspnetcore-build as build
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 ENV ASPNETCORE_ENVIRONMENT=Production
 WORKDIR /cyrkaapi
 COPY . .
