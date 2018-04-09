@@ -24,9 +24,9 @@ export class ProjectJobComponent {
 
 	@Output() editJob: EventEmitter<void>;
 
-	private _job: JobItem;
-
 	constructor() {
 		this.editJob = new EventEmitter();
 	}
+
+	private _job: JobItem;
 }

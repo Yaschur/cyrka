@@ -57,8 +57,6 @@ export class ProjectJobFormComponent {
 	form: FormGroup;
 	newJobMode: boolean;
 
-	private _job: JobItem;
-
 	constructor(private _formBuilder: FormBuilder, private _store: Store<{}>) {
 		this.newJobMode = false;
 		this.closeJobForm = new EventEmitter();
@@ -91,4 +89,6 @@ export class ProjectJobFormComponent {
 		);
 		this.closeJobForm.emit();
 	}
+
+	private _job: JobItem;
 }

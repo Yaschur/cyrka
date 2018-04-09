@@ -1,0 +1,36 @@
+<div class="card-header">
+	выручка и выплаты</div>
+<div class="card-block">
+	<div class="card-text">
+		<div class="row">
+			<div class="col-xs">выручка по работам:</div>
+			<div class="col-xs text-success">{{project?.income}}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs">выплаты исполнителям:</div>
+			<div class="col-xs text-danger">{{project?.expenses}}</div>
+		</div>
+	</div>
+</div>
+
+<div class="card-block">
+	<div class="card-title">выплаты</div>
+	<ng-container *ngIf="!paymentsEditMode; else paymentsForm">
+		<a href="javascript://" class="clickable" (click)="paymentsEditMode=true">
+			<div class="card-text">
+				<div class="row">
+					<div class="col-xs">выплата редактору:</div>
+					<div class="col-xs">{{project?.payments?.editorPayment || 0}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs">выплата переводчику:</div>
+					<div class="col-xs">{{project?.payments?.translatorPayment || 0}}</div>
+				</div>
+
+			</div>
+		</a>
+	</ng-container>
+	<ng-template #paymentsForm>
+
+	</ng-template>
+</div>
