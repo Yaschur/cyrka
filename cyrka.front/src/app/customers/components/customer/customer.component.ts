@@ -59,14 +59,16 @@ export class CustomerComponent {
 			),
 			filter(cst => cst != null),
 			tap(cst => {
-				this.menuItems = [
-					...this.menuItems.slice(0, 1),
-					{
-						linkText: 'Изменить',
-						linkTitle: 'изменить данные заказчика',
-						linkUrl: `/customers/${cst.id}/edit`,
-					},
-				];
+				if (cst.id) {
+					this.menuItems = [
+						...this.menuItems.slice(0, 1),
+						{
+							linkText: 'Изменить',
+							linkTitle: 'изменить данные заказчика',
+							linkUrl: `/customers/${cst.id}/edit`,
+						},
+					];
+				}
 			})
 		);
 

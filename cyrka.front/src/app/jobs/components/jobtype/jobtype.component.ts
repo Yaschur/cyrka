@@ -50,17 +50,16 @@ export class JobtypeComponent {
 		private _router: Router,
 		private _store: Store<{}>
 	) {
-		this.jobtypeItem_read$ = _store
-			.select(getJobtypeEntities)
-			.pipe(
-				withLatestFrom(_route.paramMap),
-				switchMap(p =>
-					of((p[1].has('jobtypeId')
-						? p[0].find(jt => jt.id === p[1].get('jobtypeId')) || {}
-						: {}) as Jobtype)
-				),
-				filter(jt => jt != null),
-				tap(jt => {
+		this.jobtypeItem_read$ = _store.select(getJobtypeEntities).pipe(
+			withLatestFrom(_route.paramMap),
+			switchMap(p =>
+				of((p[1].has('jobtypeId')
+					? p[0].find(jt => jt.id === p[1].get('jobtypeId')) || {}
+					: {}) as Jobtype)
+			),
+			filter(jt => jt != null),
+			tap(jt => {
+				if (jt.id) {
 					this.menuItems = [
 						...this.menuItems.slice(0, 1),
 						{
@@ -69,8 +68,9 @@ export class JobtypeComponent {
 							linkUrl: `/jobtypes/${jt.id}/edit`,
 						},
 					];
-				})
-			);
+				}
+			})
+		);
 
 		this.jobtypeItems_read$ = _store.select(getJobtypeEntities);
 	}
