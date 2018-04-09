@@ -32,15 +32,16 @@
 	</ng-container>
 	<ng-template #paymentsForm>
 		<form [formGroup]="form" (submit)="savePayments()">
-			<div class="form-group">
-				<label for="editorPayment" class="required">выплата редактору</label>
-				<input type="number" id="editorPayment" formControlName="editorPayment">
-			</div>
-			<div class="form-group">
-				<label for="translatorPayment" class="required">выплата переводчику</label>
-				<input type="number" id="translatorPayment" formControlName="translatorPayment">
-			</div>
 			<div class="card-text">
+				<div class="form-group">
+					<label for="editorPayment" class="required">выплата редактору</label>
+					<input type="number" id="editorPayment" formControlName="editorPayment">
+				</div>
+				<div class="form-group">
+					<label for="translatorPayment" class="required">выплата переводчику</label>
+					<input type="number" id="translatorPayment" formControlName="translatorPayment">
+				</div>
+
 				<button type="submit" [disabled]="form.invalid || form.pristine" class="btn btn-sm btn-primary">сохранить</button>
 				<button type="button" class="btn btn-sm btn-secondary" (click)="viewPayments()">отмена</button>
 			</div>
