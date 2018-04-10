@@ -27,7 +27,7 @@ namespace cyrka.api.domain.projects.queries
 		{
 			get
 			{
-				return Payments?.EditorPayment ?? 0 + Payments?.TranslatorPayment ?? 0;
+				return (Payments?.EditorPayment ?? 0) + (Payments?.TranslatorPayment ?? 0);
 			}
 		}
 	}

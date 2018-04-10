@@ -11,10 +11,13 @@ import { JobSet } from '../models/job-set';
 import { JobChange } from '../models/job-change';
 import { ProjectStatuses } from '../../shared/projectStatuses/projectStatuses';
 import { Payments } from '../models/payments';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class ProjectApiService {
-	constructor(private _httpClient: HttpClient) {}
+	constructor(private _httpClient: HttpClient, private _auth: AuthService) {
+		
+	}
 
 	public fetchAll(): Observable<Project[]> {
 		return this._httpClient.get<Project[]>(

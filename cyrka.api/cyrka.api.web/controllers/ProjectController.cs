@@ -12,10 +12,11 @@ using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.setStatus;
 using cyrka.api.domain.projects.commands.setPayments;
+using Microsoft.AspNetCore.Authorization;
 
 namespace cyrka.api.web.controllers
 {
-	[Route("projects")]
+	[Route("projects"), Authorize]
 	public class ProjectController : Controller
 	{
 		const string EventChannelKey = "events";

@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { CallbackComponent } from './auth/callback/callback.component';
+
 const routes: Routes = [
-	{ path: '', redirectTo: 'projects', pathMatch: 'full' }
+	{ path: 'callback', component: CallbackComponent },
+	{ path: '', redirectTo: 'projects', pathMatch: 'full' },
 ];
 
 @NgModule({
 	imports: [RouterModule.forRoot(routes)],
-	exports: [RouterModule]
+	exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

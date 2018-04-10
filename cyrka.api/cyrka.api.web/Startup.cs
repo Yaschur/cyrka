@@ -3,6 +3,7 @@ using cyrka.api.common._modules;
 using cyrka.api.domain._modules;
 using cyrka.api.infra._modules;
 using cyrka.api.web._modules;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,17 @@ namespace cyrka.api.web
 				{
 					opts.SerializerSettings.Converters.Add(new StringEnumConverter());
 				});
+
+			services.AddAuthentication(opts =>
+			{
+				opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(opts =>
+			{
+				opts.Authority = "https://cyrka-dev.eu.auth0.com/";
+				opts.Audience = "http://localhost:5000";
+			});
 		}
 
 		public void ConfigureContainer(ContainerBuilder builder)
@@ -51,6 +63,8 @@ namespace cyrka.api.web
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseAuthentication();
 
 			app.UseCors(policyBuilder =>
 				policyBuilder

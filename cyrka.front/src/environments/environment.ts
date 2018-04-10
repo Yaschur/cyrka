@@ -6,6 +6,13 @@
 export const environment = {
 	production: false,
 	cyrkaApi: {
-		baseUrl: 'http://localhost:5000'
-	}
+		baseUrl: 'http://localhost:5000',
+	},
+	auth: {
+		clientID: 'rDRpZgNYpPWQKnd2GeOJo3fe284vZQJg',
+		domain: 'cyrka-dev.eu.auth0.com',
+		audience: 'http://localhost:5000',
+		redirect: 'http://localhost:4200/callback',
+		scope: 'openid profile email',
+	},
 };

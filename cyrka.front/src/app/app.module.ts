@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { StoreModule } from '@ngrx/store';
@@ -12,10 +12,13 @@ import { CustomersModule } from './customers/customers.module';
 import { JobsModule } from './jobs/jobs.module';
 import { ProjectsModule } from './projects/projects.module';
 
+import { AuthService } from './auth/auth.service';
 import { AppComponent } from './app.component';
+import { CallbackComponent } from './auth/callback/callback.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
-	declarations: [AppComponent],
+	declarations: [AppComponent, CallbackComponent],
 	imports: [
 		BrowserModule,
 		HttpClientModule,
@@ -28,7 +31,10 @@ import { AppComponent } from './app.component';
 		ClarityModule,
 		AppRoutingModule,
 	],
-	providers: [],
+	providers: [
+		AuthService,
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}
