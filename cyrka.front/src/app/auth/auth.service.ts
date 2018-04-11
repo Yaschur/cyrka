@@ -34,7 +34,7 @@ export class AuthService {
 	}
 
 	login() {
-		this._auth0.authorize();
+		this._auth0.authorize({ connection: 'google-oauth2' });
 	}
 
 	logout() {
