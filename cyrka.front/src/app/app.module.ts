@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgxsModule } from '@ngxs/store';
 import { ClarityModule } from '@clr/angular';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,9 +14,9 @@ import { JobsModule } from './jobs/jobs.module';
 import { ProjectsModule } from './projects/projects.module';
 
 import { AuthService } from './auth/auth.service';
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './auth/callback/callback.component';
-import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
 	declarations: [AppComponent, CallbackComponent],
@@ -28,6 +29,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 		StoreModule.forRoot({}),
 		EffectsModule.forRoot([]),
 		StoreRouterConnectingModule,
+		NgxsModule.forRoot([]),
 		ClarityModule,
 		AppRoutingModule,
 	],
