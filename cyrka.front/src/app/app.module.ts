@@ -15,6 +15,7 @@ import { ProjectsModule } from './projects/projects.module';
 
 import { AuthService } from './auth/auth.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { AuthState } from './auth/auth.state';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './auth/callback/callback.component';
 
@@ -29,7 +30,7 @@ import { CallbackComponent } from './auth/callback/callback.component';
 		StoreModule.forRoot({}),
 		EffectsModule.forRoot([]),
 		StoreRouterConnectingModule,
-		NgxsModule.forRoot([]),
+		NgxsModule.forRoot([AuthState]),
 		ClarityModule,
 		AppRoutingModule,
 	],

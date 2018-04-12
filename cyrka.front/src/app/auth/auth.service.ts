@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as auth0 from 'auth0-js';
 
 import { environment } from '../../environments/environment';
 import { UserProfile } from './user-profile';
+import { LoginSuccess, LoginFailed } from './auth.actions';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +22,7 @@ export class AuthService {
 		return Date.now() < expiresAt && this._loggedIn;
 	}
 
-	constructor() {
+	constructor(private _store: Store) {
 		this._auth0 = new auth0.WebAuth({
 			clientID: environment.auth.clientID,
 			domain: environment.auth.domain,
@@ -48,18 +50,24 @@ export class AuthService {
 		this._auth0.parseHash((err, authResult) => {
 			if (authResult && authResult.accessToken) {
 				window.location.hash = '';
-				this.getUserInfo(authResult);
+				const expTime = authResult.expiresIn * 1000 + Date.now();
+				this._store.dispatch(
+					new LoginSuccess({
+						expiresAt: expTime,
+						token: authResult.accessToken,
+					})
+				);
 			} else if (err) {
-				console.error(`Error: ${err.error}`);
+				this._store.dispatch(new LoginFailed(err.error));
 			}
 		});
 	}
 
-	getUserInfo(authResult) {
-		this._auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-			this._setSession(authResult, profile);
-		});
-	}
+	// getUserInfo(authResult) {
+	// 	this._auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+	// 		this._setSession(authResult, profile);
+	// 	});
+	// }
 
 	private _auth0;
 	private _userProfile: UserProfile;
