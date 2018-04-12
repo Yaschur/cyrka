@@ -15,10 +15,11 @@ using cyrka.api.domain.customers.queries;
 using cyrka.api.common.generators;
 using cyrka.api.web.models.customers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace cyrka.api.web.controllers
 {
-	[Route("customers")]
+	[Route("customers"), Authorize]
 	public class CustomersController : Controller
 	{
 		const string EventChannelKey = "events";

@@ -11,10 +11,11 @@ using cyrka.api.domain.jobs.queries;
 using cyrka.api.common.generators;
 using cyrka.api.web.models.jobs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace cyrka.api.web.controllers
 {
-	[Route("jobs")]
+	[Route("jobs"), Authorize]
 	public class JobsController : Controller
 	{
 		const string EventChannelKey = "events";

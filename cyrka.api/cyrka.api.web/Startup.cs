@@ -39,8 +39,8 @@ namespace cyrka.api.web
 			})
 			.AddJwtBearer(opts =>
 			{
-				opts.Authority = "https://cyrka-dev.eu.auth0.com/";
-				opts.Audience = "http://localhost:5000";
+				opts.Authority = Configuration["Auth:Authority"];
+				opts.Audience = Configuration["Auth:Audience"];
 			});
 		}
 
