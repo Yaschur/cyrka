@@ -5,10 +5,10 @@ export class Logout {
 	static readonly type = '[Auth] Logout';
 }
 export class LoginSuccess {
-	static type = '[Auth] LoginSuccess';
 	constructor(public payload: any) {}
+	static type = '[Auth] LoginSuccess';
 }
 export class LoginFailed {
-	static type = '[Auth] LoginFailed';
 	constructor(public error: any) {}
+	static type = '[Auth] LoginFailed';
 }
