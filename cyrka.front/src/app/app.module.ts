@@ -14,10 +14,11 @@ import { JobsModule } from './jobs/jobs.module';
 import { ProjectsModule } from './projects/projects.module';
 
 import { AuthService } from './auth/auth.service';
-import { AuthInterceptor } from './auth/auth.interceptor';
+import { TokenInterceptor } from './auth/auth.interceptors';
 import { AuthState } from './auth/auth.state';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './auth/callback/callback.component';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
 	declarations: [AppComponent, CallbackComponent],
@@ -36,7 +37,8 @@ import { CallbackComponent } from './auth/callback/callback.component';
 	],
 	providers: [
 		AuthService,
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+		AuthGuard,
+		{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
 	],
 	bootstrap: [AppComponent],
 })

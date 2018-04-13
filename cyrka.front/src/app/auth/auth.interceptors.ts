@@ -6,16 +6,23 @@ import {
 	HttpResponse,
 } from '@angular/common/http';
 
-import { AuthService } from './auth.service';
+import { Store } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 
+import { AuthService } from './auth.service';
+// import { AuthState } from './auth.state';
+import { AuthStateModel } from './auth.model';
+
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-	constructor(private _auth: AuthService) {}
+export class TokenInterceptor implements HttpInterceptor {
+	constructor(private _store: Store) {}
 
 	intercept(req: HttpRequest<any>, next: HttpHandler) {
+		const token = this._store.selectSnapshot<string>(
+			(state: { auth: AuthStateModel }) => state.auth.accessToken
+		);
 		const authReq = req.clone({
-			setHeaders: { Authorization: `Bearer ${this._auth.accessToken}` },
+			setHeaders: { Authorization: `Bearer ${token}` },
 		});
 
 		return next.handle(authReq);

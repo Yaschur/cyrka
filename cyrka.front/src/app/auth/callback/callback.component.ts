@@ -10,19 +10,19 @@ import { AuthService } from '../auth.service';
 	styleUrls: ['./callback.component.scss'],
 })
 export class CallbackComponent implements OnInit, OnDestroy {
-	loggedInSub: Subscription;
+	// loggedInSub: Subscription;
 
 	constructor(private auth: AuthService, private router: Router) {
 		auth.handleLoginCallback();
 	}
 
 	ngOnInit() {
-		this.loggedInSub = this.auth.loggedIn$.subscribe(
-			loggedIn => (loggedIn ? this.router.navigate(['/']) : null)
-		);
+		// this.loggedInSub = this.auth.loggedIn$.subscribe(
+		// 	loggedIn => (loggedIn ? this.router.navigate(['/']) : null)
+		// );
 	}
 
 	ngOnDestroy() {
-		this.loggedInSub.unsubscribe();
+		// this.loggedInSub.unsubscribe();
 	}
 }

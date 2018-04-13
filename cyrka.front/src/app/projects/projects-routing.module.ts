@@ -21,7 +21,6 @@ const projectRoutes: Routes = [
 
 @NgModule({
 	imports: [RouterModule.forChild(projectRoutes)],
-	providers: [AuthGuard],
 	exports: [RouterModule],
 })
 export class ProjectsRoutingModule {}
