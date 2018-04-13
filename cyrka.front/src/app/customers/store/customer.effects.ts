@@ -13,6 +13,7 @@ import {
 	take,
 } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { Store as StoreX } from '@ngxs/store';
 
 import { CustomerState } from './customer.reducers';
 import { CustomerApiService } from '../services/customer-api.service';
@@ -25,12 +26,18 @@ import {
 	UpdateCustomer,
 	UpdateTitle,
 } from './customer.actions';
+import { AuthStateModel } from '../../auth/auth.model';
 
 @Injectable()
 export class CustomerEffects {
 	@Effect()
 	navigateCustomers$ = this._actions$.pipe(
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
+		filter(() =>
+			this._storeX.selectSnapshot<boolean>(
+				(state: { auth: AuthStateModel }) => !!state.auth.accessToken
+			)
+		),
 		map(r => r.payload.routerState.root.firstChild),
 		filter(r => this.isOnCustomers(r) && !this.isWithCustomerId(r)),
 		take(1),
@@ -40,6 +47,11 @@ export class CustomerEffects {
 	@Effect()
 	navigateCustomer$ = this._actions$.pipe(
 		ofType<RouterNavigationAction<RouterStateSnapshot>>(ROUTER_NAVIGATION),
+		filter(() =>
+			this._storeX.selectSnapshot<boolean>(
+				(state: { auth: AuthStateModel }) => !!state.auth.accessToken
+			)
+		),
 		map(r => r.payload.routerState.root.firstChild),
 		filter(r => this.isOnCustomers(r) && this.isWithCustomerId(r)),
 		map(r => r.paramMap.get('customerId')),
@@ -105,7 +117,8 @@ export class CustomerEffects {
 	constructor(
 		private _actions$: Actions,
 		private _store$: Store<{ customer: CustomerState }>,
-		private _apiService: CustomerApiService
+		private _apiService: CustomerApiService,
+		private _storeX: StoreX
 	) {}
 
 	private isOnCustomers(r: ActivatedRouteSnapshot): boolean {
