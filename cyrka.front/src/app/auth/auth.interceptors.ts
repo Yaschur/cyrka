@@ -4,14 +4,17 @@ import {
 	HttpRequest,
 	HttpHandler,
 	HttpResponse,
+	HttpErrorResponse,
 } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngxs/store';
-import { tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
-// import { AuthState } from './auth.state';
 import { AuthStateModel } from './auth.model';
+import { CheckSession } from './auth.actions';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -26,11 +29,25 @@ export class TokenInterceptor implements HttpInterceptor {
 		});
 
 		return next.handle(authReq);
-		// .pipe(tap(event => {
-		//   // There may be other events besides the response.
-		//   if (event instanceof HttpResponse) {
-		//     if (<)
-		//   }
-		// });
+	}
+}
+
+@Injectable()
+export class UnauthInterceptor implements HttpInterceptor {
+	constructor(private _store: Store, private _router: Router) {}
+
+	intercept(req: HttpRequest<any>, next: HttpHandler) {
+		return next.handle(req).pipe(
+			catchError(error => {
+				if (
+					error instanceof HttpErrorResponse &&
+					(<HttpErrorResponse>error).status === 401
+				) {
+					this._store.dispatch(new CheckSession(this._router.url));
+				}
+
+				return Observable.throw(error);
+			})
+		);
 	}
 }

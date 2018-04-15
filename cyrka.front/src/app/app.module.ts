@@ -14,7 +14,7 @@ import { JobsModule } from './jobs/jobs.module';
 import { ProjectsModule } from './projects/projects.module';
 
 import { AuthService } from './auth/auth.service';
-import { TokenInterceptor } from './auth/auth.interceptors';
+import { TokenInterceptor, UnauthInterceptor } from './auth/auth.interceptors';
 import { AuthState } from './auth/auth.state';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './auth/callback/callback.component';
@@ -39,6 +39,7 @@ import { AuthGuard } from './auth/auth.guard';
 		AuthService,
 		AuthGuard,
 		{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: UnauthInterceptor, multi: true },
 	],
 	bootstrap: [AppComponent],
 })
