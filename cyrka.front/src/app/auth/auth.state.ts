@@ -8,6 +8,7 @@ import {
 	LoadProfile,
 	Logout,
 	CheckSession,
+	LoginFailed,
 } from './auth.actions';
 import { AuthService } from './auth.service';
 
@@ -63,5 +64,10 @@ export class AuthState {
 	@Action(Logout)
 	logout({ patchState }: StateContext<AuthStateModel>) {
 		patchState({ accessToken: null, expiresAt: -1000, user: null });
+	}
+
+	@Action(LoginFailed)
+	loginFailed(sc: StateContext<AuthStateModel>, { payload }: LoginFailed) {
+		this._router.navigate(['/calback', { message: payload }]);
 	}
 }

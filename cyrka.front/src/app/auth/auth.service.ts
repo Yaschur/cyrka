@@ -71,34 +71,6 @@ export class AuthService {
 			})
 		);
 	}
-	// logout() {
-	// 	localStorage.removeItem('expires_at');
-	// 	this.accessToken = undefined;
-	// 	this._userProfile = undefined;
-	// 	this._setLoggedIn(false);
-	// }
-
-	// getUserInfo(authResult) {
-	// 	this._auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-	// 		this._setSession(authResult, profile);
-	// 	});
-	// }
 
 	private _auth0;
-	// private _userProfile: UserProfile;
-	// private _loggedIn: boolean;
-	// private _loggedIn$: BehaviorSubject<boolean>;
-
-	// private _setLoggedIn(value: boolean) {
-	// 	this._loggedIn$.next(value);
-	// 	this._loggedIn = value;
-	// }
-
-	// private _setSession(authResult, profile) {
-	// 	const expTime = authResult.expiresIn * 1000 + Date.now();
-	// 	localStorage.setItem('expires_at', JSON.stringify(expTime));
-	// 	this.accessToken = authResult.accessToken;
-	// 	this._userProfile = profile;
-	// 	this._setLoggedIn(true);
-	// }
 }
