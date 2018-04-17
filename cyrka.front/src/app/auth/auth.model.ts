@@ -6,3 +6,13 @@ export interface AuthStateModel {
 	expiresAt: number;
 	message?: string;
 }
+
+export interface AuthResult {
+	accessToken: string;
+	expiresIn: number;
+}
+
+export interface AuthError {
+	error: string;
+	errorDescription: string;
+}

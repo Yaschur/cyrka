@@ -7,20 +7,30 @@ import {
 	RouterStateSnapshot,
 } from '@angular/router';
 
-import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+import { Store, Select } from '@ngxs/store';
 
 import { AuthService } from './auth.service';
 import { CheckSession } from './auth.actions';
+import { AuthState } from './auth.state';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+	@Select(AuthState.isAuthenticated)
+	private _isAuthenticated$: Observable<boolean>;
+
 	constructor(private _auth: AuthService, private _store: Store) {}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		if (this._auth.isAuthenticated) {
-			return true;
-		}
-		this._store.dispatch(new CheckSession(state.url));
-		return false;
+		return this._isAuthenticated$.pipe(
+			map(a => {
+				if (a) {
+					return true;
+				}
+				this._store.dispatch(new CheckSession(state.url));
+				return false;
+			})
+		);
 	}
 }

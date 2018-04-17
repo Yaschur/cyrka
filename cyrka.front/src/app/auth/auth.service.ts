@@ -8,22 +8,11 @@ import * as auth0 from 'auth0-js';
 import { environment } from '../../environments/environment';
 import { UserProfile } from './user-profile';
 import { LoginSuccess, LoginFailed, Login } from './auth.actions';
-import { AuthStateModel } from './auth.model';
+import { AuthStateModel, AuthResult, AuthError } from './auth.model';
 import { take } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
-	accessToken: string;
-
-	get isAuthenticated(): boolean {
-		return this._store.selectSnapshot(
-			(state: { auth: AuthStateModel }) =>
-				state.auth.accessToken &&
-				state.auth.expiresAt &&
-				Date.now() < state.auth.expiresAt
-		);
-	}
-
 	constructor(private _store: Store) {
 		this._auth0 = new auth0.WebAuth({
 			clientID: environment.auth.clientID,
@@ -43,16 +32,20 @@ export class AuthService {
 		this._auth0.logout();
 	}
 
-	handleLoginCallback() {
+	handleLoginCallback(
+		succeedCalback: (authResult: AuthResult) => void,
+		failedCallback: (authError: AuthError) => void
+	) {
 		this._auth0.parseHash((err, authResult) => {
 			if (authResult && authResult.accessToken) {
 				window.location.hash = '';
-				this.handleAuthResult(authResult);
+				succeedCalback(authResult);
 			} else if (err) {
 				window.location.hash = '';
-				this._store.dispatch(
-					new LoginFailed(`${err.error} : ${err.errorDescription}`)
-				);
+				failedCallback(err);
+				// this._store.dispatch(
+				// 	new LoginFailed(`${err.error} : ${err.errorDescription}`)
+				// );
 			}
 		});
 	}

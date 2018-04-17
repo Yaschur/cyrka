@@ -4,6 +4,9 @@ export class Login {
 	constructor(public readonly payload?: string) {}
 	static readonly type = '[Auth] Login';
 }
+export class Callback {
+	static readonly type = '[Auth] Callback';
+}
 export class CheckSession {
 	constructor(public readonly payload?: string) {}
 	static readonly type = '[Auth] CheckSession';
