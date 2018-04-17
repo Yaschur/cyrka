@@ -25,11 +25,7 @@ const RETURN_URL_KEY = 'return-url';
 	},
 })
 export class AuthState {
-	constructor(
-		private _store: Store,
-		private _authService: AuthService,
-		private _router: Router
-	) {}
+	constructor(private _authService: AuthService, private _router: Router) {}
 
 	@Selector()
 	static isAuthenticated(state: AuthStateModel) {
@@ -45,16 +41,21 @@ export class AuthState {
 	}
 
 	@Action(Callback)
-	callback() {
-		this._authService.handleLoginCallback(this.handleAuthResult, this.handleError);
+	callback(sc: StateContext<AuthStateModel>) {
+		this._authService.handleLoginCallback(
+			this.handleAuthResult(sc),
+			this.handleError(sc)
+		);
 	}
 
 	@Action(CheckSession)
-	checkSession(sc: StateContext<AuthStateModel>, { payload }: Login) {
+	checkSession(sc: StateContext<AuthStateModel>, { payload }: CheckSession) {
 		if (payload) {
 			localStorage.setItem(RETURN_URL_KEY, payload);
 		}
-		this._authService.checkSession();
+		this._authService.checkSession(this.handleAuthResult(sc), err =>
+			sc.dispatch(Login)
+		);
 	}
 
 	@Action(LoginSuccess)
@@ -89,22 +90,25 @@ export class AuthState {
 		{ payload }: LoginFailed
 	) {
 		patchState({ message: payload });
-		// this._router.navigate(['/calback', { message: payload }]);
 	}
 
-	private handleAuthResult(authResult: AuthResult) {
-		const expTime = authResult.expiresIn * 1000 + Date.now();
-		this._store.dispatch(
-			new LoginSuccess({
-				expiresAt: expTime,
-				token: authResult.accessToken,
-			})
-		);
+	private handleAuthResult(sc: StateContext<AuthStateModel>) {
+		return (authResult: AuthResult) => {
+			const expTime = authResult.expiresIn * 1000 + Date.now();
+			sc.dispatch(
+				new LoginSuccess({
+					expiresAt: expTime,
+					token: authResult.accessToken,
+				})
+			);
+		};
 	}
 
-	private handleError(error: AuthError) {
-		this._store.dispatch(
-			new LoginFailed(`${error.error} : ${error.errorDescription}`)
-		);
+	private handleError(sc: StateContext<AuthStateModel>) {
+		return (error: AuthError) => {
+			sc.dispatch(
+				new LoginFailed(`${error.error} : ${error.errorDescription}`)
+			);
+		};
 	}
 }
