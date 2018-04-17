@@ -39,13 +39,20 @@ export class AuthService {
 		this._auth0.authorize({ connection: 'google-oauth2' });
 	}
 
+	logout() {
+		this._auth0.logout();
+	}
+
 	handleLoginCallback() {
 		this._auth0.parseHash((err, authResult) => {
 			if (authResult && authResult.accessToken) {
 				window.location.hash = '';
 				this.handleAuthResult(authResult);
 			} else if (err) {
-				this._store.dispatch(new LoginFailed(err.error));
+				window.location.hash = '';
+				this._store.dispatch(
+					new LoginFailed(`${err.error} : ${err.errorDescription}`)
+				);
 			}
 		});
 	}

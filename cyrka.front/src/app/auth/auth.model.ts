@@ -4,4 +4,5 @@ export interface AuthStateModel {
 	user?: UserProfile;
 	accessToken?: string;
 	expiresAt: number;
+	message?: string;
 }

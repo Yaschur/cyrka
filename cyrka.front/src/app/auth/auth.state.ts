@@ -20,6 +20,7 @@ const RETURN_URL_KEY = 'return-url';
 		user: null,
 		accessToken: null,
 		expiresAt: -1000,
+		message: 'аутентификация...',
 	},
 })
 export class AuthState {
@@ -63,11 +64,20 @@ export class AuthState {
 
 	@Action(Logout)
 	logout({ patchState }: StateContext<AuthStateModel>) {
-		patchState({ accessToken: null, expiresAt: -1000, user: null });
+		patchState({
+			accessToken: null,
+			expiresAt: -1000,
+			user: null,
+		});
+		this._authService.logout();
 	}
 
 	@Action(LoginFailed)
-	loginFailed(sc: StateContext<AuthStateModel>, { payload }: LoginFailed) {
-		this._router.navigate(['/calback', { message: payload }]);
+	loginFailed(
+		{ patchState }: StateContext<AuthStateModel>,
+		{ payload }: LoginFailed
+	) {
+		patchState({ message: payload });
+		// this._router.navigate(['/calback', { message: payload }]);
 	}
 }
