@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
 // use "../node_modules/clarity-icons/clarity-icons.min.js" in angular-cli/scripts if ClarityIcons will be removed from here
 import { ClarityIcons } from '@clr/icons';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
 
-import { Logout } from './auth/auth.actions';
+import { Logout, CheckSession } from './auth/auth.actions';
+import { AuthState } from './auth/auth.state';
 
 @Component({
 	selector: 'app-root',
@@ -12,6 +14,8 @@ import { Logout } from './auth/auth.actions';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+	@Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;
+
 	public headerTitle = 'Cyrka Project';
 
 	constructor(private _store: Store) {
@@ -24,6 +28,9 @@ export class AppComponent {
 	}
 
 	logout() {
-		this._store.dispatch(new Logout());
+		this._store.dispatch(Logout);
+	}
+	login() {
+		this._store.dispatch(CheckSession);
 	}
 }
