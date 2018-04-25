@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 
 import { Jobtype } from '../../models/jobtype';
 import { Units } from '../../../shared/units/units';

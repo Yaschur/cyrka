@@ -2,9 +2,8 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { filter, map, take, concatMap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
 
 import { ProductSet } from '../../models/product-set';

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngxs/store';
 import { catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { AuthService } from './auth.service';
 import { AuthStateModel } from './auth.model';

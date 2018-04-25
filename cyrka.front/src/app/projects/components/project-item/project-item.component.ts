@@ -1,7 +1,7 @@
 import { Component, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 

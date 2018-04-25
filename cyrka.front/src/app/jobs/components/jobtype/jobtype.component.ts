@@ -1,13 +1,12 @@
 import { Component, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { withLatestFrom, switchMap, filter, map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { Jobtype } from '../../models/jobtype';
 import { getJobtypeEntities } from '../../jobtype.store';
-import { withLatestFrom, switchMap, filter, map, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { UpdateJobtype } from '../../store/jobtype.actions';
 import { MenuLink } from '../../../shared/menu/menu-link';
 

@@ -2,9 +2,8 @@ import { Component, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { withLatestFrom, switchMap, filter, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 import { Customer } from '../../models/customer';
 import { UpdateCustomer } from '../../store/customer.actions';

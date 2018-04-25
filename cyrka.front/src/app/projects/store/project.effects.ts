@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import {
 	switchMap,
 	map,

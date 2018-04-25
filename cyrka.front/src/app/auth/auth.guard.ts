@@ -7,7 +7,7 @@ import {
 	RouterStateSnapshot,
 } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Store, Select } from '@ngxs/store';
 

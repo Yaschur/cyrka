@@ -12,7 +12,7 @@ import {
 	catchError,
 	take,
 } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { Store as StoreX } from '@ngxs/store';
 
 import { CustomerState } from './customer.reducers';

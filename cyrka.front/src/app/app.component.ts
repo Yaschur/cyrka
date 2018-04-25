@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 // use "../node_modules/clarity-icons/clarity-icons.min.js" in angular-cli/scripts if ClarityIcons will be removed from here
 import { ClarityIcons } from '@clr/icons';
 import { Store, Select } from '@ngxs/store';

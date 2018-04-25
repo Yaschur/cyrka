@@ -10,7 +10,7 @@ import {
 	withLatestFrom,
 	take,
 } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
