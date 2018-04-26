@@ -1,7 +1,7 @@
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 
 import { JobtypeStateModel } from './jobtype-model.state';
 import { JobtypeApiService } from '../services/jobtype-api.service';
@@ -20,6 +20,16 @@ import {
 	},
 })
 export class JobtypeState {
+	@Selector()
+	static getJobtypes(state: JobtypeStateModel) {
+		return state.jobtypes;
+	}
+
+	@Selector()
+	static getJobtype(state: JobtypeStateModel) {
+		return state.jobtypes.find(jt => jt.id === state.selectedJobtype);
+	}
+
 	constructor(private readonly _jobtypeApi: JobtypeApiService) {}
 
 	@Action(FindJobtypes)

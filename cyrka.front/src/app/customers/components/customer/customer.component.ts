@@ -7,7 +7,11 @@ import { Store } from '@ngxs/store';
 
 import { Customer } from '../../models/customer';
 import { MenuLink } from '../../../shared/menu/menu-link';
-import { UpdateCustomer, FindCustomers } from '../../store/customer.actions';
+import {
+	UpdateCustomer,
+	FindCustomers,
+	SelectCustomer,
+} from '../../store/customer.actions';
 import { CustomerState } from '../../store/customer.state';
 
 @Component({
@@ -51,6 +55,10 @@ export class CustomerComponent {
 		private _store: Store
 	) {
 		this._store.dispatch(FindCustomers);
+		const id = _route.snapshot.params['customerId'];
+		if (id) {
+			_store.dispatch(new SelectCustomer(id));
+		}
 		this.customerItem_read$ = _store.select(CustomerState.getCustomer).pipe(
 			filter(cst => cst != null),
 			tap(cst => {

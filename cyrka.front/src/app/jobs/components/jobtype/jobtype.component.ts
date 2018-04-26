@@ -1,14 +1,18 @@
 import { Component, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
-import { withLatestFrom, switchMap, filter, map, tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
 
 import { Jobtype } from '../../models/jobtype';
-import { getJobtypeEntities } from '../../jobtype.store';
-import { UpdateJobtype } from '../../store/jobtype.actions';
+import {
+	UpdateJobtype,
+	SelectJobtype,
+	FindJobtypes,
+} from '../../store/jobtype.actions';
 import { MenuLink } from '../../../shared/menu/menu-link';
+import { JobtypeState } from '../../store/jobtype.state';
 
 @Component({
 	selector: 'app-jobtype',
@@ -17,6 +21,7 @@ import { MenuLink } from '../../../shared/menu/menu-link';
 })
 export class JobtypeComponent {
 	@Output() jobtypeItem_read$: Observable<Jobtype>;
+
 	@Output() jobtypeItems_read$: Observable<Jobtype[]>;
 
 	@Input()
@@ -47,15 +52,14 @@ export class JobtypeComponent {
 	constructor(
 		private _route: ActivatedRoute,
 		private _router: Router,
-		private _store: Store<{}>
+		private _store: Store
 	) {
-		this.jobtypeItem_read$ = _store.select(getJobtypeEntities).pipe(
-			withLatestFrom(_route.paramMap),
-			switchMap(p =>
-				of((p[1].has('jobtypeId')
-					? p[0].find(jt => jt.id === p[1].get('jobtypeId')) || {}
-					: {}) as Jobtype)
-			),
+		_store.dispatch(FindJobtypes);
+		const id = _route.snapshot.params['jobtypeId'];
+		if (id) {
+			_store.dispatch(new SelectJobtype(id));
+		}
+		this.jobtypeItem_read$ = _store.select(JobtypeState.getJobtype).pipe(
 			filter(jt => jt != null),
 			tap(jt => {
 				if (jt.id) {
@@ -70,7 +74,6 @@ export class JobtypeComponent {
 				}
 			})
 		);
-
-		this.jobtypeItems_read$ = _store.select(getJobtypeEntities);
+		this.jobtypeItems_read$ = _store.select(JobtypeState.getJobtypes);
 	}
 }
