@@ -1,14 +1,14 @@
 import { Component, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { withLatestFrom, switchMap, filter, tap } from 'rxjs/operators';
 
 import { Customer } from '../../models/customer';
-import { UpdateCustomer } from '../../store/customer.actions';
-import { getCustomerEntities } from '../../customer.store';
 import { MenuLink } from '../../../shared/menu/menu-link';
+import { Store, Select } from '@ngxs/store';
+import { UpdateCustomer } from '../../store/customer.actions';
+import { CustomerState } from '../../store/customer.state';
 
 @Component({
 	selector: 'app-customer',
@@ -16,8 +16,13 @@ import { MenuLink } from '../../../shared/menu/menu-link';
 	styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent {
-	@Output() customerItem_read$: Observable<Customer>;
-	@Output() customerItems_read$: Observable<Customer[]>;
+	@Output()
+	@Select(CustomerState.getCustomer)
+	customerItem_read$: Observable<Customer>;
+
+	@Output()
+	@Select(CustomerState.getCustomers)
+	customerItems_read$: Observable<Customer[]>;
 
 	@Input()
 	set customerItem_write$(csts: Observable<Customer>) {
@@ -47,8 +52,9 @@ export class CustomerComponent {
 	constructor(
 		private _route: ActivatedRoute,
 		private _router: Router,
-		private _store: Store<{}>
+		private _store: Store
 	) {
+		// ????
 		this.customerItem_read$ = _store.select(getCustomerEntities).pipe(
 			withLatestFrom(_route.paramMap),
 			switchMap(p =>
