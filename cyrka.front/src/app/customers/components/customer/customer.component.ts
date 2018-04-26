@@ -1,13 +1,13 @@
 import { Component, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
-import { withLatestFrom, switchMap, filter, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
 
 import { Customer } from '../../models/customer';
 import { MenuLink } from '../../../shared/menu/menu-link';
-import { Store, Select } from '@ngxs/store';
-import { UpdateCustomer } from '../../store/customer.actions';
+import { UpdateCustomer, FindCustomers } from '../../store/customer.actions';
 import { CustomerState } from '../../store/customer.state';
 
 @Component({
@@ -16,13 +16,9 @@ import { CustomerState } from '../../store/customer.state';
 	styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent {
-	@Output()
-	@Select(CustomerState.getCustomer)
-	customerItem_read$: Observable<Customer>;
+	@Output() customerItem_read$: Observable<Customer>;
 
-	@Output()
-	@Select(CustomerState.getCustomers)
-	customerItems_read$: Observable<Customer[]>;
+	@Output() customerItems_read$: Observable<Customer[]>;
 
 	@Input()
 	set customerItem_write$(csts: Observable<Customer>) {
@@ -54,14 +50,8 @@ export class CustomerComponent {
 		private _router: Router,
 		private _store: Store
 	) {
-		// ????
-		this.customerItem_read$ = _store.select(getCustomerEntities).pipe(
-			withLatestFrom(_route.paramMap),
-			switchMap(p =>
-				of((p[1].has('customerId')
-					? p[0].find(cst => cst.id === p[1].get('customerId')) || {}
-					: {}) as Customer)
-			),
+		this._store.dispatch(FindCustomers);
+		this.customerItem_read$ = _store.select(CustomerState.getCustomer).pipe(
 			filter(cst => cst != null),
 			tap(cst => {
 				if (cst.id) {
@@ -76,7 +66,6 @@ export class CustomerComponent {
 				}
 			})
 		);
-
-		this.customerItems_read$ = _store.select(getCustomerEntities);
+		this.customerItems_read$ = _store.select(CustomerState.getCustomers);
 	}
 }

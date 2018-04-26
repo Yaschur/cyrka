@@ -67,7 +67,6 @@ export class CustomerState {
 			: this._customerApi.register(a.payload)
 		).pipe(
 			map(() => sc.patchState({ customers: [] })),
-			map(() => sc.dispatch(FindCustomers)),
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -86,7 +85,6 @@ export class CustomerState {
 			: this._customerApi.addTitle(a.payload.customerId, a.payload.title)
 		).pipe(
 			map(() => sc.patchState({ customers: [] })),
-			map(() => sc.dispatch(FindCustomers)),
 			catchError(e => {
 				console.log('Network error', e);
 				return of();

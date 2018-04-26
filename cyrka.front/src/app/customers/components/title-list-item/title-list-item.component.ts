@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { Title } from '../../models/title';
 import { UpdateTitle } from '../../store/customer.actions';
@@ -18,9 +18,7 @@ export class TitleListItemComponent {
 
 	editMode: boolean;
 
-	constructor(
-		private _store: Store<{}>
-	) {
+	constructor(private _store: Store) {
 		this.select = new EventEmitter();
 		this.setEditMode(false);
 	}
@@ -34,7 +32,9 @@ export class TitleListItemComponent {
 	}
 
 	getChanged(title: Title) {
-		this._store.dispatch(new UpdateTitle(this.customerId, title));
+		this._store.dispatch(
+			new UpdateTitle({ customerId: this.customerId, title: title })
+		);
 		this.setEditMode(false);
 	}
 }
