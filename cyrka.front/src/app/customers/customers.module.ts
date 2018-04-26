@@ -19,6 +19,8 @@ import { TitleListFormComponent } from './components/title-list-form/title-list-
 import { customerReducer } from './store/customer.reducers';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+import { CustomerState } from './store/customer.state';
 
 @NgModule({
 	declarations: [
@@ -35,8 +37,7 @@ import { RouterModule } from '@angular/router';
 		ReactiveFormsModule,
 		ClarityModule,
 		SharedModule,
-		StoreModule.forFeature('customer', customerReducer),
-		EffectsModule.forFeature([CustomerEffects]),
+		NgxsModule.forFeature([CustomerState]),
 		CustomersRoutingModule,
 	],
 	providers: [CustomerApiService],
