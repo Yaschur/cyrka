@@ -10,6 +10,7 @@ import {
 	GetProject,
 	LoadProject,
 	CreateProject,
+	SetProduct,
 } from './project.actions';
 
 @State<ProjectStateModel>({
@@ -64,14 +65,14 @@ export class ProjectState {
 
 	@Action(LoadProject)
 	loadProject(sc: StateContext<ProjectStateModel>, a: LoadProject) {
-		const exPrjs = sc.getState().projects;
-		const exInd = exPrjs.findIndex(p => p.id === a.payload.id);
+		const prjs = sc.getState().projects;
+		const exInd = prjs.findIndex(p => p.id === a.payload.id);
 		const newInd = exInd < 0 ? 0 : exInd;
 		sc.patchState({
 			projects: [
-				...exPrjs.slice(0, newInd),
+				...prjs.slice(0, newInd),
 				a.payload,
-				...exPrjs.slice(newInd + 1),
+				...prjs.slice(newInd + 1),
 			],
 		});
 	}
@@ -84,6 +85,31 @@ export class ProjectState {
 				console.log('Network error', e);
 				return of();
 			})
-		)
+		);
+	}
+
+	@Action(SetProduct)
+	setProduct(sc: StateContext<ProjectStateModel>, a: SetProduct) {
+		const state = sc.getState();
+		const projInd = state.projects.findIndex(
+			p => p.id === state.selectedProject
+		);
+		if (projInd < 0) {
+			return;
+		}
+		const proj = state.projects[projInd];
+		sc.patchState({
+			projects: [
+				...state.projects.slice(0, projInd),
+				{ ...proj, product: a.payload },
+				...state.projects.slice(projInd + 1),
+			],
+		});
+		this._projectApi.setProduct(state.selectedProject, a.payload).pipe(
+			catchError(e => {
+				console.log('Network error', e);
+				return of();
+			})
+		);
 	}
 }
