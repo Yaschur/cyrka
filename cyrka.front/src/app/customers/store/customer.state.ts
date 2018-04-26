@@ -47,7 +47,7 @@ export class CustomerState {
 	}
 
 	@Action(LoadCustomers)
-	getCustomer(sc: StateContext<CustomerStateModel>, a: LoadCustomers) {
+	loadCustomers(sc: StateContext<CustomerStateModel>, a: LoadCustomers) {
 		sc.patchState({
 			customers: a.payload,
 		});
