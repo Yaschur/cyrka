@@ -10,11 +10,6 @@
 			"severity": "warn"
 		},
 		"forin": true,
-		"import-blacklist": [
-			true,
-			"rxjs",
-			"rxjs/Rx"
-		],
 		"interface-over-type-literal": true,
 		"label-position": true,
 		"member-access": false,

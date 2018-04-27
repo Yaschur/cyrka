@@ -33,26 +33,6 @@ import { JobApiService } from '../services/job-api.service';
 	},
 })
 export class ProjectState {
-	@Selector()
-	static getProjects(state: ProjectStateModel) {
-		return state.projects;
-	}
-
-	@Selector()
-	static getProject(state: ProjectStateModel) {
-		return state.projects.find(p => p.id === state.selectedProject);
-	}
-
-	@Selector()
-	static getJobtypes(state: ProjectStateModel) {
-		return state.jobtypes;
-	}
-
-	@Selector()
-	static getCustomers(state: ProjectStateModel) {
-		return state.customers;
-	}
-
 	constructor(
 		private readonly _projectApi: ProjectApiService,
 		private readonly _customerApi: CustomerApiService,
@@ -61,7 +41,7 @@ export class ProjectState {
 
 	@Action(FindProjects)
 	findProjects(sc: StateContext<ProjectStateModel>) {
-		this._projectApi.fetchAll().pipe(
+		return this._projectApi.fetchAll().pipe(
 			map(res => sc.dispatch(new LoadProjects(res))),
 			catchError(e => {
 				console.log('Network error', e);
@@ -85,7 +65,7 @@ export class ProjectState {
 		if (sc.getState().projects.some(p => p.id === a.payload)) {
 			return;
 		}
-		this._projectApi.getById(a.payload).pipe(
+		return this._projectApi.getById(a.payload).pipe(
 			map(res => sc.dispatch(new LoadProject(res))),
 			catchError(e => {
 				console.log('Network error', e);
@@ -110,7 +90,7 @@ export class ProjectState {
 
 	@Action(CreateProject)
 	createProject(sc: StateContext<ProjectStateModel>) {
-		this._projectApi.register().pipe(
+		return this._projectApi.register().pipe(
 			map(res => new GetProject(res.resourceId)),
 			catchError(e => {
 				console.log('Network error', e);
@@ -136,7 +116,7 @@ export class ProjectState {
 				...state.projects.slice(projInd + 1),
 			],
 		});
-		this._projectApi.setProduct(state.selectedProject, a.payload).pipe(
+		return this._projectApi.setProduct(state.selectedProject, a.payload).pipe(
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -161,7 +141,7 @@ export class ProjectState {
 				...state.projects.slice(projInd + 1),
 			],
 		});
-		this._projectApi.setJob(state.selectedProject, a.payload).pipe(
+		return this._projectApi.setJob(state.selectedProject, a.payload).pipe(
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -186,7 +166,7 @@ export class ProjectState {
 				...state.projects.slice(projInd + 1),
 			],
 		});
-		this._projectApi.setStatus(state.selectedProject, a.payload).pipe(
+		return this._projectApi.setStatus(state.selectedProject, a.payload).pipe(
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -224,7 +204,7 @@ export class ProjectState {
 				...state.projects.slice(projInd + 1),
 			],
 		});
-		this._projectApi
+		return this._projectApi
 			.changeJob(state.selectedProject, a.payload.jobTypeId, a.payload)
 			.pipe(
 				catchError(e => {
@@ -251,7 +231,7 @@ export class ProjectState {
 				...state.projects.slice(projInd + 1),
 			],
 		});
-		this._projectApi.setPayments(state.selectedProject, a.payload).pipe(
+		return this._projectApi.setPayments(state.selectedProject, a.payload).pipe(
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -261,7 +241,7 @@ export class ProjectState {
 
 	@Action(FindCustomers)
 	findCustomers(sc: StateContext<ProjectStateModel>) {
-		this._customerApi.fetchAll().pipe(
+		return this._customerApi.fetchAll().pipe(
 			map(res => sc.dispatch(new LoadCustomers(res))),
 			catchError(e => {
 				console.log('Network error', e);
@@ -279,7 +259,7 @@ export class ProjectState {
 
 	@Action(FindJobtypes)
 	findJobtypes(sc: StateContext<ProjectStateModel>) {
-		this._jobApi.fetchAll().pipe(
+		return this._jobApi.fetchAll().pipe(
 			map(res => sc.dispatch(new LoadJobtypes(res))),
 			catchError(e => {
 				console.log('Network error', e);
@@ -293,5 +273,25 @@ export class ProjectState {
 		sc.patchState({
 			jobtypes: a.payload,
 		});
+	}
+
+	@Selector()
+	static getProjects(state: ProjectStateModel) {
+		return state.projects;
+	}
+
+	@Selector()
+	static getProject(state: ProjectStateModel) {
+		return state.projects.find(p => p.id === state.selectedProject);
+	}
+
+	@Selector()
+	static getJobtypes(state: ProjectStateModel) {
+		return state.jobtypes;
+	}
+
+	@Selector()
+	static getCustomers(state: ProjectStateModel) {
+		return state.customers;
 	}
 }

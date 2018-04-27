@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngxs/store';
 import { catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { AuthService } from './auth.service';
 import { AuthStateModel } from './auth.model';
@@ -46,7 +46,7 @@ export class UnauthInterceptor implements HttpInterceptor {
 					this._store.dispatch(new CheckSession(this._router.url));
 				}
 
-				return Observable.throw(error);
+				return throwError(error);
 			})
 		);
 	}

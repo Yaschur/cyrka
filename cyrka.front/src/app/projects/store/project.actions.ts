@@ -11,18 +11,18 @@ export class FindProjects {
 }
 
 export class LoadProjects {
-	static readonly type = '[Project] LoadProjects';
 	constructor(public readonly payload: Project[]) {}
+	static readonly type = '[Project] LoadProjects';
 }
 
 export class GetProject {
-	static readonly type = '[Project] GetProject';
 	constructor(public readonly payload: string) {}
+	static readonly type = '[Project] GetProject';
 }
 
 export class LoadProject {
-	static readonly type = '[Project] LoadProject';
 	constructor(public readonly payload: Project) {}
+	static readonly type = '[Project] LoadProject';
 }
 
 export class CreateProject {
@@ -30,28 +30,28 @@ export class CreateProject {
 }
 
 export class SetProduct {
-	static readonly type = '[Project] SetProduct';
 	constructor(public readonly payload: ProductSet) {}
+	static readonly type = '[Project] SetProduct';
 }
 
 export class SetJob {
-	static readonly type = '[Project] SetJob';
 	constructor(public readonly payload: JobSet) {}
+	static readonly type = '[Project] SetJob';
 }
 
 export class SetStatus {
-	static readonly type = '[Project] SetStatus';
 	constructor(public readonly payload: ProjectStatuses) {}
+	static readonly type = '[Project] SetStatus';
 }
 
 export class ChangeJob {
-	static readonly type = '[Project] ChangeJob';
 	constructor(public readonly payload: JobSet) {}
+	static readonly type = '[Project] ChangeJob';
 }
 
 export class SetPayments {
-	static readonly type = '[Project] SetPayments';
 	constructor(public readonly payload: Payments) {}
+	static readonly type = '[Project] SetPayments';
 }
 
 export class FindCustomers {
@@ -59,8 +59,8 @@ export class FindCustomers {
 }
 
 export class LoadCustomers {
-	static readonly type = '[Project] LoadCustomers';
 	constructor(public readonly payload: Customer[]) {}
+	static readonly type = '[Project] LoadCustomers';
 }
 
 export class FindJobtypes {
@@ -68,6 +68,6 @@ export class FindJobtypes {
 }
 
 export class LoadJobtypes {
-	static readonly type = '[Project] LoadJobtypes';
 	constructor(public readonly payload: Jobtype[]) {}
+	static readonly type = '[Project] LoadJobtypes';
 }

@@ -20,16 +20,6 @@ import { of } from 'rxjs';
 	},
 })
 export class CustomerState {
-	@Selector()
-	static getCustomers(state: CustomerStateModel) {
-		return state.customers;
-	}
-
-	@Selector()
-	static getCustomer(state: CustomerStateModel) {
-		return state.customers.find(cs => cs.id === state.selectedCustomer);
-	}
-
 	constructor(private readonly _customerApi: CustomerApiService) {}
 
 	@Action(FindCustomers)
@@ -37,7 +27,7 @@ export class CustomerState {
 		if (sc.getState().customers.length > 0) {
 			return;
 		}
-		this._customerApi.fetchAll().pipe(
+		return this._customerApi.fetchAll().pipe(
 			map(res => sc.dispatch(new LoadCustomers(res))),
 			catchError(e => {
 				console.log('Network error', e);
@@ -62,7 +52,7 @@ export class CustomerState {
 
 	@Action(UpdateCustomer)
 	updateCustomer(sc: StateContext<CustomerStateModel>, a: UpdateCustomer) {
-		(a.payload.id
+		return (a.payload.id
 			? this._customerApi.change(a.payload.id, a.payload)
 			: this._customerApi.register(a.payload)
 		).pipe(
@@ -76,7 +66,7 @@ export class CustomerState {
 
 	@Action(UpdateTitle)
 	updateTitle(sc: StateContext<CustomerStateModel>, a: UpdateTitle) {
-		(a.payload.title.id
+		return (a.payload.title.id
 			? this._customerApi.changeTitle(
 					a.payload.customerId,
 					a.payload.title.id,
@@ -90,5 +80,15 @@ export class CustomerState {
 				return of();
 			})
 		);
+	}
+
+	@Selector()
+	static getCustomers(state: CustomerStateModel) {
+		return state.customers;
+	}
+
+	@Selector()
+	static getCustomer(state: CustomerStateModel) {
+		return state.customers.find(cs => cs.id === state.selectedCustomer);
 	}
 }

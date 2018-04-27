@@ -20,16 +20,6 @@ import {
 	},
 })
 export class JobtypeState {
-	@Selector()
-	static getJobtypes(state: JobtypeStateModel) {
-		return state.jobtypes;
-	}
-
-	@Selector()
-	static getJobtype(state: JobtypeStateModel) {
-		return state.jobtypes.find(jt => jt.id === state.selectedJobtype);
-	}
-
 	constructor(private readonly _jobtypeApi: JobtypeApiService) {}
 
 	@Action(FindJobtypes)
@@ -37,7 +27,7 @@ export class JobtypeState {
 		if (sc.getState().jobtypes.length > 0) {
 			return;
 		}
-		this._jobtypeApi.fetchAll().pipe(
+		return this._jobtypeApi.fetchAll().pipe(
 			map(res => sc.dispatch(new LoadJobtypes(res))),
 			catchError(e => {
 				console.log('Network error', e);
@@ -62,7 +52,7 @@ export class JobtypeState {
 
 	@Action(UpdateJobtype)
 	updateJobtype(sc: StateContext<JobtypeStateModel>, a: UpdateJobtype) {
-		(a.payload.id
+		return (a.payload.id
 			? this._jobtypeApi.change(a.payload.id, a.payload)
 			: this._jobtypeApi.register(a.payload)
 		).pipe(
@@ -72,5 +62,15 @@ export class JobtypeState {
 				return of();
 			})
 		);
+	}
+
+	@Selector()
+	static getJobtypes(state: JobtypeStateModel) {
+		return state.jobtypes;
+	}
+
+	@Selector()
+	static getJobtype(state: JobtypeStateModel) {
+		return state.jobtypes.find(jt => jt.id === state.selectedJobtype);
 	}
 }

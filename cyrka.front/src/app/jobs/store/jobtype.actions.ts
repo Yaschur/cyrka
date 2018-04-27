@@ -5,16 +5,16 @@ export class FindJobtypes {
 }
 
 export class LoadJobtypes {
-	static readonly type = '[Job] LoadJobtypes';
 	constructor(public readonly payload: Jobtype[]) {}
+	static readonly type = '[Job] LoadJobtypes';
 }
 
 export class SelectJobtype {
-	static readonly type = '[Job] SelectJobtype';
 	constructor(public readonly payload: string) {}
+	static readonly type = '[Job] SelectJobtype';
 }
 
 export class UpdateJobtype {
-	static readonly type = '[Job] UpdateJobtype';
 	constructor(public readonly payload: Jobtype) {}
+	static readonly type = '[Job] UpdateJobtype';
 }

@@ -17,9 +17,6 @@ import { AuthState } from './auth.state';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	@Select(AuthState.isAuthenticated)
-	private _isAuthenticated$: Observable<boolean>;
-
 	constructor(private _auth: AuthService, private _store: Store) {}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -33,4 +30,7 @@ export class AuthGuard implements CanActivate {
 			})
 		);
 	}
+
+	@Select(AuthState.isAuthenticated)
+	private _isAuthenticated$: Observable<boolean>;
 }

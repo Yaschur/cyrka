@@ -27,7 +27,7 @@ import { ProjectState } from './store/project.state';
 		CommonModule,
 		ReactiveFormsModule,
 		SharedModule,
-		NgxsModule.forRoot([ProjectState]),
+		NgxsModule.forFeature([ProjectState]),
 		ProjectsRoutingModule,
 	],
 	declarations: [

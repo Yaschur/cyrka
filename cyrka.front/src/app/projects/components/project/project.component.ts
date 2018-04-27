@@ -15,12 +15,12 @@ import { ProjectState } from '../../store/project.state';
 	styleUrls: ['./project.component.scss'],
 })
 export class ProjectComponent {
-	menuItems: Observable<MenuLink[]>;
+	menuItems$: Observable<MenuLink[]>;
 
 	constructor(private _store: Store, private _route: ActivatedRoute) {
-		this._store.dispatch(new FindProjects());
+		_store.dispatch(FindProjects);
 
-		this.menuItems = this._store.select(ProjectState.getProject).pipe(
+		this.menuItems$ = _store.select(ProjectState.getProject).pipe(
 			switchMap(p =>
 				of(
 					[

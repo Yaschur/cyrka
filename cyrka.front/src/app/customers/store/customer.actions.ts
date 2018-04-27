@@ -6,21 +6,21 @@ export class FindCustomers {
 }
 
 export class LoadCustomers {
-	static readonly type = '[Customer] LoadCustomers';
 	constructor(public readonly payload: Customer[]) {}
+	static readonly type = '[Customer] LoadCustomers';
 }
 
 export class SelectCustomer {
-	static readonly type = '[Customer] SelectCustomer';
 	constructor(public readonly payload: string) {}
+	static readonly type = '[Customer] SelectCustomer';
 }
 
 export class UpdateCustomer {
-	static readonly type = '[Customer] UpdateCustomer';
 	constructor(public readonly payload: Customer) {}
+	static readonly type = '[Customer] UpdateCustomer';
 }
 
 export class UpdateTitle {
-	static readonly type = '[Customer] UpdateTitle';
 	constructor(public readonly payload: { customerId: string; title: Title }) {}
+	static readonly type = '[Customer] UpdateTitle';
 }

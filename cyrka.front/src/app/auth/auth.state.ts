@@ -27,11 +27,6 @@ const RETURN_URL_KEY = 'return-url';
 export class AuthState {
 	constructor(private _authService: AuthService, private _router: Router) {}
 
-	@Selector()
-	static isAuthenticated(state: AuthStateModel) {
-		return state.accessToken && state.expiresAt && Date.now() < state.expiresAt;
-	}
-
 	@Action(Login)
 	login(sc: StateContext<AuthStateModel>, { payload }: Login) {
 		if (payload) {
@@ -110,5 +105,10 @@ export class AuthState {
 				new LoginFailed(`${error.error} : ${error.errorDescription}`)
 			);
 		};
+	}
+
+	@Selector()
+	static isAuthenticated(state: AuthStateModel) {
+		return state.accessToken && state.expiresAt && Date.now() < state.expiresAt;
 	}
 }
