@@ -11,7 +11,17 @@ import {
 	LoadProject,
 	CreateProject,
 	SetProduct,
+	SetJob,
+	SetStatus,
+	ChangeJob,
+	SetPayments,
+	LoadCustomers,
+	FindCustomers,
+	FindJobtypes,
+	LoadJobtypes,
 } from './project.actions';
+import { CustomerApiService } from '../services/customer-api.service';
+import { JobApiService } from '../services/job-api.service';
 
 @State<ProjectStateModel>({
 	name: 'project',
@@ -23,7 +33,11 @@ import {
 	},
 })
 export class ProjectState {
-	constructor(private readonly _projectApi: ProjectApiService) {}
+	constructor(
+		private readonly _projectApi: ProjectApiService,
+		private readonly _customerApi: CustomerApiService,
+		private readonly _jobApi: JobApiService
+	) {}
 
 	@Action(FindProjects)
 	findProjects(sc: StateContext<ProjectStateModel>) {
@@ -111,5 +125,156 @@ export class ProjectState {
 				return of();
 			})
 		);
+	}
+
+	@Action(SetJob)
+	setJob(sc: StateContext<ProjectStateModel>, a: SetJob) {
+		const state = sc.getState();
+		const projInd = state.projects.findIndex(
+			p => p.id === state.selectedProject
+		);
+		if (projInd < 0) {
+			return;
+		}
+		const proj = state.projects[projInd];
+		sc.patchState({
+			projects: [
+				...state.projects.slice(0, projInd),
+				{ ...proj, jobs: [...proj.jobs, a.payload] },
+				...state.projects.slice(projInd + 1),
+			],
+		});
+		this._projectApi.setJob(state.selectedProject, a.payload).pipe(
+			catchError(e => {
+				console.log('Network error', e);
+				return of();
+			})
+		);
+	}
+
+	@Action(SetStatus)
+	setStatus(sc: StateContext<ProjectStateModel>, a: SetStatus) {
+		const state = sc.getState();
+		const projInd = state.projects.findIndex(
+			p => p.id === state.selectedProject
+		);
+		if (projInd < 0) {
+			return;
+		}
+		const proj = state.projects[projInd];
+		sc.patchState({
+			projects: [
+				...state.projects.slice(0, projInd),
+				{ ...proj, status: a.payload },
+				...state.projects.slice(projInd + 1),
+			],
+		});
+		this._projectApi.setStatus(state.selectedProject, a.payload).pipe(
+			catchError(e => {
+				console.log('Network error', e);
+				return of();
+			})
+		);
+	}
+
+	@Action(ChangeJob)
+	changeJob(sc: StateContext<ProjectStateModel>, a: ChangeJob) {
+		const state = sc.getState();
+		const projInd = state.projects.findIndex(
+			p => p.id === state.selectedProject
+		);
+		if (projInd < 0) {
+			return;
+		}
+		const proj = state.projects[projInd];
+		const jobInd = proj.jobs.findIndex(
+			j => j.jobTypeId === a.payload.jobTypeId
+		);
+		if (jobInd < 0) {
+			return;
+		}
+		sc.patchState({
+			projects: [
+				...state.projects.slice(0, projInd),
+				{
+					...proj,
+					jobs: [
+						...proj.jobs.slice(0, jobInd),
+						{ ...a.payload },
+						...proj.jobs.slice(jobInd + 1),
+					],
+				},
+				...state.projects.slice(projInd + 1),
+			],
+		});
+		this._projectApi
+			.changeJob(state.selectedProject, a.payload.jobTypeId, a.payload)
+			.pipe(
+				catchError(e => {
+					console.log('Network error', e);
+					return of();
+				})
+			);
+	}
+
+	@Action(SetPayments)
+	setPayments(sc: StateContext<ProjectStateModel>, a: SetPayments) {
+		const state = sc.getState();
+		const projInd = state.projects.findIndex(
+			p => p.id === state.selectedProject
+		);
+		if (projInd < 0) {
+			return;
+		}
+		const proj = state.projects[projInd];
+		sc.patchState({
+			projects: [
+				...state.projects.slice(0, projInd),
+				{ ...proj, payments: a.payload },
+				...state.projects.slice(projInd + 1),
+			],
+		});
+		this._projectApi.setPayments(state.selectedProject, a.payload).pipe(
+			catchError(e => {
+				console.log('Network error', e);
+				return of();
+			})
+		);
+	}
+
+	@Action(FindCustomers)
+	findCustomers(sc: StateContext<ProjectStateModel>) {
+		this._customerApi.fetchAll().pipe(
+			map(res => sc.dispatch(new LoadCustomers(res))),
+			catchError(e => {
+				console.log('Network error', e);
+				return of();
+			})
+		);
+	}
+
+	@Action(LoadCustomers)
+	loadCustomers(sc: StateContext<ProjectStateModel>, a: LoadCustomers) {
+		sc.patchState({
+			customers: a.payload,
+		});
+	}
+
+	@Action(FindJobtypes)
+	findJobtypes(sc: StateContext<ProjectStateModel>) {
+		this._jobApi.fetchAll().pipe(
+			map(res => sc.dispatch(new LoadJobtypes(res))),
+			catchError(e => {
+				console.log('Network error', e);
+				return of();
+			})
+		);
+	}
+
+	@Action(LoadJobtypes)
+	loadJobtypes(sc: StateContext<ProjectStateModel>, a: LoadJobtypes) {
+		sc.patchState({
+			jobtypes: a.payload,
+		});
 	}
 }
