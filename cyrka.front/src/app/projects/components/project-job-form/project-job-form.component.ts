@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { JobSet } from '../../models/job-set';
 import { TitleAbbr } from '../../../shared/units/title-abbr';
@@ -57,7 +57,7 @@ export class ProjectJobFormComponent {
 	form: FormGroup;
 	newJobMode: boolean;
 
-	constructor(private _formBuilder: FormBuilder, private _store: Store<{}>) {
+	constructor(private _formBuilder: FormBuilder, private _store: Store) {
 		this.newJobMode = false;
 		this.closeJobForm = new EventEmitter();
 		this.form = this._formBuilder.group({

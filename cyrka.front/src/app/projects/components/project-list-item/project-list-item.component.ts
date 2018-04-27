@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { Project } from '../../models/project';
 import { ProjectStatuses } from '../../../shared/projectStatuses/projectStatuses';
 

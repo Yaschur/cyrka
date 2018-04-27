@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { Project } from '../../models/project';
 import { SetPayments } from '../../store/project.actions';
@@ -17,7 +17,7 @@ export class ProjectTurnoverComponent {
 	paymentsEditMode: boolean;
 	form: FormGroup;
 
-	constructor(private _formBuilder: FormBuilder, private _store: Store<{}>) {
+	constructor(private _formBuilder: FormBuilder, private _store: Store) {
 		this.paymentsEditMode = false;
 	}
 

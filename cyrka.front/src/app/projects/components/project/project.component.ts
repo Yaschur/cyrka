@@ -3,11 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { MenuLink } from '../../../shared/menu/menu-link';
 import { FindProjects } from '../../store/project.actions';
-import { getProjectEntity } from '../../project.store';
+import { ProjectState } from '../../store/project.state';
 
 @Component({
 	selector: 'app-project',
@@ -17,10 +17,10 @@ import { getProjectEntity } from '../../project.store';
 export class ProjectComponent {
 	menuItems: Observable<MenuLink[]>;
 
-	constructor(private _store: Store<{}>, private _route: ActivatedRoute) {
+	constructor(private _store: Store, private _route: ActivatedRoute) {
 		this._store.dispatch(new FindProjects());
 
-		this.menuItems = this._store.select(getProjectEntity).pipe(
+		this.menuItems = this._store.select(ProjectState.getProject).pipe(
 			switchMap(p =>
 				of(
 					[

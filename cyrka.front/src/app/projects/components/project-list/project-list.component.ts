@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { Project } from '../../models/project';
-import { getProjectEntities } from '../../project.store';
-import { ListProjects } from '../../store/project.actions';
+import { ProjectState } from '../../store/project.state';
 
 @Component({
 	selector: 'app-project-list',
@@ -13,10 +12,9 @@ import { ListProjects } from '../../store/project.actions';
 	styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent {
-	projects: Observable<Project[]>;
+	projects$: Observable<Project[]>;
 
-	constructor(private _store: Store<{}>) {
-		this._store.dispatch(new ListProjects());
-		this.projects = this._store.select(getProjectEntities);
+	constructor(private _store: Store) {
+		this.projects$ = this._store.select(ProjectState.getProjects);
 	}
 }

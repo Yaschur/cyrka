@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { Project } from '../../models/project';
-import { getProjectEntity } from '../../project.store';
 import { GetProject } from '../../store/project.actions';
+import { ProjectState } from '../../store/project.state';
 
 @Component({
 	selector: 'app-project-item',
@@ -21,7 +21,7 @@ export class ProjectItemComponent {
 
 	constructor(
 		private _route: ActivatedRoute,
-		private _store: Store<{}>,
+		private _store: Store,
 		private _router: Router
 	) {
 		this.productEditMode = false;
@@ -31,7 +31,9 @@ export class ProjectItemComponent {
 			);
 		}
 
-		this.project$ = this._store.select(getProjectEntity).pipe(filter(p => !!p));
+		this.project$ = this._store
+			.select(ProjectState.getProject)
+			.pipe(filter(p => !!p));
 		this.project$.subscribe(p => this.setProductEdit(!p.product));
 	}
 

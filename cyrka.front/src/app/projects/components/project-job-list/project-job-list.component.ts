@@ -2,12 +2,12 @@ import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { JobSet } from '../../models/job-set';
 import { Jobtype } from '../../models/job-type';
-import { getJobtypeEntities } from '../../project.store';
 import { FindJobtypes } from '../../store/project.actions';
+import { ProjectState } from '../../store/project.state';
 
 @Component({
 	selector: 'div[app-project-job-list]',
@@ -21,7 +21,7 @@ export class ProjectJobListComponent {
 	availableJobtypes$: Observable<Jobtype[]>;
 	readonly NEW_JOB_ID = '___NEW___';
 
-	constructor(private _store: Store<{}>) {
+	constructor(private _store: Store) {
 		this.clearEditMode();
 	}
 
@@ -29,7 +29,7 @@ export class ProjectJobListComponent {
 		this.editId = id;
 		if (id === this.NEW_JOB_ID) {
 			this.availableJobtypes$ = this._store
-				.select(getJobtypeEntities)
+				.select(ProjectState.getJobtypes)
 				.pipe(
 					map(jts =>
 						jts.filter(jt => !this.jobs.some(j => j.jobTypeId === jt.id))

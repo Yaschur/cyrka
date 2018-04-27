@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { ProjectStatuses } from '../../../shared/projectStatuses/projectStatuses';
 import { SetStatus } from '../../store/project.actions';
@@ -22,7 +22,7 @@ export class ProjectStatusComponent {
 	availableActions;
 	statusName;
 
-	constructor(private _store: Store<{}>) {
+	constructor(private _store: Store) {
 		this.availableActions = [];
 	}
 

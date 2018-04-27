@@ -4,17 +4,18 @@ import { Location } from '@angular/common';
 
 import { Observable, of } from 'rxjs';
 import { filter, map, take, concatMap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 
 import { ProductSet } from '../../models/product-set';
 import { Customer } from '../../models/customer';
 import { Title } from '../../models/title';
-import { getCustomerEntities, getProjectEntity } from '../../project.store';
+
 import {
 	FindCustomers,
 	SetProduct,
 	CreateProject,
 } from '../../store/project.actions';
+import { ProjectState } from '../../store/project.state';
 
 @Component({
 	selector: 'app-project-product-form',
@@ -38,14 +39,14 @@ export class ProjectProductFormComponent {
 
 	constructor(
 		private _formBuilder: FormBuilder,
-		private _store: Store<{}>,
+		private _store: Store,
 		private _location: Location
 	) {
 		this.closeProductForm = new EventEmitter();
 		// Ask for customers in state
 		this._store.dispatch(new FindCustomers());
 		// Observe all customers
-		this.customers$ = this._store.select(getCustomerEntities);
+		this.customers$ = this._store.select(ProjectState.getCustomers);
 		// Build form
 		this.form = this._formBuilder.group({
 			customer: [null, Validators.required],
@@ -98,14 +99,14 @@ export class ProjectProductFormComponent {
 				totalEpisodes: title.numberOfSeries,
 			};
 			this._store
-				.select(getProjectEntity)
+				.select(ProjectState.getProject)
 				.pipe(
 					concatMap(p => {
 						if (p && p.id) {
 							return of(p);
 						} else {
 							this._store.dispatch(new CreateProject());
-							return this._store.select(getProjectEntity);
+							return this._store.select(ProjectState.getProject);
 						}
 					}),
 					filter(p => p && !!p.id),

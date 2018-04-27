@@ -14,7 +14,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr app-project-list-item *ngFor="let project of projects | async" [project]="project"></tr>
+				<tr app-project-list-item *ngFor="let project of projects$ | async" [project]="project"></tr>
 			</tbody>
 		</table>
 	</div>

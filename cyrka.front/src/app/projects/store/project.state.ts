@@ -1,6 +1,6 @@
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 
 import { ProjectStateModel } from './project-model.state';
 import { ProjectApiService } from '../services/project-api.service';
@@ -33,6 +33,26 @@ import { JobApiService } from '../services/job-api.service';
 	},
 })
 export class ProjectState {
+	@Selector()
+	static getProjects(state: ProjectStateModel) {
+		return state.projects;
+	}
+
+	@Selector()
+	static getProject(state: ProjectStateModel) {
+		return state.projects.find(p => p.id === state.selectedProject);
+	}
+
+	@Selector()
+	static getJobtypes(state: ProjectStateModel) {
+		return state.jobtypes;
+	}
+
+	@Selector()
+	static getCustomers(state: ProjectStateModel) {
+		return state.customers;
+	}
+
 	constructor(
 		private readonly _projectApi: ProjectApiService,
 		private readonly _customerApi: CustomerApiService,
@@ -41,9 +61,6 @@ export class ProjectState {
 
 	@Action(FindProjects)
 	findProjects(sc: StateContext<ProjectStateModel>) {
-		// if (sc.getState().customers.length > 0) {
-		// 	return;
-		// }
 		this._projectApi.fetchAll().pipe(
 			map(res => sc.dispatch(new LoadProjects(res))),
 			catchError(e => {

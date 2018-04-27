@@ -2,9 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { EffectsModule } from '@ngrx/effects';
 import { NgxsModule } from '@ngxs/store';
 import { ClarityModule } from '@clr/angular';
 
@@ -28,9 +25,6 @@ import { AuthGuard } from './auth/auth.guard';
 		CustomersModule,
 		JobsModule,
 		ProjectsModule,
-		StoreModule.forRoot({}),
-		EffectsModule.forRoot([]),
-		StoreRouterConnectingModule,
 		NgxsModule.forRoot([AuthState]),
 		ClarityModule,
 		AppRoutingModule,
