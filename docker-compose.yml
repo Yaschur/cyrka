@@ -17,7 +17,7 @@ services:
   cyrka-nginx:
     build: ./cyrka.nginx
     volumes:
-      - /opt:/opt
+      - /opt/cyrka/letsencrypt:/opt/cyrka/letsencrypt
     ports:
      - "80:80"
      - "443:443"
