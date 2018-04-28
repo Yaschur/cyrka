@@ -11,6 +11,7 @@ import {
 	SelectJobtype,
 	UpdateJobtype,
 } from './jobtype.actions';
+import { Jobtype } from '../models/jobtype';
 
 @State<JobtypeStateModel>({
 	name: 'jobtype',
@@ -57,6 +58,7 @@ export class JobtypeState {
 			: this._jobtypeApi.register(a.payload)
 		).pipe(
 			map(() => sc.patchState({ jobtypes: [] })),
+			map(() => sc.dispatch(FindJobtypes)),
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -71,6 +73,8 @@ export class JobtypeState {
 
 	@Selector()
 	static getJobtype(state: JobtypeStateModel) {
-		return state.jobtypes.find(jt => jt.id === state.selectedJobtype);
+		return (
+			state.jobtypes.find(jt => jt.id === state.selectedJobtype) || <Jobtype>{}
+		);
 	}
 }

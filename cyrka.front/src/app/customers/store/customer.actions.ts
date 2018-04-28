@@ -11,7 +11,7 @@ export class LoadCustomers {
 }
 
 export class SelectCustomer {
-	constructor(public readonly payload: string) {}
+	constructor(public readonly payload?: string) {}
 	static readonly type = '[Customer] SelectCustomer';
 }
 

@@ -1,5 +1,6 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { CustomerStateModel } from './customer-model.state';
 import {
@@ -10,7 +11,7 @@ import {
 	UpdateTitle,
 } from './customer.actions';
 import { CustomerApiService } from '../services/customer-api.service';
-import { of } from 'rxjs';
+import { Customer } from '../models/customer';
 
 @State<CustomerStateModel>({
 	name: 'customer',
@@ -46,7 +47,7 @@ export class CustomerState {
 	@Action(SelectCustomer)
 	selectCustomer(sc: StateContext<CustomerStateModel>, a: SelectCustomer) {
 		sc.patchState({
-			selectedCustomer: a.payload,
+			selectedCustomer: a.payload || null,
 		});
 	}
 
@@ -57,6 +58,7 @@ export class CustomerState {
 			: this._customerApi.register(a.payload)
 		).pipe(
 			map(() => sc.patchState({ customers: [] })),
+			map(() => sc.dispatch(FindCustomers)),
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -75,6 +77,7 @@ export class CustomerState {
 			: this._customerApi.addTitle(a.payload.customerId, a.payload.title)
 		).pipe(
 			map(() => sc.patchState({ customers: [] })),
+			map(() => sc.dispatch(FindCustomers)),
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -89,6 +92,9 @@ export class CustomerState {
 
 	@Selector()
 	static getCustomer(state: CustomerStateModel) {
-		return state.customers.find(cs => cs.id === state.selectedCustomer);
+		return (
+			state.customers.find(cs => cs.id === state.selectedCustomer) ||
+			<Customer>{}
+		);
 	}
 }

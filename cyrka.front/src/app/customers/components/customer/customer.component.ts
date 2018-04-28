@@ -56,9 +56,7 @@ export class CustomerComponent {
 	) {
 		this._store.dispatch(FindCustomers);
 		const id = _route.snapshot.params['customerId'];
-		if (id) {
-			_store.dispatch(new SelectCustomer(id));
-		}
+		_store.dispatch(new SelectCustomer(id));
 		this.customerItem_read$ = _store.select(CustomerState.getCustomer).pipe(
 			filter(cst => cst != null),
 			tap(cst => {

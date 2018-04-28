@@ -56,9 +56,7 @@ export class JobtypeComponent {
 	) {
 		_store.dispatch(FindJobtypes);
 		const id = _route.snapshot.params['jobtypeId'];
-		if (id) {
-			_store.dispatch(new SelectJobtype(id));
-		}
+		_store.dispatch(new SelectJobtype(id));
 		this.jobtypeItem_read$ = _store.select(JobtypeState.getJobtype).pipe(
 			filter(jt => jt != null),
 			tap(jt => {
