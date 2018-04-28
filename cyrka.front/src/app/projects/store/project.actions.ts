@@ -25,6 +25,10 @@ export class LoadProject {
 	static readonly type = '[Project] LoadProject';
 }
 
+export class ClearProjectSelection {
+	static readonly type = '[Project] ClearProjectSelection';
+}
+
 export class CreateProject {
 	static readonly type = '[Project] CreateProject';
 }

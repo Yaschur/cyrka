@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 
 import { Project } from '../../models/project';
 import { ProjectState } from '../../store/project.state';
+import { ClearProjectSelection } from '../../store/project.actions';
 
 @Component({
 	selector: 'app-project-list',
@@ -15,6 +16,7 @@ export class ProjectListComponent {
 	projects$: Observable<Project[]>;
 
 	constructor(private _store: Store) {
+		this._store.dispatch(ClearProjectSelection);
 		this.projects$ = this._store.select(ProjectState.getProjects);
 	}
 }

@@ -19,9 +19,11 @@ import {
 	FindCustomers,
 	FindJobtypes,
 	LoadJobtypes,
+	ClearProjectSelection,
 } from './project.actions';
 import { CustomerApiService } from '../services/customer-api.service';
 import { JobApiService } from '../services/job-api.service';
+import { Project } from '../models/project';
 
 @State<ProjectStateModel>({
 	name: 'project',
@@ -88,10 +90,17 @@ export class ProjectState {
 		});
 	}
 
+	@Action(ClearProjectSelection)
+	clearProjectSelection(sc: StateContext<ProjectStateModel>) {
+		sc.patchState({
+			selectedProject: null,
+		});
+	}
+
 	@Action(CreateProject)
 	createProject(sc: StateContext<ProjectStateModel>) {
 		return this._projectApi.register().pipe(
-			map(res => new GetProject(res.resourceId)),
+			map(res => sc.dispatch(new GetProject(res.resourceId))),
 			catchError(e => {
 				console.log('Network error', e);
 				return of();
@@ -282,7 +291,9 @@ export class ProjectState {
 
 	@Selector()
 	static getProject(state: ProjectStateModel) {
-		return state.projects.find(p => p.id === state.selectedProject);
+		return (
+			state.projects.find(p => p.id === state.selectedProject) || <Project>{}
+		);
 	}
 
 	@Selector()
