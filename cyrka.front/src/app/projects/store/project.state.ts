@@ -209,6 +209,11 @@ export class ProjectState {
 						{ ...a.payload },
 						...proj.jobs.slice(jobInd + 1),
 					],
+					// TODO: change the way to get income sum
+					income: proj.jobs.reduce(
+						(sum, jt) => (sum = sum + jt.amount * jt.ratePerUnit),
+						0
+					),
 				},
 				...state.projects.slice(projInd + 1),
 			],
@@ -236,7 +241,12 @@ export class ProjectState {
 		sc.patchState({
 			projects: [
 				...state.projects.slice(0, projInd),
-				{ ...proj, payments: a.payload },
+				{
+					...proj,
+					payments: a.payload,
+					// TODO: change the way to get expenses sum
+					expenses: a.payload.editorPayment + a.payload.translatorPayment,
+				},
 				...state.projects.slice(projInd + 1),
 			],
 		});
