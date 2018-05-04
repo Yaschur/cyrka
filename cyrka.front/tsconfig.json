@@ -14,6 +14,10 @@
 		"lib": [
 			"es2017",
 			"dom"
-		]
+		],
+		"paths": {
+			// hack for angular 6, review to remove
+      "auth0-js": ["../node_modules/auth0-js/build/auth0.js"]
+    }
 	}
 }
