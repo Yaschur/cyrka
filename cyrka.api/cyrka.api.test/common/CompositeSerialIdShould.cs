@@ -30,10 +30,9 @@ namespace cyrka.api.test.common
 
 			var actualId = subjToTest.ToString();
 
-			var splittedId = actualId.Split('-');
-			for (int i = 0; i < splittedId.Length - 1; i++)
-				Assert.AreEqual(prefixes[i].ToString(), splittedId[i]);
-			Assert.AreEqual(serial, ulong.Parse(splittedId.Last()));
+			for (int i = 0; i < prefixes.Length - 1; i++)
+				Assert.IsTrue(actualId.Contains(prefixes[i].ToString()));
+			Assert.AreEqual(serial, subjToTest.Serial);
 		}
 
 		[Test]
