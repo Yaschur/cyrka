@@ -3,18 +3,18 @@ using cyrka.api.common.events;
 
 namespace cyrka.api.common.commands
 {
-	public class HandledCommandResult
+	public class ProcessedCommandResult
 	{
 		public readonly CodedException Exception;
 		public readonly Event[] EventDatas;
 
-		public HandledCommandResult(Event[] datas)
+		public ProcessedCommandResult(Event[] datas)
 		{
 			EventDatas = datas;
 			Exception = null;
 		}
 
-		public HandledCommandResult(CodedException exception)
+		public ProcessedCommandResult(CodedException exception)
 		{
 			EventDatas = null;
 			Exception = exception;
