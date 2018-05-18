@@ -15,6 +15,8 @@ namespace cyrka.api.infra.stores.events
 	{
 		const string CollectionKeyName = "events";
 
+		public string NexterChannelKey => CollectionKeyName;
+
 		public MongoEventStore(IMongoDatabase mongoDatabase, IEnumerable<IDbMapping> maps)
 		{
 			foreach (var map in maps)

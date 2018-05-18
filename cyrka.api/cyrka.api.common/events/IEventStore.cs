@@ -6,6 +6,8 @@ namespace cyrka.api.common.events
 {
 	public interface IEventStore
 	{
+		string NexterChannelKey { get; }
+
 		Task<ulong> GetLastStoredId();
 
 		Task Store(Event @event);
