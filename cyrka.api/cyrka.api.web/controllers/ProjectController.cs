@@ -13,21 +13,21 @@ using cyrka.api.domain.projects.commands.changeJob;
 using cyrka.api.domain.projects.commands.setStatus;
 using cyrka.api.domain.projects.commands.setPayments;
 using Microsoft.AspNetCore.Authorization;
+using cyrka.api.common.commands;
+using cyrka.api.domain.projects;
 
 namespace cyrka.api.web.controllers
 {
 	[Route("projects"), Authorize]
 	public class ProjectController : Controller
 	{
-		const string EventChannelKey = "events";
-
 		public ProjectController(
-			ProjectService projectService,
+			CommandProcessor<ProjectAggregate> commandProcessor,
 			IQueryStore queryStore
 		)
 		{
 			_queryStore = queryStore;
-			_projectService = projectService;
+			_commandProcessor = commandProcessor;
 		}
 
 		[HttpPost]
@@ -136,7 +136,7 @@ namespace cyrka.api.web.controllers
 			return Ok(project);
 		}
 
-		private readonly ProjectService _projectService;
+		private readonly CommandProcessor<ProjectAggregate> _commandProcessor;
 		private readonly IQueryStore _queryStore;
 	}
 }
