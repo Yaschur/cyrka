@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
 using cyrka.api.common.events;
 using cyrka.api.common.generators;
 using cyrka.api.domain.projects;
@@ -14,25 +15,16 @@ namespace cyrka.api.web.services
 {
 	public class ProjectService
 	{
-		const string EventChannelKey = "events";
 		const string ProjectResourceKey = "projects";
 
-		public ProjectService(
-			NexterGenerator nexterGenerator,
-			IEventStore eventStore,
-			ProjectAggregateRepository projectRepository
-		)
+		public ProjectService(CommandProcessor<ProjectAggregate> commandProcessor)
 		{
-			_nexter = nexterGenerator;
-			_eventStore = eventStore;
-			_projectRepository = projectRepository;
+			_commandProcessor = commandProcessor;
 		}
 
 		public async Task<WebAnswerBody> Do(RegisterProject command)
 		{
-			var handler = new RegisterProjectHandler(_eventStore, _nexter);
-			var eventData = await handler.Handle(command);
-			await HandleEventData(eventData);
+			var result = _commandProcessor.ProcessCommand(command);
 
 			return new WebAnswerBody
 			{
@@ -116,18 +108,7 @@ namespace cyrka.api.web.services
 			};
 		}
 
-		private readonly NexterGenerator _nexter;
-		private readonly IEventStore _eventStore;
-		private readonly ProjectAggregateRepository _projectRepository;
-
-		private async Task HandleEventData(EventData eventData)
-		{
-			var lastEventId = await _eventStore.GetLastStoredId();
-			var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-			var createdAt = DateTime.UtcNow;
-			var newEvent = new Event(newEventId, createdAt, eventData);
-			await _eventStore.Store(newEvent);
-		}
+		private readonly CommandProcessor<ProjectAggregate> _commandProcessor;
 	}
 
 }
