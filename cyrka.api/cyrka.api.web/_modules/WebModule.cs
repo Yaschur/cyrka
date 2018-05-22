@@ -8,7 +8,7 @@ namespace cyrka.api.web._modules
 		protected override void Load(ContainerBuilder builder)
 		{
 			builder
-				.RegisterType<ProjectService>();
+				.RegisterType<ProjectCommandService>();
 		}
 	}
 }

@@ -20,11 +20,11 @@ namespace cyrka.api.web.controllers
 	public class ProjectController : Controller
 	{
 		public ProjectController(
-			ProjectService projectService,
+			ProjectCommandService projectCommandService,
 			IQueryStore queryStore
 		)
 		{
-			_projectService = projectService;
+			_projectCommandService = projectCommandService;
 			_queryStore = queryStore;
 		}
 
@@ -32,9 +32,8 @@ namespace cyrka.api.web.controllers
 		public async Task<IActionResult> RegisterProject()
 		{
 			var command = new RegisterProject();
-			var result = await _projectService.Do(command);
-
-			return Ok(result);
+			var result = await _projectCommandService.Do(command);
+			return result;
 		}
 
 		[HttpPost("{projectId}/product")]
@@ -49,12 +48,8 @@ namespace cyrka.api.web.controllers
 				body.EpisodeNumber,
 				body.EpisodeDuration
 			);
-			var result = await _projectService.Do(projectId, command);
-
-			if (result == null)
-				return NotFound();
-
-			return Ok(result);
+			var result = await _projectCommandService.Do(command, projectId);
+			return result;
 		}
 
 		[HttpPost("{projectId}/job")]
@@ -67,12 +62,8 @@ namespace cyrka.api.web.controllers
 				body.RatePerUnit,
 				body.Amount
 			);
-			var result = await _projectService.Do(projectId, command);
-
-			if (result == null)
-				return NotFound();
-
-			return Ok(result);
+			var result = await _projectCommandService.Do(command, projectId);
+			return result;
 		}
 
 		[HttpPut("{projectId}/jobs/{jobTypeId}")]
@@ -83,36 +74,24 @@ namespace cyrka.api.web.controllers
 				body.RatePerUnit,
 				body.Amount
 			);
-			var result = await _projectService.Do(projectId, command);
-
-			if (result == null)
-				return NotFound();
-
-			return Ok(result);
+			var result = await _projectCommandService.Do(command, projectId);
+			return result;
 		}
 
 		[HttpPost("{projectId}/status")]
 		public async Task<IActionResult> SetStatus(string projectId, [FromBody] StatusInfo body)
 		{
 			var command = new SetStatus(body.Status);
-			var result = await _projectService.Do(projectId, command);
-
-			if (result == null)
-				return NotFound();
-
-			return Ok(result);
+			var result = await _projectCommandService.Do(command, projectId);
+			return result;
 		}
 
 		[HttpPost("{projectId}/payments")]
 		public async Task<IActionResult> SetPayments(string projectId, [FromBody] PaymentsInfo body)
 		{
 			var command = new SetPayments(body.TranslatorPayment, body.EditorPayment);
-			var result = await _projectService.Do(projectId, command);
-
-			if (result == null)
-				return NotFound();
-
-			return Ok(result);
+			var result = await _projectCommandService.Do(command, projectId);
+			return result;
 		}
 
 		[HttpGet]
@@ -134,7 +113,7 @@ namespace cyrka.api.web.controllers
 			return Ok(project);
 		}
 
-		private readonly ProjectService _projectService;
+		private readonly ProjectCommandService _projectCommandService;
 		private readonly IQueryStore _queryStore;
 	}
 }

@@ -6,17 +6,17 @@ namespace cyrka.api.common.commands
 	public class ProcessedCommandResult
 	{
 		public readonly CodedException Exception;
-		public readonly Event[] EventDatas;
+		public readonly Event[] Events;
 
 		public ProcessedCommandResult(Event[] datas)
 		{
-			EventDatas = datas;
+			Events = datas;
 			Exception = null;
 		}
 
 		public ProcessedCommandResult(CodedException exception)
 		{
-			EventDatas = null;
+			Events = null;
 			Exception = exception;
 		}
 	}
