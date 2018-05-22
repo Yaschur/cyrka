@@ -1,21 +1,15 @@
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
+using cyrka.api.common.events;
 
 namespace cyrka.api.domain.projects.commands.setProduct
 {
-	public class SetProductHandler
+	public class SetProductHandler : IAggregateCommandHandler<SetProduct, ProjectAggregate>
 	{
-		public SetProductHandler(ProjectAggregateRepository repository)
+		public Task<EventData[]> Handle(SetProduct command, ProjectAggregate aggregate)
 		{
-			_repository = repository;
-		}
-
-		public async Task<ProductSet> Handle(string projectId, SetProduct command)
-		{
-			var project = await _repository.GetById(projectId);
-			if (project == null)
-				return null;
-			return new ProductSet(
-				project.State.ProjectId,
+			var eventData = new ProductSet(
+				aggregate.State.ProjectId,
 				command.CustomerId,
 				command.CustomerName,
 				command.TitleId,
@@ -24,8 +18,8 @@ namespace cyrka.api.domain.projects.commands.setProduct
 				command.EpisodeNumber,
 				command.EpisodeDuration
 			);
-		}
 
-		private readonly ProjectAggregateRepository _repository;
+			return Task.FromResult<EventData[]>(new[] { eventData });
+		}
 	}
 }

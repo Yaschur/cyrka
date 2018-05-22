@@ -1,22 +1,16 @@
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
+using cyrka.api.common.events;
 
 namespace cyrka.api.domain.projects.commands.setPayments
 {
-	public class SetPaymentsHandler
+	public class SetPaymentsHandler : IAggregateCommandHandler<SetPayments, ProjectAggregate>
 	{
-		public SetPaymentsHandler(ProjectAggregateRepository repository)
+		public Task<EventData[]> Handle(SetPayments command, ProjectAggregate aggregate)
 		{
-			_repository = repository;
-		}
+			var eventData = new PaymentsSet(aggregate.State.ProjectId, command.TranslatorPayment, command.EditorPayment);
 
-		public async Task<PaymentsSet> Handle(string projectId, SetPayments command)
-		{
-			var project = await _repository.GetById(projectId);
-			if (project == null)
-				return null;
-			return new PaymentsSet(project.State.ProjectId, command.TranslatorPayment, command.EditorPayment);
+			return Task.FromResult<EventData[]>(new[] { eventData });
 		}
-
-		private readonly ProjectAggregateRepository _repository;
 	}
 }

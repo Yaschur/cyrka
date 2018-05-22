@@ -1,33 +1,28 @@
 using System.Linq;
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
+using cyrka.api.common.events;
+using cyrka.api.domain.projects.errors;
 
 namespace cyrka.api.domain.projects.commands.changeJob
 {
-	public class ChangeJobHandler
+	public class ChangeJobHandler : IAggregateCommandHandler<ChangeJob, ProjectAggregate>
 	{
-		public ChangeJobHandler(ProjectAggregateRepository repository)
+		public Task<EventData[]> Handle(ChangeJob command, ProjectAggregate aggregate)
 		{
-			_repository = repository;
-		}
-
-		public async Task<JobChanged> Handle(string projectId, ChangeJob command)
-		{
-			var project = await _repository.GetById(projectId);
-			if (project == null)
-				return null;
-			var job = project.State.Jobs
+			var job = aggregate.State.Jobs
 				.FirstOrDefault(j => j.JobTypeId == command.JobTypeId);
 			if (job == null)
-				return null;
+				throw ProjectErrors.JobNotFoundError;
 
-			return new JobChanged(
-				project.State.ProjectId,
+			var eventData = new JobChanged(
+				aggregate.State.ProjectId,
 				job.JobTypeId,
 				command.RatePerUnit,
 				command.Amount
 			);
-		}
 
-		private readonly ProjectAggregateRepository _repository;
+			return Task.FromResult<EventData[]>(new[] { eventData });
+		}
 	}
 }

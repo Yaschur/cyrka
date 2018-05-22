@@ -1,13 +1,14 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
 using cyrka.api.common.events;
 using cyrka.api.common.generators;
 using cyrka.api.common.identities;
 
 namespace cyrka.api.domain.projects.commands.register
 {
-	public class RegisterProjectHandler
+	public class RegisterProjectHandler : IAggregateCommandHandler<RegisterProject, ProjectAggregate>
 	{
 		const string DepartmentPrefix = "SUBT";
 
@@ -17,7 +18,7 @@ namespace cyrka.api.domain.projects.commands.register
 			_nexter = nexterGenerator;
 		}
 
-		public async Task<ProjectRegistered> Handle(RegisterProject command)
+		public async Task<EventData[]> Handle(RegisterProject command, ProjectAggregate aggregate)
 		{
 			var zId = CreateId(0);
 			var lastSerial = (await _eventStore
@@ -27,7 +28,7 @@ namespace cyrka.api.domain.projects.commands.register
 				.FirstOrDefault();
 			var newSerial = await _nexter.GetNextNumber(zId.CommonPrefix, lastSerial);
 			var newId = CreateId(newSerial);
-			return new ProjectRegistered(newId);
+			return new[] { new ProjectRegistered(newId) };
 		}
 
 		private readonly IEventStore _eventStore;

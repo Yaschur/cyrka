@@ -1,29 +1,23 @@
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
+using cyrka.api.common.events;
 
 namespace cyrka.api.domain.projects.commands.setJob
 {
-	public class SetJobHandler
+	public class SetJobHandler : IAggregateCommandHandler<SetJob, ProjectAggregate>
 	{
-		public SetJobHandler(ProjectAggregateRepository repository)
+		public Task<EventData[]> Handle(SetJob command, ProjectAggregate aggregate)
 		{
-			_repository = repository;
-		}
-
-		public async Task<JobSet> Handle(string projectId, SetJob command)
-		{
-			var project = await _repository.GetById(projectId);
-			if (project == null)
-				return null;
-			return new JobSet(
-				project.State.ProjectId,
+			var eventData = new JobSet(
+				aggregate.State.ProjectId,
 				command.JobTypeId,
 				command.JobTypeName,
 				command.UnitName,
 				command.RatePerUnit,
 				command.Amount
 			);
-		}
 
-		private readonly ProjectAggregateRepository _repository;
+			return Task.FromResult<EventData[]>(new[] { eventData });
+		}
 	}
 }

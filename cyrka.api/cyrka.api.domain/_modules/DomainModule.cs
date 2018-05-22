@@ -1,4 +1,5 @@
 using Autofac;
+using cyrka.api.common.commands;
 using cyrka.api.common.queries;
 using cyrka.api.domain.customers;
 using cyrka.api.domain.customers.queries;
@@ -22,7 +23,9 @@ namespace cyrka.api.domain._modules
 
 			builder.RegisterType<CustomerAggregateRepository>();
 			builder.RegisterType<JobTypeAggregateRepository>();
-			builder.RegisterType<ProjectAggregateRepository>();
+
+			builder.RegisterType<ProjectAggregateRepository>()
+				.As<IAggregateRepository<ProjectAggregate>>();
 
 			builder.RegisterBuildCallback(c =>
 			{

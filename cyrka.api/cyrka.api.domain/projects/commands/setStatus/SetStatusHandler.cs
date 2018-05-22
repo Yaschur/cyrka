@@ -1,23 +1,16 @@
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
+using cyrka.api.common.events;
 
 namespace cyrka.api.domain.projects.commands.setStatus
 {
-	public class SetStatusHandler
+	public class SetStatusHandler : IAggregateCommandHandler<SetStatus, ProjectAggregate>
 	{
-		public SetStatusHandler(ProjectAggregateRepository repository)
+		public Task<EventData[]> Handle(SetStatus command, ProjectAggregate aggregate)
 		{
-			_repository = repository;
+			var eventData = new StatusSet(aggregate.State.ProjectId, command.Status);
+
+			return Task.FromResult<EventData[]>(new[] { eventData });
 		}
-
-		public async Task<StatusSet> Handle(string projectId, SetStatus command)
-		{
-			var project = await _repository.GetById(projectId);
-			if (project == null)
-				return null;
-
-			return new StatusSet(project.State.ProjectId, command.Status);
-		}
-
-		private readonly ProjectAggregateRepository _repository;
 	}
 }

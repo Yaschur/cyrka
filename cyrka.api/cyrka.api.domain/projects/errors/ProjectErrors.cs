@@ -4,6 +4,10 @@ namespace cyrka.api.domain.projects.errors
 {
 	public static class ProjectErrors
 	{
-
+		public static readonly string JobNotFoundErrorCode = "JobNotFoundError";
+		public static readonly CodedException JobNotFoundError = new CodedException(
+			ProjectErrors.JobNotFoundErrorCode,
+			ProjectErrors.JobNotFoundErrorCode
+		);
 	}
 }
