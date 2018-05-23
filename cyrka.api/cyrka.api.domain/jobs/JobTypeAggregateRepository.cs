@@ -1,10 +1,11 @@
 using System.Linq;
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
 using cyrka.api.common.events;
 
 namespace cyrka.api.domain.jobs
 {
-	public class JobTypeAggregateRepository
+	public class JobTypeAggregateRepository : IAggregateRepository<JobTypeAggregate>
 	{
 		public JobTypeAggregateRepository(IEventStore eventStore)
 		{
