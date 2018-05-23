@@ -100,10 +100,12 @@ Authorization: Bearer {{token}}
 ###
 
 GET http://localhost:5000/jobs/types/47f91b73-9f3a-4e39-a5a5-eab73c9e7340 HTTP/1.1
+Authorization: Bearer {{token}}
 
 ###
 
 POST http://localhost:5000/jobs/types HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -114,12 +116,13 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:5000/jobs/types/47f91b73-9f3a-4e39-a5a5-eab73c9e7340 HTTP/1.1
+PUT http://localhost:5000/jobs/types/8a3780c7-b30f-40e7-9b34-fc81b6427e61 HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-	"name": "Subtitling",
-	"description": "субтитрирование",
+	"name": "Разное",
+	"description": "Для неклассифицированных работ",
 	"unit": "minute",
 	"rate": 99.99
 }
