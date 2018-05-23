@@ -1,48 +1,57 @@
+@token =
+
 #### Projects ####
 
 ### get all
 GET http://localhost:5000/projects HTTP/1.1
+Authorization: Bearer {{token}}
+
 
 ### register
 POST http://localhost:5000/projects HTTP/1.1
+Authorization: Bearer {{token}}
 
 ### set product
-POST http://localhost:5000/projects/SUBST-1802-1/product HTTP/1.1
+POST http://localhost:5000/projects/SUBST-1805-1/product HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-	"customerId": "8efec7a9-941f-4c20-aa36-ba41a19cecdb",
-  "customerName": "HBO",
-	"titleId": "dc6f8e8b-7bd3-4547-9fde-16e487364bbc",
-  "titleName": "Pilot season 2",
-  "totalEpisodes": 5,
+	"customerId": "0c2ddce6-6435-49f5-b9ac-83d86b0377d3",
+  "customerName": "ЦПШ",
+	"titleId": "4b091822-c210-45ee-a25b-44738891bf57",
+  "titleName": "Коловорот и каток",
+  "totalEpisodes": 2,
 	"episodeNumber": 1,
-  "episodeDuration": 77
+  "episodeDuration": 73
 }
 
 ### set job
-POST http://localhost:5000/projects/SUBST-1802-1/job HTTP/1.1
+POST http://localhost:5000/projects/SUBST-1805-1/job HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-	"jobTypeId": "47f91b73-9f3a-4e39-a5a5-eab73c9e7340",
-	"jobTypeName": "Subtitling",
+	"jobTypeId": "c42bc856-ff81-4ad1-b693-4260eebdc178",
+	"jobTypeName": "Субтитрирование",
 	"unitName": "Minute",
-	"ratePerUnit": 150,
-	"amount": 77
+	"ratePerUnit": 350.0,
+	"amount": 22
 }
 
 ### change job
-PUT http://localhost:5000/projects/SUBST-1802-1/job/47f91b73-9f3a-4e39-a5a5-eab73c9e7340 HTTP/1.1
+PUT http://localhost:5000/projects/SUBST-1805-1/jobs/c42bc856-ff81-4ad1-b693-4260eebdc178 HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-	"ratePerUnit": 200,
-	"amount": 59
+	"ratePerUnit": 349,
+	"amount": 70
 }
 
 ### set status
-POST http://localhost:5000/projects/SUBST-1802-1/status
+POST http://localhost:5000/projects/SUBST-1805-1/status
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -50,7 +59,8 @@ Content-Type: application/json
 }
 
 ### set payments
-POST http://localhost:5000/projects/SUBST-1802-1/payments
+POST http://localhost:5000/projects/SUBST-1805-1/payments
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -62,6 +72,7 @@ Content-Type: application/json
 
 ### get all
 GET http://localhost:5000/customers HTTP/1.1
+Authorization: Bearer {{token}}
 
 ### register
 POST http://localhost:5000/customers HTTP/1.1
@@ -84,6 +95,7 @@ Content-Type: application/json
 #### Job Types ####
 
 GET http://localhost:5000/jobs/types HTTP/1.1
+Authorization: Bearer {{token}}
 
 ###
 

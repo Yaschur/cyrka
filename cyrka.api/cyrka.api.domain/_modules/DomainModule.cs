@@ -1,5 +1,8 @@
+using System;
 using Autofac;
 using cyrka.api.common.commands;
+using cyrka.api.common.events;
+using cyrka.api.common.generators;
 using cyrka.api.common.queries;
 using cyrka.api.domain.customers;
 using cyrka.api.domain.customers.queries;
@@ -26,6 +29,22 @@ namespace cyrka.api.domain._modules
 
 			builder.RegisterType<ProjectAggregateRepository>()
 				.As<IAggregateRepository<ProjectAggregate>>();
+
+			builder.Register(c =>
+			{
+				var cc = c.Resolve<IComponentContext>();
+				Func<Type, object> handleCreator = t => cc.Resolve(t);
+				return new CommandProcessor<ProjectAggregate>(
+					handleCreator,
+					c.Resolve<IAggregateRepository<ProjectAggregate>>(),
+					c.Resolve<IEventStore>(),
+					c.Resolve<NexterGenerator>()
+				);
+			});
+
+			var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+			builder.RegisterAssemblyTypes(assembly)
+				.AsClosedTypesOf(typeof(IAggregateCommandHandler<,>));
 
 			builder.RegisterBuildCallback(c =>
 			{

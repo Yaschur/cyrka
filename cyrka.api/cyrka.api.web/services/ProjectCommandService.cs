@@ -29,7 +29,7 @@ namespace cyrka.api.web.services
 
 		public async Task<IActionResult> Do<TCommand>(TCommand command, string projectId = null)
 		{
-			var result = await _commandProcessor.ProcessCommand(command);
+			var result = await _commandProcessor.ProcessCommand(command, projectId);
 
 			if (result.Exception != null)
 				return GetError(result.Exception, projectId);

@@ -25,7 +25,7 @@ namespace cyrka.api.common.commands
 
 		public async Task<ProcessedCommandResult> ProcessCommand<TCommand>(TCommand command, string aggregateId = null)
 		{
-			var aggregate = aggregateId == null ? await _aggregateRepository.GetById(aggregateId) : new TAggregate();
+			var aggregate = aggregateId != null ? await _aggregateRepository.GetById(aggregateId) : new TAggregate();
 			if (aggregate == null)
 				return new ProcessedCommandResult(GeneralErrors.NotFoundError);
 
