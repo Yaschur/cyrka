@@ -1,13 +1,15 @@
+using System.Threading.Tasks;
+using cyrka.api.common.commands;
 using cyrka.api.common.events;
 
 namespace cyrka.api.domain.customers.commands.change
 {
-	public class ChangeCustomerHandler
+	public class ChangeCustomerHandler : IAggregateCommandHandler<ChangeCustomer, CustomerAggregate>
 	{
-		public EventData[] Handle(ChangeCustomer command)
+		public Task<EventData[]> Handle(ChangeCustomer command, CustomerAggregate aggregate)
 		{
-			var customerChanged = new CustomerChanged(command.CustomerId, command.Name, command.Description);
-			return new[] { customerChanged };
+			var eventData = new CustomerChanged(aggregate.Id, command.Name, command.Description);
+			return Task.FromResult<EventData[]>(new[] { eventData });
 		}
 	}
 }

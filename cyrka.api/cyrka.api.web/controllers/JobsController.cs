@@ -27,7 +27,7 @@ namespace cyrka.api.web.controllers
 		}
 
 		[HttpPost("types")]
-		public async Task<IActionResult> RegisterType([FromBody]JobTypeInfo value)
+		public async Task<IActionResult> RegisterJobType([FromBody]JobTypeInfo value)
 		{
 			var command = new RegisterJobType(value.Name, value.Description, value.Unit, value.Rate);
 			var result = await _jobTypeCommandService.Do(command);
@@ -35,9 +35,9 @@ namespace cyrka.api.web.controllers
 		}
 
 		[HttpPut("types/{jobTypeId}")]
-		public async Task<IActionResult> ChangeCustomer(string jobTypeId, [FromBody]JobTypeInfo value)
+		public async Task<IActionResult> ChangeJobType(string jobTypeId, [FromBody]JobTypeInfo value)
 		{
-			var command = new ChangeJobType(jobTypeId, value.Name, value.Description, value.Unit, value.Rate);
+			var command = new ChangeJobType(value.Name, value.Description, value.Unit, value.Rate);
 			var result = await _jobTypeCommandService.Do(command);
 			return result;
 		}

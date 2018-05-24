@@ -76,6 +76,7 @@ Authorization: Bearer {{token}}
 
 ### register
 POST http://localhost:5000/customers HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -84,11 +85,23 @@ Content-Type: application/json
 
 ### register title
 
-PUT http://localhost:5000/customers/202cd1bf-5c5f-4895-a45c-d316571eed08/titles/ee79f760-058f-482d-89bc-1e4229b25608
+POST http://localhost:5000/customers/4a310115-0014-4a06-b1a2-aa09a87ab166/titles/
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
 	"name": "Ну погоди СССР",
+	"numberOfSeries": 13
+}
+
+### change title
+
+PUT http://localhost:5000/customers/4a310115-0014-4a06-b1a2-aa09a87ab166/titles/ee79f760-058f-482d-89bc-1e4229b25608
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+	"name": "Ну погоди",
 	"numberOfSeries": 15
 }
 

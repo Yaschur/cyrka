@@ -1,13 +1,15 @@
+using System.Threading.Tasks;
+using cyrka.api.common.commands;
 using cyrka.api.common.events;
 
 namespace cyrka.api.domain.customers.commands.retire
 {
-	public class RetireCustomerHandler
+	public class RetireCustomerHandler : IAggregateCommandHandler<RetireCustomer, CustomerAggregate>
 	{
-		public EventData[] Handle(RetireCustomer command)
+		public Task<EventData[]> Handle(RetireCustomer command, CustomerAggregate aggregate)
 		{
-			var customerRetired = new CustomerRetired(command.CustomerId);
-			return new[] { customerRetired };
+			var eventData = new CustomerRetired(aggregate.Id);
+			return Task.FromResult<EventData[]>(new[] { eventData });
 		}
 	}
 }

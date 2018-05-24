@@ -24,12 +24,12 @@ namespace cyrka.api.domain._modules
 			builder.RegisterType<ProjectPlainRegistrator>()
 				.SingleInstance();
 
-			builder.RegisterType<CustomerAggregateRepository>();
-
 			builder.RegisterType<JobTypeAggregateRepository>()
 				.As<IAggregateRepository<JobTypeAggregate>>();
 			builder.RegisterType<ProjectAggregateRepository>()
 				.As<IAggregateRepository<ProjectAggregate>>();
+			builder.RegisterType<CustomerAggregateRepository>()
+				.As<IAggregateRepository<CustomerAggregate>>();
 
 			builder.Register(c =>
 			{
@@ -50,6 +50,18 @@ namespace cyrka.api.domain._modules
 				return new CommandProcessor<JobTypeAggregate>(
 					handleCreator,
 					c.Resolve<IAggregateRepository<JobTypeAggregate>>(),
+					c.Resolve<IEventStore>(),
+					c.Resolve<NexterGenerator>()
+				);
+			});
+
+			builder.Register(c =>
+			{
+				var cc = c.Resolve<IComponentContext>();
+				Func<Type, object> handleCreator = t => cc.Resolve(t);
+				return new CommandProcessor<CustomerAggregate>(
+					handleCreator,
+					c.Resolve<IAggregateRepository<CustomerAggregate>>(),
 					c.Resolve<IEventStore>(),
 					c.Resolve<NexterGenerator>()
 				);

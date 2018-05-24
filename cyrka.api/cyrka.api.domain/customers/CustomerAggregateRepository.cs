@@ -1,10 +1,11 @@
 using System.Linq;
 using System.Threading.Tasks;
+using cyrka.api.common.commands;
 using cyrka.api.common.events;
 
 namespace cyrka.api.domain.customers
 {
-	public class CustomerAggregateRepository
+	public class CustomerAggregateRepository : IAggregateRepository<CustomerAggregate>
 	{
 		public CustomerAggregateRepository(IEventStore eventStore)
 		{

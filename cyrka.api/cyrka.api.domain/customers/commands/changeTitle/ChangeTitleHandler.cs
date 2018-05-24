@@ -1,13 +1,15 @@
+using System.Threading.Tasks;
+using cyrka.api.common.commands;
 using cyrka.api.common.events;
 
 namespace cyrka.api.domain.customers.commands.changeTitle
 {
-	public class ChangeTitleHandler
+	public class ChangeTitleHandler : IAggregateCommandHandler<ChangeTitle, CustomerAggregate>
 	{
-		public EventData[] Handle(ChangeTitle command)
+		public Task<EventData[]> Handle(ChangeTitle command, CustomerAggregate aggregate)
 		{
-			var titleChanged = new TitleChanged(command.CustomerId, command.TitleId, command.Name, command.NumberOfSeries, command.Description);
-			return new[] { titleChanged };
+			var eventData = new TitleChanged(aggregate.Id, command.TitleId, command.Name, command.NumberOfSeries, command.Description);
+			return Task.FromResult<EventData[]>(new[] { eventData });
 		}
 	}
 }

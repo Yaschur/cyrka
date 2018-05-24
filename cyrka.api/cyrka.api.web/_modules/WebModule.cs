@@ -10,7 +10,9 @@ namespace cyrka.api.web._modules
 			builder
 				.RegisterType<ProjectCommandService>();
 			builder
-			.RegisterType<JobTypeCommandService>();
+				.RegisterType<JobTypeCommandService>();
+			builder
+				.RegisterType<CustomerCommandService>();
 		}
 	}
 }

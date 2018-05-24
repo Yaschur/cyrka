@@ -16,6 +16,7 @@ using cyrka.api.common.generators;
 using cyrka.api.web.models.customers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using cyrka.api.web.services;
 
 namespace cyrka.api.web.controllers
 {
@@ -25,145 +26,60 @@ namespace cyrka.api.web.controllers
 		const string EventChannelKey = "events";
 
 		public CustomersController(
-			NexterGenerator nexterGenerator,
-			IEventStore eventStore,
-			IQueryStore queryStore,
-			CustomerAggregateRepository customerRepository
+			CustomerCommandService customerCommandService,
+			IQueryStore queryStore
 		)
 		{
-			_nexter = nexterGenerator;
-			_eventStore = eventStore;
+			_customerCommandService = customerCommandService;
 			_queryStore = queryStore;
-			_customerRepository = customerRepository;
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> RegisterCustomer([FromBody]CustomerInfo value)
 		{
 			var command = new RegisterCustomer(value.Name, value.Description);
-			var commandHandler = new RegisterCustomerHandler();
-			var eventDatas = commandHandler.Handle(command);
-
-			foreach (var data in eventDatas)
-			{
-				var lastEventId = await _eventStore.GetLastStoredId();
-				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-				var createdAt = DateTime.UtcNow;
-				var newEvent = new Event(newEventId, createdAt, data);
-				await _eventStore.Store(newEvent);
-			}
-
-			return Ok();
+			var result = await _customerCommandService.Do(command);
+			return result;
 		}
 
 		[HttpPut("{customerId}")]
 		public async Task<IActionResult> ChangeCustomer(string customerId, [FromBody]CustomerInfo value)
 		{
-			var customerAggregate = await _customerRepository.GetById(customerId);
-			if (customerAggregate == null || customerAggregate.IsRetired)
-				return NotFound();
-			var command = new ChangeCustomer(customerId, value.Name, value.Description);
-			var commandHandler = new ChangeCustomerHandler();
-			var eventDatas = commandHandler.Handle(command);
-
-			foreach (var data in eventDatas)
-			{
-				var lastEventId = await _eventStore.GetLastStoredId();
-				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-				var createdAt = DateTime.UtcNow;
-				var newEvent = new Event(newEventId, createdAt, data);
-				await _eventStore.Store(newEvent);
-			}
-
-			return Ok();
+			var command = new ChangeCustomer(value.Name, value.Description);
+			var result = await _customerCommandService.Do(command, customerId);
+			return result;
 		}
 
 		[HttpPost("{customerId}/titles")]
 		public async Task<IActionResult> RegisterTitle(string customerId, [FromBody]TitleInfo value)
 		{
-			var customerAggregate = await _customerRepository.GetById(customerId);
-			if (customerAggregate == null || customerAggregate.IsRetired)
-				return NotFound();
-			var command = new RegisterTitle(customerId, value.Name, value.NumberOfSeries, value.Description);
-			var commandHandler = new RegisterTitleHandler();
-			var eventDatas = commandHandler.Handle(command);
-
-			foreach (var data in eventDatas)
-			{
-				var lastEventId = await _eventStore.GetLastStoredId();
-				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-				var createdAt = DateTime.UtcNow;
-				var newEvent = new Event(newEventId, createdAt, data);
-				await _eventStore.Store(newEvent);
-			}
-
-			return Ok();
+			var command = new RegisterTitle(value.Name, value.NumberOfSeries, value.Description);
+			var result = await _customerCommandService.Do(command, customerId);
+			return result;
 		}
 
 		[HttpPut("{customerId}/titles/{titleId}")]
 		public async Task<IActionResult> ChangeTitle(string customerId, string titleId, [FromBody]TitleInfo value)
 		{
-			var customerAggregate = await _customerRepository.GetById(customerId);
-			if (customerAggregate == null || customerAggregate.IsRetired)
-				return NotFound();
-			var command = new ChangeTitle(customerId, titleId, value.Name, value.NumberOfSeries, value.Description);
-			var commandHandler = new ChangeTitleHandler();
-			var eventDatas = commandHandler.Handle(command);
-
-			foreach (var data in eventDatas)
-			{
-				var lastEventId = await _eventStore.GetLastStoredId();
-				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-				var createdAt = DateTime.UtcNow;
-				var newEvent = new Event(newEventId, createdAt, data);
-				await _eventStore.Store(newEvent);
-			}
-
-			return Ok();
+			var command = new ChangeTitle(titleId, value.Name, value.NumberOfSeries, value.Description);
+			var result = await _customerCommandService.Do(command, customerId);
+			return result;
 		}
 
 		[HttpDelete("{customerId}")]
 		public async Task<IActionResult> RetireCustomer(string customerId)
 		{
-			var customerAggregate = await _customerRepository.GetById(customerId);
-			if (customerAggregate == null || customerAggregate.IsRetired)
-				return NotFound();
-			var command = new RetireCustomer(customerId);
-			var commandHandler = new RetireCustomerHandler();
-			var eventDatas = commandHandler.Handle(command);
-
-			foreach (var data in eventDatas)
-			{
-				var lastEventId = await _eventStore.GetLastStoredId();
-				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-				var createdAt = DateTime.UtcNow;
-				var newEvent = new Event(newEventId, createdAt, data);
-				await _eventStore.Store(newEvent);
-			}
-
-			return Ok();
+			var command = new RetireCustomer();
+			var result = await _customerCommandService.Do(command, customerId);
+			return result;
 		}
 
 		[HttpDelete("{customerId}/titles/{titleId}")]
 		public async Task<IActionResult> RemoveTitle(string customerId, string titleId)
 		{
-			var customerAggregate = await _customerRepository.GetById(customerId);
-			if (customerAggregate == null || customerAggregate.IsRetired)
-				return NotFound();
-			var command = new RemoveTitle(customerId, titleId);
-			var commandHandler = new RemoveTitleHandler();
-			var eventDatas = commandHandler.Handle(command);
-
-			foreach (var data in eventDatas)
-			{
-				var lastEventId = await _eventStore.GetLastStoredId();
-				var newEventId = await _nexter.GetNextNumber(EventChannelKey, lastEventId);
-				var createdAt = DateTime.UtcNow;
-				var newEvent = new Event(newEventId, createdAt, data);
-				await _eventStore.Store(newEvent);
-			}
-
-			return Ok();
+			var command = new RemoveTitle(titleId);
+			var result = await _customerCommandService.Do(command, customerId);
+			return result;
 		}
 
 		[HttpGet]
@@ -185,9 +101,7 @@ namespace cyrka.api.web.controllers
 			return Ok(customer);
 		}
 
-		private readonly NexterGenerator _nexter;
-		private readonly IEventStore _eventStore;
+		private readonly CustomerCommandService _customerCommandService;
 		private readonly IQueryStore _queryStore;
-		private readonly CustomerAggregateRepository _customerRepository;
 	}
 }

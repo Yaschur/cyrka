@@ -8,7 +8,7 @@ namespace cyrka.api.domain.jobs.commands.change
 	{
 		public Task<EventData[]> Handle(ChangeJobType command, JobTypeAggregate aggregate)
 		{
-			var eventData = new JobTypeChanged(command.JobTypeId, command.Name, command.Description, command.Unit, command.Rate);
+			var eventData = new JobTypeChanged(aggregate.Id, command.Name, command.Description, command.Unit, command.Rate);
 
 			return Task.FromResult<EventData[]>(new[] { eventData });
 		}
