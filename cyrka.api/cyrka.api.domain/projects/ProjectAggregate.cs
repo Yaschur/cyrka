@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using cyrka.api.common.events;
@@ -7,6 +8,7 @@ using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setPayments;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setStatus;
+using cyrka.api.domain.projects.events;
 
 namespace cyrka.api.domain.projects
 {
@@ -40,6 +42,9 @@ namespace cyrka.api.domain.projects
 						break;
 					case PaymentsSet paymentsSet:
 						ApplyEvent(paymentsSet);
+						break;
+					case IncomeChanged incomeChanged:
+						ApplyEvent(incomeChanged);
 						break;
 				}
 			}
@@ -102,6 +107,16 @@ namespace cyrka.api.domain.projects
 			{
 				TranslatorPayment = paymentsSet.TranslatorPayment,
 				EditorPayment = paymentsSet.EditorPayment
+			};
+		}
+
+		private void ApplyEvent(IncomeChanged incomeChanged)
+		{
+			var isInc = incomeChanged.Addition > 0;
+			State.Money = new IncomeStatement
+			{
+				Income = (State.Money?.Income ?? 0) + (isInc ? incomeChanged.Addition : 0),
+				Expenses = (State.Money?.Expenses ?? 0) - (isInc ? 0 : incomeChanged.Addition)
 			};
 		}
 	}

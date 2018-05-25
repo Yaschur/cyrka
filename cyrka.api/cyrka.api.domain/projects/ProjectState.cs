@@ -13,5 +13,7 @@ namespace cyrka.api.domain.projects
 		public JobState[] Jobs { get; set; } = { };
 
 		public PaymentsState Payments { get; set; }
+
+		public IncomeStatement Money { get; set; }
 	}
 }
