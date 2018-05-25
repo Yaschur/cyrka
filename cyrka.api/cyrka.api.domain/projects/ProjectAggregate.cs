@@ -112,11 +112,10 @@ namespace cyrka.api.domain.projects
 
 		private void ApplyEvent(IncomeChanged incomeChanged)
 		{
-			var isInc = incomeChanged.Addition > 0;
 			State.Money = new IncomeStatement
 			{
-				Income = (State.Money?.Income ?? 0) + (isInc ? incomeChanged.Addition : 0),
-				Expenses = (State.Money?.Expenses ?? 0) - (isInc ? 0 : incomeChanged.Addition)
+				Income = (State.Money?.Income ?? 0) + incomeChanged.IncomeAddition,
+				Expenses = (State.Money?.Expenses ?? 0) + incomeChanged.ExpensesAddition
 			};
 		}
 	}
