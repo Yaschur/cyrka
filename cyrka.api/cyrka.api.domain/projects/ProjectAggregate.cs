@@ -16,6 +16,15 @@ namespace cyrka.api.domain.projects
 	{
 		public ProjectState State { get; } = new ProjectState();
 
+		public ProjectAggregate(ProjectState projectState)
+		{
+			State = projectState;
+		}
+
+		public ProjectAggregate()
+			: this(new ProjectState())
+		{ }
+
 		public void ApplyEvents(IEnumerable<EventData> aggEventDatas)
 		{
 			if (aggEventDatas == null)
