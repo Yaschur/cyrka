@@ -19,25 +19,25 @@ namespace cyrka.api.web.controllers
 	[Route("projects"), Authorize]
 	public class ProjectController : Controller
 	{
-		public ProjectController(
-			ProjectCommandService projectCommandService,
-			IQueryStore queryStore
-		)
+		public ProjectController(IQueryStore queryStore)
 		{
-			_projectCommandService = projectCommandService;
 			_queryStore = queryStore;
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> RegisterProject()
+		public async Task<IActionResult> RegisterProject([FromServices] ProjectCommandService<RegisterProject> projectCommandService)
 		{
 			var command = new RegisterProject();
-			var result = await _projectCommandService.Do(command);
+			var result = await projectCommandService.Do(command);
 			return result;
 		}
 
 		[HttpPost("{projectId}/product")]
-		public async Task<IActionResult> SetProduct(string projectId, [FromBody] ProductInfo body)
+		public async Task<IActionResult> SetProduct(
+			string projectId,
+			[FromBody] ProductInfo body,
+			[FromServices] ProjectCommandService<SetProduct> projectCommandService
+		)
 		{
 			var command = new SetProduct(
 				body.CustomerId,
@@ -48,12 +48,16 @@ namespace cyrka.api.web.controllers
 				body.EpisodeNumber,
 				body.EpisodeDuration
 			);
-			var result = await _projectCommandService.Do(command, projectId);
+			var result = await projectCommandService.Do(command, projectId);
 			return result;
 		}
 
 		[HttpPost("{projectId}/job")]
-		public async Task<IActionResult> SetJob(string projectId, [FromBody] JobInfo body)
+		public async Task<IActionResult> SetJob(
+			string projectId,
+			[FromBody] JobInfo body,
+			[FromServices] ProjectCommandService<SetJob> projectCommandService
+		)
 		{
 			var command = new SetJob(
 				body.JobTypeId,
@@ -62,35 +66,48 @@ namespace cyrka.api.web.controllers
 				body.RatePerUnit,
 				body.Amount
 			);
-			var result = await _projectCommandService.Do(command, projectId);
+			var result = await projectCommandService.Do(command, projectId);
 			return result;
 		}
 
 		[HttpPut("{projectId}/jobs/{jobTypeId}")]
-		public async Task<IActionResult> ChangeJob(string projectId, string jobTypeId, [FromBody] JobVolumeInfo body)
+		public async Task<IActionResult> ChangeJob(
+			string projectId,
+			string jobTypeId,
+			[FromBody] JobVolumeInfo body,
+			[FromServices] ProjectCommandService<ChangeJob> projectCommandService
+		)
 		{
 			var command = new ChangeJob(
 				jobTypeId,
 				body.RatePerUnit,
 				body.Amount
 			);
-			var result = await _projectCommandService.Do(command, projectId);
+			var result = await projectCommandService.Do(command, projectId);
 			return result;
 		}
 
 		[HttpPost("{projectId}/status")]
-		public async Task<IActionResult> SetStatus(string projectId, [FromBody] StatusInfo body)
+		public async Task<IActionResult> SetStatus(
+			string projectId,
+			[FromBody] StatusInfo body,
+			[FromServices] ProjectCommandService<SetStatus> projectCommandService
+		)
 		{
 			var command = new SetStatus(body.Status);
-			var result = await _projectCommandService.Do(command, projectId);
+			var result = await projectCommandService.Do(command, projectId);
 			return result;
 		}
 
 		[HttpPost("{projectId}/payments")]
-		public async Task<IActionResult> SetPayments(string projectId, [FromBody] PaymentsInfo body)
+		public async Task<IActionResult> SetPayments(
+			string projectId,
+			[FromBody] PaymentsInfo body,
+			[FromServices] ProjectCommandService<SetPayments> projectCommandService
+		)
 		{
 			var command = new SetPayments(body.TranslatorPayment, body.EditorPayment);
-			var result = await _projectCommandService.Do(command, projectId);
+			var result = await projectCommandService.Do(command, projectId);
 			return result;
 		}
 
@@ -113,7 +130,6 @@ namespace cyrka.api.web.controllers
 			return Ok(project);
 		}
 
-		private readonly ProjectCommandService _projectCommandService;
 		private readonly IQueryStore _queryStore;
 	}
 }

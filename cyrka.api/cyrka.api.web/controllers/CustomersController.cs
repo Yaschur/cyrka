@@ -25,60 +25,79 @@ namespace cyrka.api.web.controllers
 	{
 		const string EventChannelKey = "events";
 
-		public CustomersController(
-			CustomerCommandService customerCommandService,
-			IQueryStore queryStore
-		)
+		public CustomersController(IQueryStore queryStore)
 		{
-			_customerCommandService = customerCommandService;
 			_queryStore = queryStore;
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> RegisterCustomer([FromBody]CustomerInfo value)
+		public async Task<IActionResult> RegisterCustomer(
+			[FromBody] CustomerInfo value,
+			[FromServices] CustomerCommandService<RegisterCustomer> customerCommandService
+		)
 		{
 			var command = new RegisterCustomer(value.Name, value.Description);
-			var result = await _customerCommandService.Do(command);
+			var result = await customerCommandService.Do(command);
 			return result;
 		}
 
 		[HttpPut("{customerId}")]
-		public async Task<IActionResult> ChangeCustomer(string customerId, [FromBody]CustomerInfo value)
+		public async Task<IActionResult> ChangeCustomer(
+			string customerId,
+			[FromBody] CustomerInfo value,
+			[FromServices] CustomerCommandService<ChangeCustomer> customerCommandService
+		)
 		{
 			var command = new ChangeCustomer(value.Name, value.Description);
-			var result = await _customerCommandService.Do(command, customerId);
+			var result = await customerCommandService.Do(command, customerId);
 			return result;
 		}
 
 		[HttpPost("{customerId}/titles")]
-		public async Task<IActionResult> RegisterTitle(string customerId, [FromBody]TitleInfo value)
+		public async Task<IActionResult> RegisterTitle(
+			string customerId,
+			[FromBody] TitleInfo value,
+			[FromServices] CustomerCommandService<RegisterTitle> customerCommandService
+		)
 		{
 			var command = new RegisterTitle(value.Name, value.NumberOfSeries, value.Description);
-			var result = await _customerCommandService.Do(command, customerId);
+			var result = await customerCommandService.Do(command, customerId);
 			return result;
 		}
 
 		[HttpPut("{customerId}/titles/{titleId}")]
-		public async Task<IActionResult> ChangeTitle(string customerId, string titleId, [FromBody]TitleInfo value)
+		public async Task<IActionResult> ChangeTitle(
+			string customerId,
+			string titleId,
+			[FromBody] TitleInfo value,
+			[FromServices] CustomerCommandService<ChangeTitle> customerCommandService
+		)
 		{
 			var command = new ChangeTitle(titleId, value.Name, value.NumberOfSeries, value.Description);
-			var result = await _customerCommandService.Do(command, customerId);
+			var result = await customerCommandService.Do(command, customerId);
 			return result;
 		}
 
 		[HttpDelete("{customerId}")]
-		public async Task<IActionResult> RetireCustomer(string customerId)
+		public async Task<IActionResult> RetireCustomer(
+			string customerId,
+			[FromServices] CustomerCommandService<RetireCustomer> customerCommandService
+		)
 		{
 			var command = new RetireCustomer();
-			var result = await _customerCommandService.Do(command, customerId);
+			var result = await customerCommandService.Do(command, customerId);
 			return result;
 		}
 
 		[HttpDelete("{customerId}/titles/{titleId}")]
-		public async Task<IActionResult> RemoveTitle(string customerId, string titleId)
+		public async Task<IActionResult> RemoveTitle(
+			string customerId,
+			string titleId,
+			[FromServices] CustomerCommandService<RemoveTitle> customerCommandService
+		)
 		{
 			var command = new RemoveTitle(titleId);
-			var result = await _customerCommandService.Do(command, customerId);
+			var result = await customerCommandService.Do(command, customerId);
 			return result;
 		}
 
@@ -101,7 +120,6 @@ namespace cyrka.api.web.controllers
 			return Ok(customer);
 		}
 
-		private readonly CustomerCommandService _customerCommandService;
 		private readonly IQueryStore _queryStore;
 	}
 }

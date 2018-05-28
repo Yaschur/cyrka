@@ -17,28 +17,31 @@ namespace cyrka.api.web.controllers
 	[Route("jobs"), Authorize]
 	public class JobsController : Controller
 	{
-		public JobsController(
-			JobTypeCommandService jobTypeCommandService,
-			IQueryStore queryStore
-		)
+		public JobsController(IQueryStore queryStore)
 		{
-			_jobTypeCommandService = jobTypeCommandService;
 			_queryStore = queryStore;
 		}
 
 		[HttpPost("types")]
-		public async Task<IActionResult> RegisterJobType([FromBody]JobTypeInfo value)
+		public async Task<IActionResult> RegisterJobType(
+			[FromBody] JobTypeInfo value,
+			[FromServices] JobTypeCommandService<RegisterJobType> jobTypeCommandService
+		)
 		{
 			var command = new RegisterJobType(value.Name, value.Description, value.Unit, value.Rate);
-			var result = await _jobTypeCommandService.Do(command);
+			var result = await jobTypeCommandService.Do(command);
 			return result;
 		}
 
 		[HttpPut("types/{jobTypeId}")]
-		public async Task<IActionResult> ChangeJobType(string jobTypeId, [FromBody]JobTypeInfo value)
+		public async Task<IActionResult> ChangeJobType(
+			string jobTypeId,
+			[FromBody]JobTypeInfo value,
+			[FromServices] JobTypeCommandService<ChangeJobType> jobTypeCommandService
+		)
 		{
 			var command = new ChangeJobType(value.Name, value.Description, value.Unit, value.Rate);
-			var result = await _jobTypeCommandService.Do(command);
+			var result = await jobTypeCommandService.Do(command);
 			return result;
 		}
 
@@ -62,6 +65,5 @@ namespace cyrka.api.web.controllers
 		}
 
 		private readonly IQueryStore _queryStore;
-		private readonly JobTypeCommandService _jobTypeCommandService;
 	}
 }

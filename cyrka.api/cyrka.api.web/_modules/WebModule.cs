@@ -8,11 +8,11 @@ namespace cyrka.api.web._modules
 		protected override void Load(ContainerBuilder builder)
 		{
 			builder
-				.RegisterType<ProjectCommandService>();
+				.RegisterGeneric(typeof(ProjectCommandService<>));
 			builder
-				.RegisterType<JobTypeCommandService>();
+				.RegisterGeneric(typeof(JobTypeCommandService<>));
 			builder
-				.RegisterType<CustomerCommandService>();
+				.RegisterGeneric(typeof(CustomerCommandService<>));
 		}
 	}
 }

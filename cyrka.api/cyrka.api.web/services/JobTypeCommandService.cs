@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cyrka.api.web.services
 {
-	public class JobTypeCommandService
+	public class JobTypeCommandService<TCommand>
 	{
 		const string JobTypeResourceKey = "jobtypes";
 
@@ -17,7 +17,7 @@ namespace cyrka.api.web.services
 			_commandProcessor = commandProcessor;
 		}
 
-		public async Task<IActionResult> Do<TCommand>(TCommand command, string jobTypeId = null)
+		public async Task<IActionResult> Do(TCommand command, string jobTypeId = null)
 		{
 			var result = await _commandProcessor.ProcessCommand(command, jobTypeId);
 

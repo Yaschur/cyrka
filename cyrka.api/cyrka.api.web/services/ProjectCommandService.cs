@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cyrka.api.web.services
 {
-	public class ProjectCommandService
+	public class ProjectCommandService<TCommand>
 	{
 		const string ProjectResourceKey = "projects";
 
@@ -27,7 +27,7 @@ namespace cyrka.api.web.services
 			_commandProcessor = commandProcessor;
 		}
 
-		public async Task<IActionResult> Do<TCommand>(TCommand command, string projectId = null)
+		public async Task<IActionResult> Do(TCommand command, string projectId = null)
 		{
 			var result = await _commandProcessor.ProcessCommand(command, projectId);
 
@@ -73,7 +73,7 @@ namespace cyrka.api.web.services
 
 			return new BadRequestObjectResult(apiAnswer);
 		}
-		
+
 		private readonly CommandProcessor<ProjectAggregate> _commandProcessor;
 	}
 

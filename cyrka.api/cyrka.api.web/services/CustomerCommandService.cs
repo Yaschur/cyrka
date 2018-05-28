@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cyrka.api.web.services
 {
-	public class CustomerCommandService
+	public class CustomerCommandService<TCommand>
 	{
 		const string CustomerResourceKey = "customers";
 
@@ -18,7 +18,7 @@ namespace cyrka.api.web.services
 			_commandProcessor = commandProcessor;
 		}
 
-		public async Task<IActionResult> Do<TCommand>(TCommand command, string customerId = null)
+		public async Task<IActionResult> Do(TCommand command, string customerId = null)
 		{
 			var result = await _commandProcessor.ProcessCommand(command, customerId);
 
