@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using cyrka.api.common.commands;
 using cyrka.api.common.errors;
 using cyrka.api.domain.customers;
-using cyrka.api.domain.jobs;
 using cyrka.api.web.models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +12,7 @@ namespace cyrka.api.web.services
 	{
 		const string CustomerResourceKey = "customers";
 
-		public CustomerCommandService(CommandProcessor<CustomerAggregate> commandProcessor)
+		public CustomerCommandService(CommandProcessor<TCommand, CustomerAggregate> commandProcessor)
 		{
 			_commandProcessor = commandProcessor;
 		}
@@ -65,6 +64,6 @@ namespace cyrka.api.web.services
 			return new BadRequestObjectResult(apiAnswer);
 		}
 
-		private readonly CommandProcessor<CustomerAggregate> _commandProcessor;
+		private readonly CommandProcessor<TCommand, CustomerAggregate> _commandProcessor;
 	}
 }

@@ -7,11 +7,11 @@ using cyrka.api.common.generators;
 
 namespace cyrka.api.common.commands
 {
-	public class CommandProcessor<TAggregate>
+	public class CommandProcessor<TCommand, TAggregate>
 		where TAggregate : class, new()
 	{
 		public CommandProcessor(
-			Func<Type, object> createCommandHandler,
+			IAggregateCommandHandler<TCommand, TAggregate> commandHandler,
 			IAggregateRepository<TAggregate> aggregateRepository,
 			IEventStore eventStore,
 			NexterGenerator nexterGenerator
@@ -20,23 +20,19 @@ namespace cyrka.api.common.commands
 			_aggregateRepository = aggregateRepository;
 			_eventStore = eventStore;
 			_nexterGenerator = nexterGenerator;
-			_createCommandHandler = createCommandHandler;
+			_commandHandler = commandHandler;
 		}
 
-		public async Task<ProcessedCommandResult> ProcessCommand<TCommand>(TCommand command, string aggregateId = null)
+		public async Task<ProcessedCommandResult> ProcessCommand(TCommand command, string aggregateId = null)
 		{
 			var aggregate = aggregateId != null ? await _aggregateRepository.GetById(aggregateId) : new TAggregate();
 			if (aggregate == null)
 				return new ProcessedCommandResult(GeneralErrors.NotFoundError);
 
-			var commandHandler = _createCommandHandler(
-				typeof(IAggregateCommandHandler<,>).MakeGenericType(typeof(TCommand), typeof(TAggregate))
-			) as IAggregateCommandHandler<TCommand, TAggregate>;
-
 			EventData[] handledData;
 			try
 			{
-				handledData = await commandHandler.Handle(command, aggregate);
+				handledData = await _commandHandler.Handle(command, aggregate);
 			}
 			catch (CodedException ex)
 			{
@@ -62,6 +58,6 @@ namespace cyrka.api.common.commands
 		private readonly IAggregateRepository<TAggregate> _aggregateRepository;
 		private readonly NexterGenerator _nexterGenerator;
 		private readonly IEventStore _eventStore;
-		private readonly Func<Type, object> _createCommandHandler;
+		private readonly IAggregateCommandHandler<TCommand, TAggregate> _commandHandler;
 	}
 }

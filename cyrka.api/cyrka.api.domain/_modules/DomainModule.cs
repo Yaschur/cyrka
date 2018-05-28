@@ -31,42 +31,6 @@ namespace cyrka.api.domain._modules
 			builder.RegisterType<CustomerAggregateRepository>()
 				.As<IAggregateRepository<CustomerAggregate>>();
 
-			builder.Register(c =>
-			{
-				var cc = c.Resolve<IComponentContext>();
-				Func<Type, object> handleCreator = t => cc.Resolve(t);
-				return new CommandProcessor<ProjectAggregate>(
-					handleCreator,
-					c.Resolve<IAggregateRepository<ProjectAggregate>>(),
-					c.Resolve<IEventStore>(),
-					c.Resolve<NexterGenerator>()
-				);
-			});
-
-			builder.Register(c =>
-			{
-				var cc = c.Resolve<IComponentContext>();
-				Func<Type, object> handleCreator = t => cc.Resolve(t);
-				return new CommandProcessor<JobTypeAggregate>(
-					handleCreator,
-					c.Resolve<IAggregateRepository<JobTypeAggregate>>(),
-					c.Resolve<IEventStore>(),
-					c.Resolve<NexterGenerator>()
-				);
-			});
-
-			builder.Register(c =>
-			{
-				var cc = c.Resolve<IComponentContext>();
-				Func<Type, object> handleCreator = t => cc.Resolve(t);
-				return new CommandProcessor<CustomerAggregate>(
-					handleCreator,
-					c.Resolve<IAggregateRepository<CustomerAggregate>>(),
-					c.Resolve<IEventStore>(),
-					c.Resolve<NexterGenerator>()
-				);
-			});
-
 			var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 			builder.RegisterAssemblyTypes(assembly)
 				.AsClosedTypesOf(typeof(IAggregateCommandHandler<,>));

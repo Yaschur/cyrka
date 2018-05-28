@@ -1,18 +1,8 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using cyrka.api.common.commands;
 using cyrka.api.common.errors;
-using cyrka.api.common.events;
-using cyrka.api.common.generators;
 using cyrka.api.domain.projects;
-using cyrka.api.domain.projects.commands;
-using cyrka.api.domain.projects.commands.changeJob;
-using cyrka.api.domain.projects.commands.register;
-using cyrka.api.domain.projects.commands.setJob;
-using cyrka.api.domain.projects.commands.setPayments;
-using cyrka.api.domain.projects.commands.setProduct;
-using cyrka.api.domain.projects.commands.setStatus;
 using cyrka.api.web.models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +12,7 @@ namespace cyrka.api.web.services
 	{
 		const string ProjectResourceKey = "projects";
 
-		public ProjectCommandService(CommandProcessor<ProjectAggregate> commandProcessor)
+		public ProjectCommandService(CommandProcessor<TCommand, ProjectAggregate> commandProcessor)
 		{
 			_commandProcessor = commandProcessor;
 		}
@@ -74,7 +64,7 @@ namespace cyrka.api.web.services
 			return new BadRequestObjectResult(apiAnswer);
 		}
 
-		private readonly CommandProcessor<ProjectAggregate> _commandProcessor;
+		private readonly CommandProcessor<TCommand, ProjectAggregate> _commandProcessor;
 	}
 
 }

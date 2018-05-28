@@ -12,7 +12,7 @@ namespace cyrka.api.web.services
 	{
 		const string JobTypeResourceKey = "jobtypes";
 
-		public JobTypeCommandService(CommandProcessor<JobTypeAggregate> commandProcessor)
+		public JobTypeCommandService(CommandProcessor<TCommand, JobTypeAggregate> commandProcessor)
 		{
 			_commandProcessor = commandProcessor;
 		}
@@ -64,6 +64,6 @@ namespace cyrka.api.web.services
 			return new BadRequestObjectResult(apiAnswer);
 		}
 
-		private readonly CommandProcessor<JobTypeAggregate> _commandProcessor;
+		private readonly CommandProcessor<TCommand, JobTypeAggregate> _commandProcessor;
 	}
 }
