@@ -15,20 +15,6 @@ namespace cyrka.api.domain.projects.queries
 
 		public PaymentsState Payments { get; set; }
 
-		public decimal Income
-		{
-			get
-			{
-				return Jobs.Sum(j => j.Amount * j.RatePerUnit);
-			}
-		}
-
-		public decimal Expenses
-		{
-			get
-			{
-				return (Payments?.EditorPayment ?? 0) + (Payments?.TranslatorPayment ?? 0);
-			}
-		}
+		public IncomeStatement Money { get; set; }
 	}
 }

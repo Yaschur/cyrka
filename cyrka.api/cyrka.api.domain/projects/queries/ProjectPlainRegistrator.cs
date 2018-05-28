@@ -9,6 +9,7 @@ using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setPayments;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setStatus;
+using cyrka.api.domain.projects.events;
 
 namespace cyrka.api.domain.projects.queries
 {
@@ -22,6 +23,7 @@ namespace cyrka.api.domain.projects.queries
 			processor.RegisterEventProcessing<JobChanged, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<StatusSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 			processor.RegisterEventProcessing<PaymentsSet, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
+			processor.RegisterEventProcessing<IncomeChanged, ProjectPlain>(UpdateByEventData, IdFilterByEventData);
 		}
 
 		public Expression<Func<ProjectPlain, bool>> IdFilterByEventData(ProjectEventData eventData)
@@ -140,6 +142,23 @@ namespace cyrka.api.domain.projects.queries
 				{
 					EditorPayment = eventData.EditorPayment,
 					TranslatorPayment = eventData.TranslatorPayment
+				}
+			};
+		}
+
+		public ProjectPlain UpdateByEventData(IncomeChanged eventData, ProjectPlain source)
+		{
+			return new ProjectPlain
+			{
+				Id = source.Id,
+				Product = source.Product,
+				Jobs = source.Jobs,
+				Status = source.Status,
+				Payments = source.Payments,
+				Money = new IncomeStatement
+				{
+					Income = (source.Money?.Income ?? 0) + eventData.IncomeAddition,
+					Expenses = (source.Money?.Expenses ?? 0) + eventData.ExpensesAddition
 				}
 			};
 		}
