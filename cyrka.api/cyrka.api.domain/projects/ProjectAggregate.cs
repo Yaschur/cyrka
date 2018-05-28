@@ -16,6 +16,10 @@ namespace cyrka.api.domain.projects
 	{
 		public ProjectState State { get; } = new ProjectState();
 
+		/// <summary>
+		/// Don't use. For testing only
+		/// </summary>
+		/// <param name="projectState"></param>
 		public ProjectAggregate(ProjectState projectState)
 		{
 			State = projectState;
