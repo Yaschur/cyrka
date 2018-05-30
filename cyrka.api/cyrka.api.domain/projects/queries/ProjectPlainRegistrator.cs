@@ -57,6 +57,7 @@ namespace cyrka.api.domain.projects.queries
 				Jobs = source.Jobs,
 				Status = source.Status,
 				Payments = source.Payments,
+				Money = source.Money,
 			};
 		}
 
@@ -84,6 +85,7 @@ namespace cyrka.api.domain.projects.queries
 				Jobs = jobs,
 				Status = source.Status,
 				Payments = source.Payments,
+				Money = source.Money,
 			};
 		}
 
@@ -115,6 +117,7 @@ namespace cyrka.api.domain.projects.queries
 				Jobs = jobs,
 				Status = source.Status,
 				Payments = source.Payments,
+				Money = source.Money,
 			};
 		}
 
@@ -127,6 +130,7 @@ namespace cyrka.api.domain.projects.queries
 				Jobs = source.Jobs,
 				Status = eventData.Status,
 				Payments = source.Payments,
+				Money = source.Money,
 			};
 		}
 
@@ -142,7 +146,8 @@ namespace cyrka.api.domain.projects.queries
 				{
 					EditorPayment = eventData.EditorPayment,
 					TranslatorPayment = eventData.TranslatorPayment
-				}
+				},
+				Money = source.Money,
 			};
 		}
 
@@ -157,9 +162,9 @@ namespace cyrka.api.domain.projects.queries
 				Payments = source.Payments,
 				Money = new IncomeStatement
 				{
-					Income = (source.Money?.Income ?? 0) + eventData.IncomeAddition,
-					Expenses = (source.Money?.Expenses ?? 0) + eventData.ExpensesAddition
-				}
+					Income = eventData.IsExpenses ? (source.Money?.Income ?? 0) : eventData.Value,
+					Expenses = eventData.IsExpenses ? eventData.Value : (source.Money?.Expenses ?? 0)
+				},
 			};
 		}
 	}

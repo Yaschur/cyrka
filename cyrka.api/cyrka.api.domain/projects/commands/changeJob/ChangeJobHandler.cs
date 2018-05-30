@@ -27,16 +27,15 @@ namespace cyrka.api.domain.projects.commands.changeJob
 					command.RatePerUnit,
 					command.Amount
 				);
-				var addition = command.Amount * command.RatePerUnit - job.Amount * job.RatePerUnit;
+				var sum = aggregate.State.Jobs
+					.Where(j => j.JobTypeId != command.JobTypeId)
+					.Sum(j => j.Amount * j.RatePerUnit);
+				var income = sum + command.Amount * command.RatePerUnit;
 
-				if (addition == 0)
+				if (aggregate.State.Money != null && aggregate.State.Money.Income == income)
 					yield break;
 
-				yield return new IncomeChanged(
-					aggregate.State.ProjectId,
-					incomeAddition: addition,
-					expensesAddition: 0
-				);
+				yield return new IncomeChanged(aggregate.State.ProjectId, income);
 			}
 		}
 	}

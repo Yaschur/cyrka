@@ -19,17 +19,11 @@ namespace cyrka.api.domain.projects.commands.setPayments
 			{
 				yield return new PaymentsSet(aggregate.State.ProjectId, command.TranslatorPayment, command.EditorPayment);
 
-				var oldSum = (aggregate.State.Payments?.EditorPayment ?? 0) + (aggregate.State.Payments?.TranslatorPayment ?? 0);
-				var newSum = command.TranslatorPayment + command.EditorPayment;
-				var addition = newSum - oldSum;
-				if (addition == 0)
+				var expenses = command.TranslatorPayment + command.EditorPayment;
+				if (aggregate.State.Money != null && expenses == aggregate.State.Money.Expenses)
 					yield break;
 
-				yield return new IncomeChanged(
-					aggregate.State.ProjectId,
-					incomeAddition: 0,
-					expensesAddition: addition
-				);
+				yield return new IncomeChanged(aggregate.State.ProjectId, expenses, isExpenses: true);
 			}
 		}
 	}

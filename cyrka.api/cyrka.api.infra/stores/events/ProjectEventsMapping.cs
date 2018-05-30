@@ -5,6 +5,7 @@ using cyrka.api.domain.projects.commands.setJob;
 using cyrka.api.domain.projects.commands.setPayments;
 using cyrka.api.domain.projects.commands.setProduct;
 using cyrka.api.domain.projects.commands.setStatus;
+using cyrka.api.domain.projects.events;
 using MongoDB.Bson.Serialization;
 
 namespace cyrka.api.infra.stores.events
@@ -82,6 +83,13 @@ namespace cyrka.api.infra.stores.events
 				cm.MapField(cr => cr.EditorPayment);
 				cm.MapField(cr => cr.TranslatorPayment);
 				cm.MapCreator(cr => new PaymentsSet(cr.AggregateId, cr.TranslatorPayment, cr.EditorPayment));
+			});
+
+			BsonClassMap.RegisterClassMap<IncomeChanged>(cm =>
+			{
+				cm.MapField(cr => cr.IsExpenses);
+				cm.MapField(cr => cr.Value);
+				cm.MapCreator(cr => new IncomeChanged(cr.AggregateId, cr.Value, cr.IsExpenses));
 			});
 		}
 	}
