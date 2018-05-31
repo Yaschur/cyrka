@@ -127,8 +127,8 @@ namespace cyrka.api.domain.projects
 		{
 			State.Money = new IncomeStatement
 			{
-				Income = (State.Money?.Income ?? 0) + incomeChanged.IncomeAddition,
-				Expenses = (State.Money?.Expenses ?? 0) + incomeChanged.ExpensesAddition
+				Income = incomeChanged.IsExpenses ? State.Money?.Income ?? 0 : incomeChanged.Value,
+				Expenses = incomeChanged.IsExpenses ? incomeChanged.Value : State.Money?.Expenses ?? 0
 			};
 		}
 	}

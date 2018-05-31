@@ -13,7 +13,7 @@ namespace cyrka.api.domain.projects.commands.setJob
 		public Task<EventData[]> Handle(SetJob command, ProjectAggregate aggregate)
 		{
 			if (aggregate.State.Jobs.Any(j => j.JobTypeId == command.JobTypeId))
-				throw ProjectErrors.JobNotFoundError;
+				throw ProjectErrors.JobAlreadySetError;
 
 			return Task.FromResult(getEventData().ToArray());
 
@@ -27,16 +27,14 @@ namespace cyrka.api.domain.projects.commands.setJob
 					command.RatePerUnit,
 					command.Amount
 				);
-				var addition = command.Amount * command.RatePerUnit;
+				var sum = aggregate.State.Jobs
+					.Sum(j => j.Amount * j.RatePerUnit);
+				var income = sum + command.Amount * command.RatePerUnit;
 
-				if (addition == 0)
+				if (aggregate.State.Money != null && aggregate.State.Money.Income == income)
 					yield break;
 
-				yield return new IncomeChanged(
-					aggregate.State.ProjectId,
-					addition,
-					0
-				);
+				yield return new IncomeChanged(aggregate.State.ProjectId, income);
 			}
 		}
 	}
