@@ -41,7 +41,7 @@ namespace cyrka.api.web.controllers
 		)
 		{
 			var command = new ChangeJobType(value.Name, value.Description, value.Unit, value.Rate);
-			var result = await jobTypeCommandService.Do(command);
+			var result = await jobTypeCommandService.Do(command, jobTypeId);
 			return result;
 		}
 
