@@ -9,6 +9,8 @@ export interface Project {
 	product: ProductSet;
 	jobs: JobSet[];
 	payments: Payments;
-	income: number;
-	expenses: number;
+	money: {
+		income: number;
+		expenses: number;
+	};
 }

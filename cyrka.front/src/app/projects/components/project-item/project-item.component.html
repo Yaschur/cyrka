@@ -13,8 +13,7 @@
 
 			<div app-project-job-list class="card" *ngIf="(project$ | async)?.jobs" [jobs]="(project$ | async)?.jobs"></div>
 
-			<div app-project-turnover class="card" *ngIf="(project$ | async)?.income || (project$ | async)?.expenses"
-			 [project]="(project$ | async)"></div>
+			<div app-project-turnover class="card" *ngIf="(project$ | async)?.money" [project]="(project$ | async)"></div>
 
 		</div>
 	</div>
