@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Customer } from '../models/customer';
 import { environment } from '../../../environments/environment';
+import { ApiAnswer } from '../../shared/api/api-answer';
 
 @Injectable()
 export class CustomerApiService {
@@ -25,8 +26,8 @@ export class CustomerApiService {
 	public register(customer: {
 		name: string;
 		description?: string;
-	}): Observable<Object> {
-		return this._httpClient.post(
+	}): Observable<ApiAnswer> {
+		return this._httpClient.post<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/customers`,
 			customer
 		);
@@ -41,8 +42,8 @@ export class CustomerApiService {
 	public change(
 		customerId: string,
 		customer: { name: string; description?: string }
-	): Observable<Object> {
-		return this._httpClient.put(
+	): Observable<ApiAnswer> {
+		return this._httpClient.put<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/customers/${customerId}`,
 			customer
 		);
@@ -51,8 +52,8 @@ export class CustomerApiService {
 	public addTitle(
 		customerId: string,
 		title: { name: string; numberOfSeries: number; description?: string }
-	): Observable<Object> {
-		return this._httpClient.post(
+	): Observable<ApiAnswer> {
+		return this._httpClient.post<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/customers/${customerId}/titles`,
 			title
 		);
@@ -62,8 +63,8 @@ export class CustomerApiService {
 		customerId: string,
 		titleId: string,
 		title: { name: string; numberOfSeries: number; description?: string }
-	): Observable<Object> {
-		return this._httpClient.put(
+	): Observable<ApiAnswer> {
+		return this._httpClient.put<ApiAnswer>(
 			`${
 				environment.cyrkaApi.baseUrl
 			}/customers/${customerId}/titles/${titleId}`,

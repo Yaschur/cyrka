@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { Jobtype } from '../models/jobtype';
+import { ApiAnswer } from '../../shared/api/api-answer';
 
 @Injectable()
 export class JobtypeApiService {
@@ -27,8 +28,8 @@ export class JobtypeApiService {
 		unit: string;
 		rate: number;
 		description?: string;
-	}): Observable<Object> {
-		return this._httpClient.post(
+	}): Observable<ApiAnswer> {
+		return this._httpClient.post<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/jobs/types`,
 			jobType
 		);
@@ -42,8 +43,8 @@ export class JobtypeApiService {
 			rate: number;
 			description?: string;
 		}
-	): Observable<Object> {
-		return this._httpClient.put(
+	): Observable<ApiAnswer> {
+		return this._httpClient.put<ApiAnswer>(
 			`${environment.cyrkaApi.baseUrl}/jobs/types/${jobtypeId}`,
 			jobtype
 		);
