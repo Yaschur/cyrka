@@ -3,16 +3,14 @@ import {
 	HttpInterceptor,
 	HttpRequest,
 	HttpHandler,
-	HttpResponse,
 	HttpErrorResponse,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngxs/store';
 import { catchError } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
-import { AuthService } from './auth.service';
 import { AuthStateModel } from './auth.model';
 import { CheckSession } from './auth.actions';
 
