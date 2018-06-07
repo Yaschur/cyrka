@@ -6,7 +6,7 @@
 				<span class="title">{{headerTitle}}</span>
 			</div>
 		</div>
-		<div class="header-nav">
+		<div class="header-nav" *ngIf="isAuthenticated$ | async">
 			<a routerLink="projects" routerLinkActive="active" class="nav-link nav-text" [routerLinkActiveOptions]="{exact: false}">проекты</a>
 			<a routerLink="customers" routerLinkActive="active" class="nav-link nav-text" [routerLinkActiveOptions]="{exact: false}">заказчики</a>
 			<a routerLink="jobtypes" routerLinkActive="active" class="nav-link nav-text" [routerLinkActiveOptions]="{exact: false}">услуги</a>

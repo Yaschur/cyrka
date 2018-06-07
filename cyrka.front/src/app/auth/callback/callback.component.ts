@@ -17,6 +17,6 @@ export class CallbackComponent {
 
 	constructor(private _store: Store) {
 		_store.dispatch(Callback);
-		this.message$ = _store.select(state => state.auth.message);
+		this.message$ = this._store.select(state => state.auth.message);
 	}
 }
