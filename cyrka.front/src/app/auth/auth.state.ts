@@ -28,7 +28,7 @@ export class AuthState {
 	constructor(private _authService: AuthService, private _router: Router) {}
 
 	@Action(Login)
-	login(sc: StateContext<AuthStateModel>, { payload }: Login) {
+	login(_: StateContext<AuthStateModel>, { payload }: Login) {
 		if (payload) {
 			localStorage.setItem(RETURN_URL_KEY, payload);
 		}

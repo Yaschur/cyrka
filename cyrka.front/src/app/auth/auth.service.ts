@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import * as auth0 from 'auth0-js';
+import { WebAuth } from 'auth0-js';
 
 import { environment } from '../../environments/environment';
-import { UserProfile } from './user-profile';
 import { AuthResult, AuthError } from './auth.model';
 
 @Injectable()
 export class AuthService {
 	constructor() {
-		this._auth0 = new auth0.WebAuth({
+		this._auth0 = new WebAuth({
 			clientID: environment.auth.clientID,
 			domain: environment.auth.domain,
 			responseType: 'token',
@@ -25,7 +23,7 @@ export class AuthService {
 	}
 
 	logout() {
-		this._auth0.logout({ returnUrl: environment.auth.redirect });
+		this._auth0.logout({ returnTo: environment.auth.redirect });
 	}
 
 	handleLoginCallback(
@@ -35,10 +33,16 @@ export class AuthService {
 		this._auth0.parseHash((err, authResult) => {
 			if (authResult && authResult.accessToken) {
 				window.location.hash = '';
-				succeedCalback(authResult);
+				succeedCalback({
+					accessToken: authResult.accessToken,
+					expiresIn: authResult.expiresIn,
+				});
 			} else if (err) {
 				window.location.hash = '';
-				failedCallback(err);
+				failedCallback({
+					error: err.error,
+					errorDescription: err.errorDescription,
+				});
 			} else {
 				failedCallback({
 					error: 'нет доступа',
@@ -58,10 +62,13 @@ export class AuthService {
 			} else if (err) {
 				console.log('cant restore session');
 				console.log(err);
-				failedCallback(err);
+				failedCallback({
+					error: err.error,
+					errorDescription: err.errorDescription,
+				});
 			}
 		});
 	}
 
-	private _auth0;
+	private _auth0: WebAuth;
 }
