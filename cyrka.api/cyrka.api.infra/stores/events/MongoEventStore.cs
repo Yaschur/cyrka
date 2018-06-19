@@ -82,6 +82,7 @@ namespace cyrka.api.infra.stores.events
 				query = query.Where(eventDataPredicate);
 			return (await query.OrderByDescending(e => e.Id).Take(n).ToListAsync()).ToArray();
 		}
+
 		public async Task Store(Event @event)
 		{
 			try
@@ -95,10 +96,7 @@ namespace cyrka.api.infra.stores.events
 			}
 		}
 
-		public IObservable<Event> AsObservable()
-		{
-			return _eventsChannel.AsObservable();
-		}
+		public IObservable<Event> AsObservable() => _eventsChannel.AsObservable();
 
 		public void Dispose()
 		{
