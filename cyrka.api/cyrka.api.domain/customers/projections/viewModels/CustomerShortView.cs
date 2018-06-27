@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cyrka.api.domain.customers.projections
+namespace cyrka.api.domain.customers.projections.viewModels
 {
 	public class CustomerShortView
 	{
@@ -8,6 +8,5 @@ namespace cyrka.api.domain.customers.projections
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public int TitlesCount { get; set; }
-		public Dictionary<string, int> ProjectsByStatusCount { get; set; }
 	}
 }
