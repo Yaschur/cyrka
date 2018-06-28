@@ -16,7 +16,7 @@ namespace cyrka.api.domain.customers.projections
 
 		public CustomerFullView GetCustomerFull(string customerId) =>
 			_projectionStore.Query<CustomerFullView>()
-			.FirstOrDefault(c => c.Id == customerId);
+				.FirstOrDefault(c => c.Id == customerId);
 
 		public CustomerShortView[] FindCustomersShort() =>
 			_projectionStore.Query<CustomerFullView>()
