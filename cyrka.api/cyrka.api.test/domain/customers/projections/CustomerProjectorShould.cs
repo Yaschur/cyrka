@@ -18,7 +18,7 @@ namespace cyrka.api.test.domain.customers.projections
 		[SetUp]
 		public void Setup()
 		{
-			
+
 			_projectorUnderTest = new CustomerProjector(
 				new CustomerProjection(_projectionStore),
 				new[] {

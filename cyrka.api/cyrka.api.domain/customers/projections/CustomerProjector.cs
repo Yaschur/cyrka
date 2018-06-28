@@ -11,7 +11,7 @@ namespace cyrka.api.domain.customers.projections
 {
 	public class CustomerProjector
 	{
-		public CustomerProjector(CustomerProjection customerProjection, IEnumerable<IProjectionOfEvent<CustomerEventData, CustomerFullView>> eventProjections)
+		public CustomerProjector(CustomerProjection customerProjection, IEnumerable<IProjectionOfEvent<CustomerFullView>> eventProjections)
 		{
 			_customerProjection = customerProjection;
 			_eventProjections = eventProjections;
@@ -19,14 +19,14 @@ namespace cyrka.api.domain.customers.projections
 
 		public async Task Apply(Event eventToApply)
 		{
-			var customerEventData = eventToApply.EventData as CustomerEventData;
-			if (customerEventData == null)
-				return;
+			// var customerEventData = eventToApply.EventData as CustomerEventData;
+			// if (customerEventData == null)
+			// 	return;
 
-			var expectedType = typeof(IProjectionOfEvent<,>)
-				.MakeGenericType(eventToApply.EventData.GetType(), typeof(CustomerFullView));
+			// var expectedType = typeof(IProjectionOfEvent<,>)
+			// 	.MakeGenericType(eventToApply.EventData.GetType(), typeof(CustomerFullView));
 			var eProjection = _eventProjections
-				.FirstOrDefault(p => expectedType.IsInstanceOfType(p));
+				.FirstOrDefault(p => p.CanProject(eventToApply.EventData));
 
 			if (eProjection == null)
 				return;
@@ -41,6 +41,6 @@ namespace cyrka.api.domain.customers.projections
 		}
 
 		private readonly CustomerProjection _customerProjection;
-		private readonly IEnumerable<IProjectionOfEvent<CustomerEventData, CustomerFullView>> _eventProjections;
+		private readonly IEnumerable<IProjectionOfEvent<CustomerFullView>> _eventProjections;
 	}
 }
