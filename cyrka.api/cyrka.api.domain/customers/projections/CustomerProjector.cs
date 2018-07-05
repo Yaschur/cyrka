@@ -31,13 +31,13 @@ namespace cyrka.api.domain.customers.projections
 			if (eProjection == null)
 				return;
 
-			var customerViewExisted = _customerProjection.GetCustomerFull(customerEventData.AggregateId);
-			var customerViewProjected = eProjection.MakeProjection(customerEventData, customerViewExisted);
+			var customerViewExisted = _customerProjection.GetCustomerFull(eventToApply.EventData.AggregateId);
+			var customerViewProjected = eProjection.MakeProjection(eventToApply.EventData, customerViewExisted);
 
 			if (customerViewProjected != default(CustomerFullView))
 				await _customerProjection.StoreAsync(customerViewProjected);
 			else
-				await _customerProjection.RemoveAsync(customerEventData.AggregateId);
+				await _customerProjection.RemoveAsync(eventToApply.EventData.AggregateId);
 		}
 
 		private readonly CustomerProjection _customerProjection;
