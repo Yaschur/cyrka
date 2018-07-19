@@ -6,11 +6,11 @@ namespace cyrka.api.common.projections
 	{
 		bool CanProject<TEventData>(TEventData eventData)
 			where TEventData : EventData;
-		TView MakeProjection(EventData eventData, TView source);
+		IProjectionResult Project(EventData eventData, TView source);
 	}
 
 	public interface IProjectionOfEvent<TEventData, TView> : IProjectionOfEvent<TView>
 	{
-		TView MakeProjection(TEventData eventData, TView source);
+		IProjectionResult Project(TEventData eventData, TView source);
 	}
 }

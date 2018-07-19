@@ -1,7 +1,10 @@
-﻿namespace cyrka.api.common.projections
+﻿using System.Threading.Tasks;
+
+namespace cyrka.api.common.projections
 {
-	public interface IProjectionResult<TView>
+	public interface IProjectionResult
 	{
-		
+		Task AccomplishAsync<TView>(IWriteProjection<TView> projectionStore)
+			where TView : IView;
 	}
 }

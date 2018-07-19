@@ -12,7 +12,8 @@ namespace cyrka.api.test.domain.customers.projections
 	{
 		CustomerProjector _projectorUnderTest;
 
-		private IProjectionStore _projectionStore;
+		private IWriteProjection<CustomerFullView> _projectionWriter;
+		private IReadProjection<CustomerFullView> _projectionReader;
 		private IProjectionOfEvent<CustomerRegistered, CustomerFullView> _projectionOfCustomerCustomerRegistered;
 
 		[SetUp]
@@ -20,7 +21,8 @@ namespace cyrka.api.test.domain.customers.projections
 		{
 
 			_projectorUnderTest = new CustomerProjector(
-				new CustomerProjection(_projectionStore),
+				_projectionReader,
+				_projectionWriter,
 				new[] {
 					_projectionOfCustomerCustomerRegistered
 				}

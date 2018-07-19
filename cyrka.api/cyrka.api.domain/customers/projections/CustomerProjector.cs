@@ -11,36 +11,35 @@ namespace cyrka.api.domain.customers.projections
 {
 	public class CustomerProjector
 	{
-		public CustomerProjector(CustomerProjection customerProjection, IEnumerable<IProjectionOfEvent<CustomerFullView>> eventProjections)
+		public CustomerProjector(
+			IReadProjection<CustomerFullView> projectionReader,
+			IWriteProjection<CustomerFullView> projectionWriter,
+			IEnumerable<IProjectionOfEvent<CustomerFullView>> eventProjections
+		)
 		{
-			_customerProjection = customerProjection;
+			_projectionReader = projectionReader;
+			_projectionWriter = projectionWriter;
 			_eventProjections = eventProjections;
 		}
 
 		public async Task Apply(Event eventToApply)
 		{
-			// var customerEventData = eventToApply.EventData as CustomerEventData;
-			// if (customerEventData == null)
-			// 	return;
-
-			// var expectedType = typeof(IProjectionOfEvent<,>)
-			// 	.MakeGenericType(eventToApply.EventData.GetType(), typeof(CustomerFullView));
 			var eProjection = _eventProjections
 				.FirstOrDefault(p => p.CanProject(eventToApply.EventData));
 
 			if (eProjection == null)
 				return;
 
-			var customerViewExisted = _customerProjection.GetCustomerFull(eventToApply.EventData.AggregateId);
-			var customerViewProjected = eProjection.MakeProjection(eventToApply.EventData, customerViewExisted);
+			var customerViewExisted = _projectionReader.GetById(eventToApply.EventData.AggregateId);
+			await eProjection
+				.Project(eventToApply.EventData, customerViewExisted)
+				.AccomplishAsync(_projectionWriter);
 
-			if (customerViewProjected != default(CustomerFullView))
-				await _customerProjection.StoreAsync(customerViewProjected);
-			else
-				await _customerProjection.RemoveAsync(eventToApply.EventData.AggregateId);
+
 		}
 
-		private readonly CustomerProjection _customerProjection;
+		private readonly IReadProjection<CustomerFullView> _projectionReader;
+		private readonly IWriteProjection<CustomerFullView> _projectionWriter;
 		private readonly IEnumerable<IProjectionOfEvent<CustomerFullView>> _eventProjections;
 	}
 }

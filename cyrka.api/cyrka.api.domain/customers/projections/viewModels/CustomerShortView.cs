@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using cyrka.api.common.projections;
 
 namespace cyrka.api.domain.customers.projections.viewModels
 {
-	public class CustomerShortView
+	public class CustomerShortView : IView
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }
