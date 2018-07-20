@@ -12,14 +12,13 @@ namespace cyrka.api.domain.customers.projections
 	public class CustomerProjector
 	{
 		public CustomerProjector(
-			IReadProjection<CustomerFullView> projectionReader,
-			IWriteProjection<CustomerFullView> projectionWriter,
+			IProjectionStore<CustomerFullView> _projectionStore,
 			IEnumerable<IProjectionOfEvent<CustomerFullView>> eventProjections
 		)
 		{
-			_projectionReader = projectionReader;
-			_projectionWriter = projectionWriter;
-			_eventProjections = eventProjections;
+			this._projectionStore = _projectionStore;
+			_eventProjections = eventProjections
+				.ToArray();
 		}
 
 		public async Task Apply(Event eventToApply)
@@ -30,16 +29,13 @@ namespace cyrka.api.domain.customers.projections
 			if (eProjection == null)
 				return;
 
-			var customerViewExisted = _projectionReader.GetById(eventToApply.EventData.AggregateId);
+			var customerViewExisted = _projectionStore.GetById(eventToApply.EventData.AggregateId);
 			await eProjection
 				.Project(eventToApply.EventData, customerViewExisted)
-				.AccomplishAsync(_projectionWriter);
-
-
+				.AccomplishAsync(_projectionStore);
 		}
 
-		private readonly IReadProjection<CustomerFullView> _projectionReader;
-		private readonly IWriteProjection<CustomerFullView> _projectionWriter;
-		private readonly IEnumerable<IProjectionOfEvent<CustomerFullView>> _eventProjections;
+		private readonly IProjectionStore<CustomerFullView> _projectionStore;
+		private readonly IProjectionOfEvent<CustomerFullView>[] _eventProjections;
 	}
 }

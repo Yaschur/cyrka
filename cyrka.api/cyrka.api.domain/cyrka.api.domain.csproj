@@ -4,6 +4,9 @@
     <Version>0.0.1</Version>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="./customers/projections/CustomerProjection.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../cyrka.api.common/cyrka.api.common.csproj" />
   </ItemGroup>
   <ItemGroup>

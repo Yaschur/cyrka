@@ -4,7 +4,7 @@ namespace cyrka.api.common.projections
 {
 	public interface IProjectionResult
 	{
-		Task AccomplishAsync<TView>(IWriteProjection<TView> projectionStore)
+		Task AccomplishAsync<TView>(IProjectionStore<TView> projectionStore)
 			where TView : IView;
 	}
 }
