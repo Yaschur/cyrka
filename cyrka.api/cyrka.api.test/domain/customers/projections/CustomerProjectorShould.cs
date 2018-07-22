@@ -47,5 +47,31 @@ namespace cyrka.api.test.domain.customers.projections
 			A.CallTo(() => _targetProjectionOfEvent.Project(A<EventData>.Ignored, A<CustomerFullView>.Ignored))
 				.MustHaveHappenedOnceExactly();
 		}
+
+		[Test]
+		public async Task AccomplishResultAfterProjection()
+		{
+			var eventToApply = A.Fake<Event>();
+			A.CallTo(() => _targetProjectionOfEvent.CanProject(A<EventData>.Ignored))
+				.Returns(true);
+			var projectedResult = A.Fake<IProjectionResult>();
+			A.CallTo(() => _targetProjectionOfEvent.Project(A<EventData>.Ignored, A<CustomerFullView>.Ignored))
+				.Returns(projectedResult);
+
+			await _projectorUnderTest.Apply(eventToApply);
+
+			A.CallTo(() => projectedResult.AccomplishAsync(A<IProjectionStore<CustomerFullView>>.Ignored))
+				.MustHaveHappenedOnceExactly();
+		}
+
+		[Test]
+		public async Task NotProjectAnythingIfNoAppropriatingEventProjectionFound()
+		{
+
+			await _projectorUnderTest.Apply(A.Fake<Event>());
+
+			A.CallTo(() => _targetProjectionOfEvent.Project(A<EventData>.Ignored, A<CustomerFullView>.Ignored))
+				.MustNotHaveHappened();
+		}
 	}
 }
