@@ -36,7 +36,7 @@ namespace cyrka.api.test.domain.customers.projections
 		}
 
 		[Test]
-		public async Task ProjectAndAccomplishResultWithAppropriateEventProjection()
+		public async Task ProjectResultWithAppropriateEventProjection()
 		{
 			var eventToApply = A.Fake<Event>();
 			A.CallTo(() => _targetProjectionOfEvent.CanProject(A<EventData>.Ignored))
