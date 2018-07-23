@@ -54,7 +54,7 @@ namespace cyrka.api.test.domain.customers.projections
 			var eventToApply = A.Fake<Event>();
 			A.CallTo(() => _targetProjectionOfEvent.CanProject(A<EventData>.Ignored))
 				.Returns(true);
-			var projectedResult = A.Fake<IProjectionResult>();
+			var projectedResult = A.Fake<IProjectionResult<CustomerFullView>>();
 			A.CallTo(() => _targetProjectionOfEvent.Project(A<EventData>.Ignored, A<CustomerFullView>.Ignored))
 				.Returns(projectedResult);
 
