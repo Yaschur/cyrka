@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace cyrka.api.test.common.projections.results
 {
 	[TestFixture]
-	public class RemoveProjectionResultShould
+	public class StoreProjectionResultShould
 	{
 		IProjectionStore<IView> _store;
 
@@ -15,14 +15,14 @@ namespace cyrka.api.test.common.projections.results
 		public void Setup() => _store = A.Fake<IProjectionStore<IView>>();
 
 		[Test]
-		public async Task AccomplishByRemovingItsArgument()
+		public async Task AccomplishByStoringItsArgument()
 		{
 			var view = A.Fake<IView>();
-			var resultUnderTest = new RemoveProjectionResult<IView>(view);
+			var resultUnderTest = new StoreProjectionResult<IView>(view);
 
 			await resultUnderTest.AccomplishAsync(_store);
 
-			A.CallTo(() => _store.RemoveAsync(view))
+			A.CallTo(() => _store.StoreAsync(view))
 				.MustHaveHappenedOnceExactly();
 		}
 	}
