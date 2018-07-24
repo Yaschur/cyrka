@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using cyrka.api.common.events;
 using cyrka.api.common.projections;
 using cyrka.api.common.projections.results;

@@ -1,4 +1,4 @@
-﻿using cyrka.api.common.projections;
+using cyrka.api.common.projections;
 using cyrka.api.common.projections.results;
 using cyrka.api.domain.customers.commands.changeTitle;
 using cyrka.api.domain.customers.projections.viewModels;
