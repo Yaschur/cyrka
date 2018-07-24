@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using cyrka.api.common.projections;
 using cyrka.api.common.projections.results;
 using FakeItEasy;

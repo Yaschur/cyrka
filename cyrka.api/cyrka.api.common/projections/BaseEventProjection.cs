@@ -1,4 +1,4 @@
-﻿using cyrka.api.common.events;
+using cyrka.api.common.events;
 using cyrka.api.common.projections.results;
 
 namespace cyrka.api.common.projections
