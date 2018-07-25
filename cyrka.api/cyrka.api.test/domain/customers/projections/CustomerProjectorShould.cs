@@ -2,8 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using cyrka.api.common.events;
 using cyrka.api.common.projections;
-using cyrka.api.domain.customers.commands.register;
-using cyrka.api.domain.customers.projections;
+using cyrka.api.common.projections.projectors;
 using cyrka.api.domain.customers.projections.viewModels;
 using FakeItEasy;
 using NUnit.Framework;
@@ -13,7 +12,7 @@ namespace cyrka.api.test.domain.customers.projections
 	[TestFixture]
 	public class CustomerProjectorShould
 	{
-		CustomerProjector _projectorUnderTest;
+		ViewProjector<CustomerFullView> _projectorUnderTest;
 
 		private IProjectionStore<CustomerFullView> _projectionStore;
 		private IProjectionOfEvent<CustomerFullView> _targetProjectionOfEvent;
@@ -29,7 +28,7 @@ namespace cyrka.api.test.domain.customers.projections
 				TestContext.CurrentContext.Random.Next(0, projectionsOfEvent.Count)
 			];
 
-			_projectorUnderTest = new CustomerProjector(
+			_projectorUnderTest = new ViewProjector<CustomerFullView>(
 				_projectionStore,
 				projectionsOfEvent
 			);
