@@ -48,6 +48,16 @@ namespace cyrka.api.test.domain.customers.projections
 		}
 
 		[Test]
+		public async Task ClearDataOnReset()
+		{
+
+			await _projectorUnderTest.Reset();
+
+			A.CallTo(() => _projectionStore.ClearAsync())
+				.MustHaveHappenedOnceExactly();
+		}
+
+		[Test]
 		public async Task AccomplishResultAfterProjection()
 		{
 			var eventToApply = A.Fake<Event>();

@@ -32,6 +32,11 @@ namespace cyrka.api.common.projections.projectors
 				.AccomplishAsync(_projectionStore);
 		}
 
+		public async Task Reset()
+		{
+			await _projectionStore.ClearAsync();
+		}
+
 		private readonly IProjectionStore<TView> _projectionStore;
 		private readonly IProjectionOfEvent<TView>[] _eventProjections;
 	}

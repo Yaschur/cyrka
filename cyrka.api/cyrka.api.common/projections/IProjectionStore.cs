@@ -12,5 +12,7 @@ namespace cyrka.api.common.projections
 		Task StoreAsync(TView view);
 
 		Task RemoveAsync(TView view);
+
+		Task ClearAsync();
 	}
 }

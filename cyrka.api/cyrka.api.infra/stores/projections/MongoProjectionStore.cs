@@ -56,6 +56,20 @@ namespace cyrka.api.infra.stores.projections
 			}
 		}
 
+		public async Task ClearAsync()
+		{
+			try
+			{
+				var database = _mongoCollection.Database;
+				var collectionName = typeof(TView).Name;
+				await database.DropCollectionAsync(collectionName);
+			}
+			catch (System.Exception)
+			{
+				throw;
+			}
+		}
+
 		private readonly IMongoCollection<TView> _mongoCollection;
 	}
 }
