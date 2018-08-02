@@ -18,7 +18,11 @@ namespace cyrka.api.common.projections
 
 		public void Start()
 		{
-			_eventStore.AsObservable()
+			// TODO: need stronger protecting
+			if (_subscription != null)
+				return;
+
+			_subscription = _eventStore.AsObservable()
 				.Subscribe(async incomingEvent =>
 				{
 					foreach (var projector in _projectors)
@@ -30,5 +34,6 @@ namespace cyrka.api.common.projections
 
 		private readonly IProjector[] _projectors;
 		private readonly IEventStore _eventStore;
+		private IDisposable _subscription;
 	}
 }
