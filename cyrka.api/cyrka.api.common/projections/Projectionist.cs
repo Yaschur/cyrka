@@ -9,20 +9,26 @@ namespace cyrka.api.common.projections
 {
 	public class Projectionist
 	{
-		public Projectionist(IEnumerable<IProjector> projectors)
+		public Projectionist(IEventStore eventStore, IEnumerable<IProjector> projectors)
 		{
 			_projectors = projectors
 				.ToArray();
+			_eventStore = eventStore;
 		}
 
-		public async Task Apply(Event incomingEvent)
+		public void Start()
 		{
-			foreach (var projector in _projectors)
-			{
-				await projector.Apply(incomingEvent);
-			}
+			_eventStore.AsObservable()
+				.Subscribe(async incomingEvent =>
+				{
+					foreach (var projector in _projectors)
+					{
+						await projector.Apply(incomingEvent);
+					}
+				});
 		}
 
-		private IProjector[] _projectors;
+		private readonly IProjector[] _projectors;
+		private readonly IEventStore _eventStore;
 	}
 }

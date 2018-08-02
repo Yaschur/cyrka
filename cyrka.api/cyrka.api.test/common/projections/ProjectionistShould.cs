@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,32 @@ namespace cyrka.api.test.common.projections
 
 		List<IProjector> _projectors;
 		IEventStore _eventStore;
+
+		[SetUp]
+		public void Setup()
+		{
+			_projectors = Enumerable.Range(0, TestContext.CurrentContext.Random.Next(10, 1000))
+				.Select(_ => A.Fake<IProjector>())
+				.ToList();
+			_eventStore = A.Fake<IEventStore>();
+
+			_projectionistUnderTest = new Projectionist(_eventStore, _projectors);
+		}
+
+		[Test]
+		public void SubscribeToEventObservableStreamOnStart()
+		{
+			var eventObservable = A.Fake<IObservable<Event>>();
+			A.CallTo(() => _eventStore.AsObservable())
+				.Returns(eventObservable);
+
+			_projectionistUnderTest.Start();
+
+			A.CallTo(() => _eventStore.AsObservable())
+				.MustHaveHappenedOnceExactly();
+			A.CallTo(() => eventObservable.Subscribe(A<IObserver<Event>>.Ignored))
+				.MustHaveHappenedOnceExactly();
+		}
 
 		// [Test]
 		// public async Task ApplyIncomingEventToAllItsProjectors()
