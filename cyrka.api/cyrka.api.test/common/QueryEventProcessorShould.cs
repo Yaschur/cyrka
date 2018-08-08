@@ -18,7 +18,7 @@ namespace cyrka.api.test.common
 		{
 			var eventObservable = new Subject<Event>();
 			var eventStore = A.Fake<IEventStore>();
-			A.CallTo(() => eventStore.AsObservable())
+			A.CallTo(() => eventStore.AsObservable(A<bool>.Ignored))
 				.Returns(eventObservable);
 			var queryStore = A.Fake<IQueryStore>();
 			A.CallTo(() => queryStore.AsQueryable<object>())

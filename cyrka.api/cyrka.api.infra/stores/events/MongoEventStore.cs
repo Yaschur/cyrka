@@ -96,7 +96,7 @@ namespace cyrka.api.infra.stores.events
 			}
 		}
 
-		public IObservable<Event> AsObservable() => _eventsChannel.AsObservable();
+		public IObservable<Event> AsObservable(bool fromStart = false) => _eventsChannel.AsObservable();
 
 		public void Dispose()
 		{

@@ -20,6 +20,6 @@ namespace cyrka.api.common.events
 		Task<Event[]> FindLastNWithDataOf<TEventData>(int n, Expression<Func<Event, bool>> eventPredicate = null)
 			where TEventData : EventData;
 
-		IObservable<Event> AsObservable();
+		IObservable<Event> AsObservable(bool fromStart = false);
 	}
 }
