@@ -96,7 +96,17 @@ namespace cyrka.api.infra.stores.events
 			}
 		}
 
-		public IObservable<Event> AsObservable(bool fromStart = false) => _eventsChannel.AsObservable();
+		public IObservable<Event> AsObservable(bool fromStart = false)
+		{
+			if (fromStart)
+			{
+				var storedEvents = _eventsCollection.AsQueryable()
+					.OrderBy(e => e.Id)
+					.ToObservable();
+				return storedEvents.Concat(_eventsChannel.AsObservable());
+			}
+			return _eventsChannel.AsObservable();
+		}
 
 		public void Dispose()
 		{
