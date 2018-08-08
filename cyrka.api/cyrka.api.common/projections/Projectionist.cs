@@ -16,13 +16,21 @@ namespace cyrka.api.common.projections
 			_eventStore = eventStore;
 		}
 
-		public void Start()
+		public async Task Start(bool withReset = false)
 		{
-			// TODO: need stronger protecting
+			// TODO: need stronger protection
 			if (_subscription != null)
 				return;
 
-			_subscription = _eventStore.AsObservable()
+			if (withReset)
+			{
+				foreach (var projector in _projectors)
+				{
+					await projector.Reset();
+				}
+			}
+
+			_subscription = _eventStore.AsObservable(withReset)
 				.Subscribe(async incomingEvent =>
 				{
 					foreach (var projector in _projectors)

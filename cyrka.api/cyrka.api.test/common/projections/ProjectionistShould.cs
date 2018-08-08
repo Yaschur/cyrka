@@ -29,13 +29,13 @@ namespace cyrka.api.test.common.projections
 		}
 
 		[Test]
-		public void SubscribeToEventObservableStreamOnStart()
+		public async Task SubscribeToEventObservableStreamOnStart()
 		{
 			var eventObservable = A.Fake<IObservable<Event>>();
 			A.CallTo(() => _eventStore.AsObservable(A<bool>.Ignored))
 				.Returns(eventObservable);
 
-			_projectionistUnderTest.Start();
+			await _projectionistUnderTest.Start();
 
 			A.CallTo(() => _eventStore.AsObservable(A<bool>.Ignored))
 				.MustHaveHappenedOnceExactly();
